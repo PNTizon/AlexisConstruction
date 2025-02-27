@@ -44,8 +44,6 @@ namespace AlexisConstruction.Classes
     }
     public class BookingDetailsViewModel
     {
-        public int BookingDetailID { get; set; }
-        public int BookingID { get; set; }
         public int ServiceID { get; set; }
         public int HoursRendered { get; set; }
 

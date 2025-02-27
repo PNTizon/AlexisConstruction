@@ -29,7 +29,6 @@ namespace AlexisConstruction.Classes
                     return rowsAffected > 0;
                 }
             }
-
         }
         public bool UpdateClient(Client client)
         {
@@ -69,36 +68,36 @@ namespace AlexisConstruction.Classes
                 }
             }
         }
-        public Client GetClientByID(int clientID)
-        {
-            Client client = null;
-            using (SqlConnection con = new SqlConnection(Connection.Database))
-            {
-                con.Open();
+        //public Client GetClientByID(int clientID)
+        //{
+        //    Client client = null;
+        //    using (SqlConnection con = new SqlConnection(Connection.Database))
+        //    {
+        //        con.Open();
 
-                string query = "SELECT * FROM Clients WHERE ClientID = @ClientID";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    cmd.Parameters.AddWithValue("@ClientID", clientID);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
-                    {
-                        if (reader.Read())
-                        {
-                            client = new Client
-                            {
-                                ClientID = Convert.ToInt32(reader["ClientID"]),
-                                FirstName = reader["FirstName"].ToString(),
-                                Lastname = reader["LastName"].ToString(),
-                                CountryCode = reader["CountryCode"].ToString(),
-                                ContactNumber = reader["ContactNumber"].ToString(),
-                                Email = reader["Email"].ToString(),
-                                Address = reader["Address"].ToString()
-                            };
-                        }
-                    }
-                }
-            }
-            return client;
-        }
+        //        string query = "SELECT * FROM Clients WHERE ClientID = @ClientID";
+        //        using (SqlCommand cmd = new SqlCommand(query, con))
+        //        {
+        //            cmd.Parameters.AddWithValue("@ClientID", clientID);
+        //            using (SqlDataReader reader = cmd.ExecuteReader())
+        //            {
+        //                if (reader.Read())
+        //                {
+        //                    client = new Client
+        //                    {
+        //                        ClientID = Convert.ToInt32(reader["ClientID"]),
+        //                        FirstName = reader["FirstName"].ToString(),
+        //                        Lastname = reader["LastName"].ToString(),
+        //                        CountryCode = reader["CountryCode"].ToString(),
+        //                        ContactNumber = reader["ContactNumber"].ToString(),
+        //                        Email = reader["Email"].ToString(),
+        //                        Address = reader["Address"].ToString()
+        //                    };
+        //                }
+        //            }
+        //        }
+        //    }
+        //    return client;
+        //}
     }
 }

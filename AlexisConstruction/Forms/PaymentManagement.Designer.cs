@@ -59,9 +59,11 @@
             this.btnPaid.TabIndex = 5;
             this.btnPaid.Text = "Paid";
             this.btnPaid.UseVisualStyleBackColor = true;
+            this.btnPaid.Click += new System.EventHandler(this.btnPaid_Click);
             // 
             // dgvBilling
             // 
+            this.dgvBilling.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvBilling.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvBilling.Location = new System.Drawing.Point(38, 126);
             this.dgvBilling.Name = "dgvBilling";

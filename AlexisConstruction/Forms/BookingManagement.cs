@@ -99,8 +99,6 @@ namespace AlexisConstruction.Forms
 
         }
 
-       
-
         private void btnAddService_Click(object sender, EventArgs e)
         {
             int serviceID = Convert.ToInt32(cmbServices.SelectedValue);
@@ -123,6 +121,8 @@ namespace AlexisConstruction.Forms
 
             dgvServices.DataSource = null;
             dgvServices.DataSource = view;
+
+
 
             UpdateTotalAmountLabel();
         }

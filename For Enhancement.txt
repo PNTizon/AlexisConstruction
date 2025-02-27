@@ -1,0 +1,145 @@
+FOR ENHANCEMENT/WRONG
+1.CLIENT
+*Update button- ang clientID kay wala gideclare
+****before****
+ private void btnUpdateClient_Click(Object sender, EventArgs e)
+ {
+     if (dgvClients.SelectedRows.Count > 0)
+     {
+         
+         Client client = new Client
+         {
+             FirstName = txtFirstName.Text,
+             Lastname = txtLastname.Text,
+****AFTER*****
+private void btnUpdateClient_Click(Object sender, EventArgs e)
+ {
+     if (dgvClients.SelectedRows.Count > 0)
+     {
+         int clientId = Convert.ToInt32(dgvClients.SelectedRows[0].Cells["ClientID"].Value);
+         Client client = new Client
+         {
+		ServiceID = Convert.ToInt32(dgvClients.SelectedRows[0].Cells["ClientID"].Value);
+             FirstName = txtFirstName.Text,
+             Lastname = txtLastname.Text,
+RESULT: PWEDI NA MA-UPDATE
+2.BOOKINGS
+****BEFORE***
+public class BookingDetailsViewModel
+{
+    public int BookingDetailID { get; set; }
+    public int BookingID { get; set; }
+    public int ServiceID { get; set; }
+    public int HoursRendered { get; set; }
+
+    public Services Service { get; set; }
+    public decimal Amount => HoursRendered * (Service?.HourlyRate ?? 0);
+}
+****AFTER****
+public class BookingDetailsViewModel
+{
+    public int BookingDetailID { get; set; }
+    public int BookingID { get; set; }
+    public int ServiceID { get; set; }
+    public int HoursRendered { get; set; }
+    public decimal HourlyRate { get; set; }
+ 
+    public decimal Amount => HoursRendered * HourlyRate;
+}
+*****BEFORE*****
+private void btnAddService_Click(object sender, EventArgs e)
+{
+    int serviceID = Convert.ToInt32(cmbServices.SelectedValue);
+    string serviceName = cmbServices.Text;
+    int hoursRendered = (int)nudHoursRendered.Value;
+
+    decimal hourlyRate = ((DataTable)cmbServices.DataSource)
+        .AsEnumerable()
+        .FirstOrDefault(row => row.Field<int>("ServiceID") == serviceID)?
+        .Field<decimal>("HourlyRate") ?? 0;
+
+    var detail = new BookingDetailsViewModel
+    {
+        ServiceID = serviceID,
+        HoursRendered = hoursRendered,
+        Service = new Services { ServiceID = serviceID, HourlyRate = hourlyRate }
+    };
+
+    view.Add(detail);
+
+    dgvServices.DataSource = null;
+    dgvServices.DataSource = view;
+
+    UpdateTotalAmountLabel();
+}
+******AFTER****
+
+ihide and amount ug service column 
+  dgvServices.Columns["Amount"].Visible = false;
+  dgvServices.Columns["Amount"].Visible = false;
+
+*Ang BookingID ug BookingDetailID kay dili mag show up ug magbook
+*apat ang idisplay lang sa datagridview kay ang BookingID,ServiceID,HourRendered
+public void GetBookings(DataGridView grid)
+{
+using(SqlConnection con = new SqlConnection(Connection.Database))
+{
+con.Open();
+string query ="SELECT BookingID,ServiceID,HoursRendered FROM BookingDetails"
+using(SqlCommand cmd = new SqlCommand(query,con))
+{
+SqlDataAdapter da = new SqlDataAdapter(cmd)
+DataTable table = new DataTable();
+da.Fill(table);
+grid.DataScource = table;
+}
+}
+}
+3.Payment
+*PapulationForPayment
+ public void PapulationForPayment(int rowIndex, DataGridView payment, TextBox paymentbox)
+ {
+try
+{
+     if (rowIndex >= 0)
+     {
+         DataGridViewRow row = payment.Rows[rowIndex];
+
+         int selectedID = Convert.ToInt32(row.Cells["BillingID"].Value);
+         string GetValue(string columnName) => row.Cells[columnName].Value?.ToString() ?? string.Empty;
+         payment.Text = GetValue("TotalAmount");
+     }
+}
+catch(Exception ex)
+{
+MessageBox.Show($"An error occurred while selecting the row: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+}
+ }
+PAYMENT MAINFORM
+
+public void GetAllPayments(DataGridView grid)
+{
+ using (SqlConnection con = new SqlConnection(Connection.Database))
+ {
+     con.Open();
+     string query = "SELECT * FROM Billings";
+     using (SqlCommand cmd = new SqlCommand(query, con))
+     {
+         SqlDataAdapter da = new SqlDataAdapter(cmd);
+         DataTable table = new DataTable();
+         da.Fill(table);
+
+         grid.DataSource = table;
+
+     }
+ }
+} 
+*SUBRA UG ISA KA TABLE
+
+
+
+
+
+SELECT c.Firstname ,c.Lastname b.BookingDate FROM Clients c
+INNER JOIN
+Bookings B on c.ClientID =b.ClientID

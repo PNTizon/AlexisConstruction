@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Data;
 using System.Data.SqlClient;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlexisConstruction.Classes
@@ -45,7 +40,38 @@ namespace AlexisConstruction.Classes
                 }
             }
         }
+        public void GetAllPayments(DataGridView grid)
+        {
+            using (SqlConnection con = new SqlConnection(Connection.Database))
+            {
+                con.Open();
+                string query = "SELECT * FROM Billings";
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable table = new DataTable();
+                    da.Fill(table);
 
+                    grid.DataSource = table;
+
+                }
+            }
+        }
+        //public void GetBookings(DataGridView grid)
+        //{
+        //    using (SqlConnection con = new SqlConnection(Connection.Database))
+        //    {
+        //        con.Open();
+        //        string query = "SELECT BookingID,ServiceID,HoursRendered FROM BookingDetails";
+        //        using (SqlCommand cmd = new SqlCommand(query, con))
+        //        {
+        //            SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //            DataTable table = new DataTable();
+        //            da.Fill(table);
+        //            grid.DataSource = table;
+        //        }
+        //    }
+        //}
 
     }
 }

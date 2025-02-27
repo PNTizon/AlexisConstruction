@@ -65,6 +65,7 @@
             this.button3.TabIndex = 13;
             this.button3.Text = "Delete";
             this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.btnDeleteInventory_Click);
             // 
             // button2
             // 
@@ -74,6 +75,7 @@
             this.button2.TabIndex = 12;
             this.button2.Text = "Update";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.btnUpdateInventory_Click);
             // 
             // button1
             // 
@@ -83,6 +85,7 @@
             this.button1.TabIndex = 11;
             this.button1.Text = "Add";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.btnAddInventory_Click);
             // 
             // txtQuantity
             // 
@@ -100,11 +103,13 @@
             // 
             // dgvInventory
             // 
+            this.dgvInventory.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvInventory.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvInventory.Location = new System.Drawing.Point(58, 140);
             this.dgvInventory.Name = "dgvInventory";
             this.dgvInventory.Size = new System.Drawing.Size(753, 344);
             this.dgvInventory.TabIndex = 8;
+            this.dgvInventory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInventory_CellClick);
             // 
             // InventoryManagement
             // 

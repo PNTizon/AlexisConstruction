@@ -14,6 +14,8 @@ namespace AlexisConstruction.Forms
     public partial class PaymentManagement : Form
     {
         private PaymentManager paymentProcessor = new PaymentManager();
+
+        private Display Display = new Display();
         private int billingID;
 
         public PaymentManagement(int billingID)
@@ -31,16 +33,22 @@ namespace AlexisConstruction.Forms
             if (e.ColumnIndex == dgvBilling.Columns["PaymentStatus"].Index && e.RowIndex >= 0)
             {
                 int billingID = (int)dgvBilling.Rows[e.RowIndex].Cells["BillingID"].Value;
-                ProcessPayment(billingID);
             }
         }
         private void LoadBillingInfo()
         {
-            var billingList = paymentProcessor.GetBillingList();
-            dgvBilling.DataSource = billingList;
+            Display.GetAllPayments(dgvBilling);
         }
 
-        private void ProcessPayment(int billingID)
+       
+
+        private void PaymentManagement_Load(object sender, EventArgs e)
+        {
+            LoadBillingInfo();
+
+        }
+
+        private void btnPaid_Click(object sender, EventArgs e)
         {
             Billing billing = paymentProcessor.GetBillingInfo(billingID);
             if (billing != null)
@@ -74,12 +82,6 @@ namespace AlexisConstruction.Forms
             {
                 MessageBox.Show("Billing information not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private void PaymentManagement_Load(object sender, EventArgs e)
-        {
-            LoadBillingInfo();
-
         }
     }
 }
