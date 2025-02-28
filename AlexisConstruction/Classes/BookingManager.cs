@@ -8,7 +8,6 @@ namespace AlexisConstruction.Classes
 {
     public class BookingManager
     {
-
         public bool ScheduleBooking(int clientID, DateTime bookingDate, List<BookingDetails> bookingDetails)
         {
             using (SqlConnection con = new SqlConnection(Connection.Database))

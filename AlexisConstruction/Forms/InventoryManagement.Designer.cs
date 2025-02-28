@@ -36,13 +36,15 @@
             this.txtQuantity = new System.Windows.Forms.TextBox();
             this.txtItemName = new System.Windows.Forms.TextBox();
             this.dgvInventory = new System.Windows.Forms.DataGridView();
+            this.cmbServices = new System.Windows.Forms.ComboBox();
+            this.label3 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(503, 49);
+            this.label2.Location = new System.Drawing.Point(562, 48);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(49, 13);
             this.label2.TabIndex = 15;
@@ -51,7 +53,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(123, 49);
+            this.label1.Location = new System.Drawing.Point(373, 48);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(64, 13);
             this.label1.TabIndex = 14;
@@ -89,14 +91,14 @@
             // 
             // txtQuantity
             // 
-            this.txtQuantity.Location = new System.Drawing.Point(555, 46);
+            this.txtQuantity.Location = new System.Drawing.Point(614, 45);
             this.txtQuantity.Name = "txtQuantity";
             this.txtQuantity.Size = new System.Drawing.Size(100, 20);
             this.txtQuantity.TabIndex = 10;
             // 
             // txtItemName
             // 
-            this.txtItemName.Location = new System.Drawing.Point(190, 46);
+            this.txtItemName.Location = new System.Drawing.Point(440, 45);
             this.txtItemName.Name = "txtItemName";
             this.txtItemName.Size = new System.Drawing.Size(100, 20);
             this.txtItemName.TabIndex = 9;
@@ -111,11 +113,30 @@
             this.dgvInventory.TabIndex = 8;
             this.dgvInventory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInventory_CellClick);
             // 
+            // cmbServices
+            // 
+            this.cmbServices.FormattingEnabled = true;
+            this.cmbServices.Location = new System.Drawing.Point(231, 45);
+            this.cmbServices.Name = "cmbServices";
+            this.cmbServices.Size = new System.Drawing.Size(121, 21);
+            this.cmbServices.TabIndex = 16;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(148, 49);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(80, 13);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Service Name :";
+            // 
             // InventoryManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(869, 531);
+            this.Controls.Add(this.label3);
+            this.Controls.Add(this.cmbServices);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button3);
@@ -127,6 +148,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "InventoryManagement";
             this.Text = "InventoryManagement";
+            this.Load += new System.EventHandler(this.InventoryManagement_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -143,5 +165,7 @@
         private System.Windows.Forms.TextBox txtQuantity;
         private System.Windows.Forms.TextBox txtItemName;
         private System.Windows.Forms.DataGridView dgvInventory;
+        private System.Windows.Forms.ComboBox cmbServices;
+        private System.Windows.Forms.Label label3;
     }
 }

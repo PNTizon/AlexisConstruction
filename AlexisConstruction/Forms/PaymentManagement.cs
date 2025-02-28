@@ -56,11 +56,11 @@ namespace AlexisConstruction.Forms
 
                 if (decimal.TryParse(txtAmountPaid.Text, out decimal amountPaid) && amountPaid > 0)
                 {
-                    Payment payment = new Payment
+                    Billing payment = new Billing
                     {
                         BillingID = billingID,
-                        PaymentDate = DateTime.Now,
-                        AmountPaid = amountPaid
+                        BillingDate = DateTime.Now,
+                        TotalAmount = amountPaid
                     };
 
                     if (paymentProcessor.ProcessPayment(payment))

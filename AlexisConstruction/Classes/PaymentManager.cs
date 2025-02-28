@@ -36,17 +36,18 @@ namespace AlexisConstruction.Classes
             return billingList;
         }
 
-        public bool ProcessPayment(Payment payment)
+        public bool ProcessPayment(Billing payment)
         {
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
-                string query = "INSERT INTO Payments (BillingID, PaymentDate, AmountPaid, PaymentMethod) VALUES (@billingID, @paymentDate, @amountPaid, 'Cash')";
+                string query = "INSERT INTO Billings (BillingID, BookingID,BillingDate,Date, TotalAmount, PaymentStatus) VALUES (@billingID, @bookingID,@paymentDate, @amountPaid,'Paid')";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     cmd.Parameters.AddWithValue("@billingID", payment.BillingID);
-                    cmd.Parameters.AddWithValue("@paymentDate", payment.PaymentDate);
-                    cmd.Parameters.AddWithValue("@amountPaid", payment.AmountPaid);
+                    cmd.Parameters.AddWithValue("@bookingID",payment.BookingID);
+                    cmd.Parameters.AddWithValue("@paymentDate", payment.BillingDate);
+                    cmd.Parameters.AddWithValue("@amountPaid", payment.TotalAmount);
                     return cmd.ExecuteNonQuery() > 0;
                 }
             }

@@ -1,12 +1,10 @@
 ﻿using AlexisConstruction.Classes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
+using System.Data.SqlClient;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Net.NetworkInformation;
 using System.Windows.Forms;
 
 namespace AlexisConstruction.Forms
@@ -15,33 +13,50 @@ namespace AlexisConstruction.Forms
     {
         private ServiceManager inventorymanange = new ServiceManager();
         private DataGridSelection gridselection = new DataGridSelection();
+        private Display display = new Display();
         public InventoryManagement()
         {
             InitializeComponent();
-            LoadInventoryItems();
         }
 
-        private void LoadInventoryItems()
+        private void LoadServices()
         {
-            dgvInventory.DataSource = inventorymanange.GetInventoryItems();
+            using (SqlConnection con = new SqlConnection(Connection.Database))
+            {
+                con.Open();
+                string query = "SELECT ServiceID, ServiceName FROM Services";
+
+                using (SqlCommand cmd = new SqlCommand(query, con))
+                {
+                    DataTable dt = new DataTable();
+                    dt.Load(cmd.ExecuteReader());
+
+                    cmbServices.DataSource = dt;
+                    cmbServices.DisplayMember = "ServiceName";
+                    cmbServices.ValueMember = "ServiceID";
+                }
+            }
         }
 
         private void btnAddInventory_Click(object sender, EventArgs e)
         {
-            Inventory item = new Inventory
+            if (cmbServices.SelectedValue == null || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(txtQuantity.Text))
             {
-                ItemName = txtItemName.Text,
-                Quantity = int.Parse(txtQuantity.Text)
-            };
-
-            if (inventorymanange.AddInventoryItem(item))
+                MessageBox.Show("Please fill in all the fields.");
+                return;
+            }
+            int serviceID = Convert.ToInt32(cmbServices.SelectedValue);
+            string itemname = txtItemName.Text.Trim();
+            int quantity = Convert.ToInt32(txtQuantity.Text);
+            string servicename = cmbServices.Text;
+            if (inventorymanange.AddItemToService(serviceID,itemname,quantity,servicename))
             {
-                MessageBox.Show("Inventory item added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadInventoryItems();
+                MessageBox.Show("Inventory item added successfully!", "Success");
+                inventorymanange.LoadServiceItems(serviceID,dgvInventory);
             }
             else
             {
-                MessageBox.Show("Failed to add inventory item.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to add inventory item.", "Error");
             }
         }
 
@@ -50,29 +65,37 @@ namespace AlexisConstruction.Forms
             if (dgvInventory.SelectedRows.Count > 0)
             {
                 var selectedRow = dgvInventory.SelectedRows[0];
-                Inventory item = new Inventory
+                int inventoryID = Convert.ToInt32(selectedRow.Cells["InventoryID"].Value);
+                string itemName = txtItemName.Text.Trim();
+
+                if (!int.TryParse(txtQuantity.Text, out int quantity) || quantity <= 0)
                 {
-                    InventoryID = (int)selectedRow.Cells["InventoryID"].Value,
-                    ItemName = txtItemName.Text,
-                    Quantity = int.Parse(txtQuantity.Text)
+                    MessageBox.Show("Please enter a valid quantity.");
+                    return;
+                }
+
+                Inventory itemToUpdate = new Inventory
+                {
+                    InventoryID = inventoryID,
+                    ItemName = itemName,
+                    Quantity = quantity
                 };
 
-                if (inventorymanange.UpdateInventoryItem(item))
+                if (inventorymanange.UpdateInventoryItem(itemToUpdate))
                 {
-                    MessageBox.Show("Inventory item updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadInventoryItems();
+                    MessageBox.Show("Inventory item updated successfully!", "Success");
+                    inventorymanange.LoadServiceItems(Convert.ToInt32(cmbServices.SelectedValue), dgvInventory);
                 }
                 else
                 {
-                    MessageBox.Show("Failed to update inventory item.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to update inventory item.", "Error");
                 }
             }
             else
             {
-                MessageBox.Show("Please select an inventory item to update.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Please select an inventory item to update.", "Warning");
             }
         }
-
 
         private void btnDeleteInventory_Click(object sender, EventArgs e)
         {
@@ -80,11 +103,12 @@ namespace AlexisConstruction.Forms
             {
                 var selectedRow = dgvInventory.SelectedRows[0];
                 int inventoryID = (int)selectedRow.Cells["InventoryID"].Value;
+                int serviceID = Convert.ToInt32(cmbServices.SelectedValue);
 
                 if (inventorymanange.DeleteInventoryItem(inventoryID))
                 {
                     MessageBox.Show("Inventory item deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadInventoryItems();
+                    inventorymanange.LoadServiceItems(serviceID, dgvInventory);
                 }
                 else
                 {
@@ -100,6 +124,12 @@ namespace AlexisConstruction.Forms
         private void dgvInventory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             gridselection.PopulateInventoryDate(e.RowIndex, dgvInventory, txtItemName, txtQuantity);
+        }
+
+        private void InventoryManagement_Load(object sender, EventArgs e)
+        {
+            LoadServices();
+            display.GetAllInventory(dgvInventory);
         }
     }
 }

@@ -16,7 +16,6 @@ namespace AlexisConstruction.Forms
     {
         private BookingManager bookingManager = new BookingManager();
         private List<BookingDetails> bookingDetails = new List<BookingDetails>();
-        private List<BookingDetailsViewModel> view = new List<BookingDetailsViewModel>();
         private Display display = new Display();
         public BookingManagement()
         {
@@ -69,7 +68,7 @@ namespace AlexisConstruction.Forms
 
             if (bookingManager.ScheduleBooking(bookingID, bookingDate, detailsToSave))
             {
-                decimal totalAmount = view.Sum(detail => detail.Amount);
+                decimal totalAmount = bookingDetails.Sum(detail => detail.Amount);
 
                 if (bookingManager.GenerateBilling(bookingID, totalAmount))
                 {
@@ -90,7 +89,7 @@ namespace AlexisConstruction.Forms
 
         private void UpdateTotalAmountLabel()
         {
-            decimal totalAmount = view.Sum(detail => detail.Amount);
+            decimal totalAmount = bookingDetails.Sum(detail => detail.Amount);
             lblTotalAmount.Text = $"{totalAmount:C}";
         }
 
@@ -101,30 +100,34 @@ namespace AlexisConstruction.Forms
 
         private void btnAddService_Click(object sender, EventArgs e)
         {
-            int serviceID = Convert.ToInt32(cmbServices.SelectedValue);
-            string serviceName = cmbServices.Text;
-            int hoursRendered = (int)nudHoursRendered.Value;
+            int serviceID = Convert.ToInt32(cmbServices.SelectedValue); 
+            string serviceName = cmbServices.Text; 
+            int hoursRendered = (int)nudHoursRendered.Value; 
+            
+            decimal hourlyRate = 0; 
+            DataTable servicesTable = (DataTable)cmbServices.DataSource;
 
-            decimal hourlyRate = ((DataTable)cmbServices.DataSource)
-                .AsEnumerable()
-                .FirstOrDefault(row => row.Field<int>("ServiceID") == serviceID)?
-                .Field<decimal>("HourlyRate") ?? 0;
-
-            var detail = new BookingDetailsViewModel
+            foreach (DataRow row in servicesTable.Rows)
             {
-                ServiceID = serviceID,
-                HoursRendered = hoursRendered,
-                Service = new Services { ServiceID = serviceID, HourlyRate = hourlyRate }
+                if (Convert.ToInt32(row["ServiceID"]) == serviceID) 
+                {
+                    hourlyRate = Convert.ToDecimal(row["HourlyRate"]);
+                    break; 
+                }
+            }
+            var detail = new BookingDetails
+            {
+                ServiceID = serviceID, 
+                HoursRendered = hoursRendered, 
+                Service = new Services { ServiceID = serviceID, ServiceName = serviceName, HourlyRate = hourlyRate }
             };
 
-            view.Add(detail);
+            bookingDetails.Add(detail);
 
-            dgvServices.DataSource = null;
-            dgvServices.DataSource = view;
+            dgvServices.DataSource = null; 
+            dgvServices.DataSource = bookingDetails;
 
-
-
-            UpdateTotalAmountLabel();
+            UpdateTotalAmountLabel(); 
         }
     }
 }

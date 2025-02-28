@@ -57,21 +57,26 @@ namespace AlexisConstruction.Classes
                 }
             }
         }
-        //public void GetBookings(DataGridView grid)
-        //{
-        //    using (SqlConnection con = new SqlConnection(Connection.Database))
-        //    {
-        //        con.Open();
-        //        string query = "SELECT BookingID,ServiceID,HoursRendered FROM BookingDetails";
-        //        using (SqlCommand cmd = new SqlCommand(query, con))
-        //        {
-        //            SqlDataAdapter da = new SqlDataAdapter(cmd);
-        //            DataTable table = new DataTable();
-        //            da.Fill(table);
-        //            grid.DataSource = table;
-        //        }
-        //    }
-        //}
+        public void GetAllInventory (DataGridView grid)
+        {
+            using(SqlConnection con = new SqlConnection(Connection.Database))
+            {
+                con.Open();
+
+                string query = "SELECT * FROM Inventory";
+                using(SqlCommand cmd = new SqlCommand(query,con))
+                {
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable table = new DataTable();
+                    da.Fill(table);
+                    grid.DataSource = table;
+
+                    if (grid.Columns["InventoryID"] != null)
+                        grid.Columns["InventoryID"].Visible = false;
+                }
+            }
+        }
+
 
     }
 }
