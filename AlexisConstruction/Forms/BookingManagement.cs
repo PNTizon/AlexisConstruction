@@ -1,13 +1,8 @@
 ﻿using AlexisConstruction.Classes;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Data.SqlClient;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 using System.Windows.Forms;
 
 namespace AlexisConstruction.Forms
@@ -15,119 +10,313 @@ namespace AlexisConstruction.Forms
     public partial class BookingManagement : Form
     {
         private BookingManager bookingManager = new BookingManager();
-        private List<BookingDetails> bookingDetails = new List<BookingDetails>();
-        private Display display = new Display();
+        private List<Bookings> bookingDetails = new List<Bookings>();
         public BookingManagement()
         {
             InitializeComponent();
-            LoadClients();
-            LoadServices();
+            InitializeDataGridView();
+            dtpBookingDate.MinDate = DateTime.Now;
         }
-
-        private void LoadClients()
+        private static List<Client> LoadClients()
         {
+            List<Client> customer = new List<Client>();
+
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
-                string query = "SELECT ClientID, FirstName + ' ' + LastName AS FullName FROM Clients";
-                SqlDataAdapter da = new SqlDataAdapter(query, con);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                cmbClients.DataSource = dt;
-                cmbClients.DisplayMember = "FullName";
-                cmbClients.ValueMember = "ClientID";
+                SqlCommand cmd = new SqlCommand("SELECT ClientID, FirstName + ' ' + LastName AS FullName FROM Clients", con);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        customer.Add(new Client
+                        {
+                            ClientID = Convert.ToInt32(reader["ClientID"].ToString()),
+                            Fullname = reader["Fullname"].ToString(),
+                        });
+                    }
+                }
             }
+            return customer;
         }
 
-        private void LoadServices()
+        public static List<Services> LoadServices()
         {
+            List<Services> service = new List<Services>();
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
-                string query = "SELECT ServiceID, ServiceName, HourlyRate FROM Services";
-                SqlDataAdapter da = new SqlDataAdapter(query, con);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                cmbServices.DataSource = dt;
-                cmbServices.DisplayMember = "ServiceName";
-                cmbServices.ValueMember = "ServiceID";
+                SqlCommand cmd = new SqlCommand("SELECT ServiceID, ServiceName, HourlyRate FROM Services", con);
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        service.Add(new Services
+                        {
+                            ServiceID = Convert.ToInt32(reader["ServiceID"].ToString()),
+                            ServiceName = reader["ServiceName"].ToString(),
+                            HourlyRate = Convert.ToDecimal(reader["HourlyRate"].ToString()),
+                        });
+                    }
+                }
+                return service;
             }
         }
-
         private void btnBook_Click(object sender, EventArgs e)
         {
-            int bookingID = Convert.ToInt32(cmbClients.SelectedValue);
-            DateTime bookingDate = dtpBookingDate.Value;
+            BookingDetails.ClientID = Convert.ToInt32(txtName.Text);
+            BookingDetails.BookedDate = dtpBookingDate.Value;
 
-            var detailsToSave = bookingDetails.Select(detail => new BookingDetails
+            if (!button1.Enabled)
             {
-                BookingID = bookingID,
-                ServiceID = detail.ServiceID,
-                HoursRendered = detail.HoursRendered
-            }).ToList();
+                MessageBox.Show("Please complete payment before booking.", "Payment Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
 
-            if (bookingManager.ScheduleBooking(bookingID, bookingDate, detailsToSave))
+            int clientID = Convert.ToInt32(cmbClients.SelectedValue);
+            DateTime bookedDate = dtpBookingDate.Value;
+
+            if (bookedDate == DateTime.MinValue)
             {
-                decimal totalAmount = bookingDetails.Sum(detail => detail.Amount);
+                MessageBox.Show("Please select a valid booking date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
 
-                if (bookingManager.GenerateBilling(bookingID, totalAmount))
-                {
-                    MessageBox.Show("Booking and billing successfully saved!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    bookingDetails.Clear();
-                    UpdateTotalAmountLabel();
-                }
-                else
-                {
-                    MessageBox.Show("Booking saved, but failed to generate billing.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                }
+            if (bookingManager.IsDateAlreadyBooked(dtpBookingDate.Value))
+            {
+                MessageBox.Show("This date is already booked. Please select another date.", "Booking Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string totalText = lblTotalAmount.Text.Replace("₱", "").Trim();
+            if (!decimal.TryParse(totalText, out decimal totalAmount))
+            {
+                MessageBox.Show("Total amount is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            int bookingID = bookingManager.ScheduleBooking(clientID, bookedDate, dgvServices);
+
+            if (bookingID > 0)
+            {
+                bookingManager.UpdatePaymentStatus(bookingID, totalAmount);
+
+                MessageBox.Show("Booking and payment successfully processed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                button3_Click(); 
+                button1.Enabled = false;
+                ClearForm();
             }
             else
             {
-                MessageBox.Show("Failed to save booking.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Failed to create booking. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
-        private void UpdateTotalAmountLabel()
+        private void UpdateTotalAmount()
         {
-            decimal totalAmount = bookingDetails.Sum(detail => detail.Amount);
+            decimal totalAmount = 0;
+            foreach (DataGridViewRow row in dgvServices.Rows)
+            {
+                if (row.Cells["Amount"].Value != null)
+                {
+                    totalAmount += Convert.ToDecimal(row.Cells["Amount"].Value);
+                }
+            }
             lblTotalAmount.Text = $"{totalAmount:C}";
         }
 
         private void BookingManagement_Load(object sender, EventArgs e)
         {
+            var Client = LoadClients();
+            cmbClients.DataSource = Client;
+            cmbClients.DisplayMember = "FullName";
+            cmbClients.ValueMember = "ClientID";
 
+            var Services = LoadServices();
+            cmbServices.DataSource = Services;
+            cmbServices.DisplayMember = "ServiceName";
+            cmbServices.ValueMember = "ServiceID";
         }
 
         private void btnAddService_Click(object sender, EventArgs e)
         {
-            int serviceID = Convert.ToInt32(cmbServices.SelectedValue); 
-            string serviceName = cmbServices.Text; 
-            int hoursRendered = (int)nudHoursRendered.Value; 
-            
-            decimal hourlyRate = 0; 
-            DataTable servicesTable = (DataTable)cmbServices.DataSource;
-
-            foreach (DataRow row in servicesTable.Rows)
+            int hoursRendered = (int)nudHoursRendered.Value;
+            Services services = cmbServices.SelectedItem as Services;
+            try
             {
-                if (Convert.ToInt32(row["ServiceID"]) == serviceID) 
+                if (services != null)
                 {
-                    hourlyRate = Convert.ToDecimal(row["HourlyRate"]);
-                    break; 
+                    bool Serviceexist = false;
+                    foreach (DataGridViewRow row in dgvServices.Rows)
+                    {
+                        if (row.Cells["ServiceID"].Value.ToString() == services.ServiceID.ToString())
+                        {
+                            int currentHoursRendered = Convert.ToInt32(row.Cells["HoursRendered"].Value);
+                            int updatedHours = currentHoursRendered + hoursRendered;
+                            row.Cells["HoursRendered"].Value = updatedHours;
+
+                            decimal hourlyRate = Convert.ToDecimal(row.Cells["HourlyRate"].Value);
+                            row.Cells["Amount"].Value = updatedHours * hourlyRate;
+
+                            Serviceexist = true;
+                            break;
+                        }
+                    }
+
+                    if (!Serviceexist)
+                    {
+                        int rowIndex = dgvServices.Rows.Add();
+                        DataGridViewRow row = dgvServices.Rows[rowIndex];
+                        row.Cells["ServiceName"].Value = services.ServiceName;
+                        row.Cells["ServiceID"].Value = services.ServiceID;
+                        row.Cells["HoursRendered"].Value = hoursRendered;
+                        row.Cells["HourlyRate"].Value = services.HourlyRate;
+                        row.Cells["Amount"].Value = hoursRendered * services.HourlyRate;
+                    }
+                }
+                UpdateTotalAmount();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            if (dgvServices.Columns.Contains("Service"))
+                dgvServices.Columns["Service"].Visible = false;
+        }
+        public void InitializeDataGridView()
+        {
+            dgvServices.Columns.Add("ServiceID", "ServiceID");
+            dgvServices.Columns.Add("HoursRendered", "Hours Rendered");
+            dgvServices.Columns.Add("ServiceName", "Service Name");
+            dgvServices.Columns.Add("HourlyRate", "Hourly Rate");
+            dgvServices.Columns.Add("Amount", "Amount");
+        }
+
+        private void cmbClients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+            if (cmbClients != null)
+            {
+                Client customer = cmbClients.SelectedItem as Client;
+                txtName.Text = customer.ClientID.ToString();
+            }
+        }
+
+        private void cmbServices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (cmbServices.SelectedValue != null)
+            {
+                Services customer = cmbServices.SelectedItem as Services;
+                txtServiceID.Text = customer.ServiceID.ToString();
+            }
+        }
+
+        private void button3_Click()
+        {
+            BookingDetails bookings = new BookingDetails();
+            int bookingID = Convert.ToInt32(cmbClients.SelectedValue);
+            bookings.CustomerName = cmbClients.Text;
+            bookings.BookingsID = Convert.ToInt32(txtName.Text);
+            bookings.BillingDate = DateTime.Now;
+            bookings.MOP = "Cash";
+            bookings.BookingReceipt = GetServiceDetails(bookings.BookingsID);
+
+            using (bookingReceipt receipt = new bookingReceipt(bookings, bookings.BookingReceipt))
+            {
+                receipt.ShowDialog();
+            }
+        }
+        private List<Orders> GetServiceDetails(int bookingID)
+        {
+            List<Orders> services = new List<Orders>();
+
+            using (SqlConnection con = new SqlConnection(Connection.Database))
+            {
+                con.Open();
+
+                string query = @"SELECT s.ServiceName ,bd.HoursRendered,s.HourlyRate,(bd.HoursRendered * s.HourlyRate) AS TotalAmount
+                                FROM BookingDetails bd
+                                JOIN Services s ON bd.ServiceID = s.ServiceID
+                                WHERE bd.BookingID = @bookingID";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@bookingID", bookingID);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        services.Add(new Orders
+                        {
+                            ServiceName = reader["ServiceName"].ToString(),
+                            HourlyRate = Convert.ToInt32(reader["HourlyRate"]),
+                            HoursRendered = Convert.ToInt32(reader["HoursRendered"]),
+                        });
+                    }
                 }
             }
-            var detail = new BookingDetails
+            return services;
+        }
+        private void CalculateChange()
+        {
+            decimal cash = 0;
+            decimal change = 0;
+
+            string totalText = lblTotalAmount.Text.Replace("₱", "").Trim();
+            if (decimal.TryParse(totalText, out decimal totalAmount))
             {
-                ServiceID = serviceID, 
-                HoursRendered = hoursRendered, 
-                Service = new Services { ServiceID = serviceID, ServiceName = serviceName, HourlyRate = hourlyRate }
-            };
+                if (decimal.TryParse(txtCash.Text, out cash))
+                {
+                    change = cash - totalAmount;
+                    txtChange.Text = change.ToString("0.00");
+                }
+                else
+                {
+                    txtChange.Text = "0.00";
+                }
+            }
+        }
+        public void ClearForm()
+        {
+            dgvServices.Rows.Clear();
 
-            bookingDetails.Add(detail);
+            txtCash.Text = "";
+            txtChange.Text = "";
+            lblTotalAmount.Text = "₱0.00";
 
-            dgvServices.DataSource = null; 
-            dgvServices.DataSource = bookingDetails;
+            // Reset the date picker to default (current date + minimum offset)
+            dtpBookingDate.Value = DateTime.Now.AddHours(1);
+        }
+        private void txtCash_TextChanged(object sender, EventArgs e)
+        {
+            CalculateChange();
+        }
+        private void btnPay_Click(object sender, EventArgs e)
+        {
+            dtpBookingDate.MinDate = DateTime.Now.AddHours(1);
 
-            UpdateTotalAmountLabel(); 
+            if (!decimal.TryParse(txtCash.Text, out decimal cash))
+            {
+                MessageBox.Show("Please enter a valid cash amount.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (!decimal.TryParse(lblTotalAmount.Text.Replace("₱", "").Trim(), NumberStyles.Currency, CultureInfo.CurrentCulture, out decimal totalAmount))
+            {
+                MessageBox.Show("Total amount is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (cash < totalAmount)
+            {
+                MessageBox.Show("Insufficient cash entered.", "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+            button1.Enabled = true;
+
+            MessageBox.Show("Payment validated! You can now book the service.", "Payment Validated", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
     }
 }

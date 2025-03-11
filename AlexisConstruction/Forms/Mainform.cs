@@ -34,6 +34,7 @@ namespace AlexisConstruction.Forms
                 ServiceManagerbtn.Name = "Services";
                 InventoryManagerbtn.Name = "Inventory";
                 PaymentManagerbtn.Name = "Payment";
+                BillingStatement.Name = "Billings";
 
                 switch (button.Name)
                 {
@@ -60,6 +61,10 @@ namespace AlexisConstruction.Forms
                     case "Payment":
                         PaymentManagement payment = new PaymentManagement();
                         form.OpenForm(payment, paneldash);
+                        break;
+                    case "Billings":
+                        BillingStatementForm billing = new BillingStatementForm();
+                        form.OpenForm(billing, paneldash);
                         break;
                     default:
                         break;

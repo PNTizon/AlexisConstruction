@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlexisConstruction.Classes
@@ -28,28 +24,37 @@ namespace AlexisConstruction.Classes
                 }
                 int selectedID = Convert.ToInt32(row.Cells["ClientID"].Value);
             }
+
         }
-        public void PopulateInventoryDate(int rowIndex, DataGridView inventoryView, TextBox itename, TextBox quantity)
+        public void PopulateInventoryDate(int rowIndex, DataGridView inventoryView, TextBox itename, TextBox quantity,ComboBox servicebox)
         {
-            try
+            if (rowIndex >= 0)
             {
-                if (rowIndex >= 0)
-                {
-                    DataGridViewRow row = inventoryView.Rows[rowIndex];
+                DataGridViewRow row = inventoryView.Rows[rowIndex];
 
-                    string GetValue(string columnName) => row.Cells[columnName].Value?.ToString() ?? string.Empty;
-                    itename.Text = GetValue("ItemName");
-                    quantity.Text = GetValue("Quantity");
+                string GetValue(string columnName) => row.Cells[columnName].Value?.ToString() ?? string.Empty;
+                itename.Text = GetValue("ItemName");
+                quantity.Text = GetValue("Quantity");
 
-                    int selectedID = Convert.ToInt32(row.Cells["InventoryID"].Value);
-                }
+                int selectedID = Convert.ToInt32(row.Cells["InventoryID"].Value);
+
+                string service = servicebox.Text = GetValue("ServiceName");
+                servicebox.SelectedItem = servicebox.Items.Contains(service) ? service : null;
             }
-            catch (Exception ex)
+        }
+        public void PopulateService(int rowIndex, DataGridView serviceView, TextBox rate, TextBox services)
+        {
+            if (rowIndex >= 0)
             {
-                MessageBox.Show($"An error occurred while selecting the row: {ex.Message}", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                DataGridViewRow row = serviceView.Rows[rowIndex];
+
+                string GetValue (string columnName) => row.Cells[columnName].Value ?.ToString() ?? string.Empty;
+                rate.Text = GetValue("HourlyRate");
+                services.Text = GetValue("ServiceName");
+
+                int selectedID = Convert.ToInt32(row.Cells["ServiceID"].Value);
 
             }
         }
-
     }
 }

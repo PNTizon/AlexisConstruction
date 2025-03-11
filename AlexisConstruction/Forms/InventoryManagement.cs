@@ -123,7 +123,7 @@ namespace AlexisConstruction.Forms
 
         private void dgvInventory_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            gridselection.PopulateInventoryDate(e.RowIndex, dgvInventory, txtItemName, txtQuantity);
+            gridselection.PopulateInventoryDate(e.RowIndex, dgvInventory, txtItemName, txtQuantity,cmbServices);
         }
 
         private void InventoryManagement_Load(object sender, EventArgs e)

@@ -16,71 +16,48 @@ namespace AlexisConstruction.Forms
         private PaymentManager paymentProcessor = new PaymentManager();
 
         private Display Display = new Display();
-        private int billingID;
-
-        public PaymentManagement(int billingID)
-        {
-            InitializeComponent();
-            this.billingID = billingID;
-            LoadBillingInfo();
-        }
+        
         public PaymentManagement()
         {
             InitializeComponent();
-        }
-        private void dgvBilling_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.ColumnIndex == dgvBilling.Columns["PaymentStatus"].Index && e.RowIndex >= 0)
-            {
-                int billingID = (int)dgvBilling.Rows[e.RowIndex].Cells["BillingID"].Value;
-            }
         }
         private void LoadBillingInfo()
         {
             Display.GetAllPayments(dgvBilling);
         }
 
-       
-
         private void PaymentManagement_Load(object sender, EventArgs e)
         {
             LoadBillingInfo();
-
         }
 
         private void btnPaid_Click(object sender, EventArgs e)
         {
-            Billing billing = paymentProcessor.GetBillingInfo(billingID);
-            if (billing != null)
+            if(dgvBilling.SelectedRows.Count > 0)
             {
+                int billingID = Convert.ToInt32(dgvBilling.SelectedRows[0].Cells["BookingID"].Value);
 
-                if (decimal.TryParse(txtAmountPaid.Text, out decimal amountPaid) && amountPaid > 0)
+                Bookings billingInfo = paymentProcessor.GetBillingInfo(billingID);
+                if(billingInfo != null)
                 {
-                    Billing payment = new Billing
-                    {
-                        BillingID = billingID,
-                        BillingDate = DateTime.Now,
-                        TotalAmount = amountPaid
-                    };
 
-                    if (paymentProcessor.ProcessPayment(payment))
+                    if(paymentProcessor.ProcessPayment(billingInfo))
                     {
-                        MessageBox.Show("Payment processed successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        MessageBox.Show("Payment successful!");
                         LoadBillingInfo();
                     }
-                    else
-                    {
-                        MessageBox.Show("Failed to process payment.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    }
+                    else { MessageBox.Show("Payment failed."); }
                 }
-                else
-                {
-                    MessageBox.Show("Invalid payment amount.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+                else { MessageBox.Show("Billing record not found."); }
             }
-            else
+            else { MessageBox.Show("Please select a billing record."); }
+        }
+
+        private void dgvBilling_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex >= 0)
             {
-                MessageBox.Show("Billing information not found.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                int billingID = (int)dgvBilling.Rows[e.RowIndex].Cells["BookingID"].Value;
             }
         }
     }

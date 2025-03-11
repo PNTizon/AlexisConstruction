@@ -165,7 +165,10 @@ namespace AlexisConstruction.Classes
                 using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
                     con.Open();
-                    string query = "SELECT i.InventoryID ,i.ServiceName,i.ItemName, i.Quantity FROM ServiceMaterials sm INNER JOIN Inventory i on sm.InventoryID = i.InventoryID WHERE sm.ServiceID = @serviceID";
+                    string query = @"SELECT i.InventoryID ,i.ServiceName,i.ItemName, i.Quantity
+                                    FROM ServiceMaterials sm 
+                                    INNER JOIN Inventory i on sm.InventoryID = i.InventoryID 
+                                    WHERE sm.ServiceID = @serviceID";
                     using (SqlCommand cmd = new SqlCommand(query, con))
                     {
                         cmd.Parameters.AddWithValue("@serviceID", serviceID);

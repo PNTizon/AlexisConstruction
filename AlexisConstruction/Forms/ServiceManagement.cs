@@ -16,6 +16,7 @@ namespace AlexisConstruction.Forms
         private ServiceManager services = new ServiceManager();
         private Helper helper = new Helper();
         private Display display = new Display();
+        private DataGridSelection select = new DataGridSelection(); 
         public ServiceManagement()
         {
             InitializeComponent();
@@ -107,7 +108,7 @@ namespace AlexisConstruction.Forms
 
         private void dgvServices_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-
+            select.PopulateService(e.RowIndex,dgvServices,txtHourlyRate,txtServiceName);
         }
         public void LoadServices()
         {

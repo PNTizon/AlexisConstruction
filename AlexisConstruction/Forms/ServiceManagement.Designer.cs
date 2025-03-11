@@ -113,7 +113,7 @@
             this.dgvServices.Name = "dgvServices";
             this.dgvServices.Size = new System.Drawing.Size(740, 281);
             this.dgvServices.TabIndex = 260;
-            this.dgvServices.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServices_CellContentClick);
+            this.dgvServices.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServices_CellContentClick);
             // 
             // ServiceManagement
             // 
