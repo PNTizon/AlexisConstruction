@@ -1,5 +1,4 @@
-﻿using AlexisConstruction.DataSet6TableAdapters;
-using AlexisConstruction.Forms;
+﻿using AlexisConstruction.Forms;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;

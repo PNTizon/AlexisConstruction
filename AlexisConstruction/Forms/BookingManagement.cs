@@ -14,7 +14,6 @@ namespace AlexisConstruction.Forms
         public BookingManagement()
         {
             InitializeComponent();
-            InitializeDataGridView();
             dtpBookingDate.MinDate = DateTime.Now;
         }
         private static List<Client> LoadClients()
@@ -96,11 +95,11 @@ namespace AlexisConstruction.Forms
                 return;
             }
 
-            int bookingID = bookingManager.ScheduleBooking(clientID, bookedDate, dgvServices);
-
+            int bookingID = bookingManager.ScheduleBooking(clientID, bookedDate, dgvServices,Convert.ToInt32(txtServiceID.Text));
+            
             if (bookingID > 0)
             {
-                bookingManager.UpdatePaymentStatus(bookingID, totalAmount);
+                bookingManager.UpdatePaymentStatus(bookingID);
 
                 MessageBox.Show("Booking and payment successfully processed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 button3_Click(); 
@@ -128,6 +127,8 @@ namespace AlexisConstruction.Forms
 
         private void BookingManagement_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'dataSet2.SHOWCLIENTS' table. You can move, or remove it, as needed.
+            this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
             var Client = LoadClients();
             cmbClients.DataSource = Client;
             cmbClients.DisplayMember = "FullName";
@@ -185,15 +186,6 @@ namespace AlexisConstruction.Forms
             if (dgvServices.Columns.Contains("Service"))
                 dgvServices.Columns["Service"].Visible = false;
         }
-        public void InitializeDataGridView()
-        {
-            dgvServices.Columns.Add("ServiceID", "ServiceID");
-            dgvServices.Columns.Add("HoursRendered", "Hours Rendered");
-            dgvServices.Columns.Add("ServiceName", "Service Name");
-            dgvServices.Columns.Add("HourlyRate", "Hourly Rate");
-            dgvServices.Columns.Add("Amount", "Amount");
-        }
-
         private void cmbClients_SelectedIndexChanged(object sender, EventArgs e)
         {
 
@@ -285,9 +277,6 @@ namespace AlexisConstruction.Forms
             txtCash.Text = "";
             txtChange.Text = "";
             lblTotalAmount.Text = "₱0.00";
-
-            // Reset the date picker to default (current date + minimum offset)
-            dtpBookingDate.Value = DateTime.Now.AddHours(1);
         }
         private void txtCash_TextChanged(object sender, EventArgs e)
         {

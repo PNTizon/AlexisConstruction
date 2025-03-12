@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.panel1 = new System.Windows.Forms.Panel();
+            this.BillingStatement = new System.Windows.Forms.Button();
             this.PaymentManagerbtn = new System.Windows.Forms.Button();
             this.InventoryManagerbtn = new System.Windows.Forms.Button();
             this.ServiceManagerbtn = new System.Windows.Forms.Button();
@@ -36,7 +37,6 @@
             this.BookingManagerbtn = new System.Windows.Forms.Button();
             this.Dashboardbtn = new System.Windows.Forms.Button();
             this.paneldash = new System.Windows.Forms.Panel();
-            this.BillingStatement = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -54,6 +54,16 @@
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(154, 532);
             this.panel1.TabIndex = 10;
+            // 
+            // BillingStatement
+            // 
+            this.BillingStatement.Location = new System.Drawing.Point(41, 423);
+            this.BillingStatement.Name = "BillingStatement";
+            this.BillingStatement.Size = new System.Drawing.Size(75, 23);
+            this.BillingStatement.TabIndex = 12;
+            this.BillingStatement.Text = "Billings";
+            this.BillingStatement.UseVisualStyleBackColor = true;
+            this.BillingStatement.Click += new System.EventHandler(this.Form1_Click);
             // 
             // PaymentManagerbtn
             // 
@@ -97,7 +107,7 @@
             // 
             // BookingManagerbtn
             // 
-            this.BookingManagerbtn.Location = new System.Drawing.Point(41, 149);
+            this.BookingManagerbtn.Location = new System.Drawing.Point(41, 146);
             this.BookingManagerbtn.Name = "BookingManagerbtn";
             this.BookingManagerbtn.Size = new System.Drawing.Size(75, 23);
             this.BookingManagerbtn.TabIndex = 7;
@@ -111,7 +121,7 @@
             this.Dashboardbtn.Name = "Dashboardbtn";
             this.Dashboardbtn.Size = new System.Drawing.Size(75, 23);
             this.Dashboardbtn.TabIndex = 6;
-            this.Dashboardbtn.Text = "Dashboad";
+            this.Dashboardbtn.Text = "Dashboard";
             this.Dashboardbtn.UseVisualStyleBackColor = true;
             this.Dashboardbtn.Click += new System.EventHandler(this.Form1_Click);
             // 
@@ -121,16 +131,6 @@
             this.paneldash.Name = "paneldash";
             this.paneldash.Size = new System.Drawing.Size(869, 531);
             this.paneldash.TabIndex = 9;
-            // 
-            // BillingStatement
-            // 
-            this.BillingStatement.Location = new System.Drawing.Point(41, 423);
-            this.BillingStatement.Name = "BillingStatement";
-            this.BillingStatement.Size = new System.Drawing.Size(75, 23);
-            this.BillingStatement.TabIndex = 12;
-            this.BillingStatement.Text = "Billings";
-            this.BillingStatement.UseVisualStyleBackColor = true;
-            this.BillingStatement.Click += new System.EventHandler(this.Form1_Click);
             // 
             // Mainform
             // 

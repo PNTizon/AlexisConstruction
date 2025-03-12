@@ -25,7 +25,6 @@ namespace AlexisConstruction.Forms
         {
             Display.GetAllPayments(dgvBilling);
         }
-
         private void PaymentManagement_Load(object sender, EventArgs e)
         {
             LoadBillingInfo();
@@ -40,7 +39,6 @@ namespace AlexisConstruction.Forms
                 Bookings billingInfo = paymentProcessor.GetBillingInfo(billingID);
                 if(billingInfo != null)
                 {
-
                     if(paymentProcessor.ProcessPayment(billingInfo))
                     {
                         MessageBox.Show("Payment successful!");
@@ -59,6 +57,18 @@ namespace AlexisConstruction.Forms
             {
                 int billingID = (int)dgvBilling.Rows[e.RowIndex].Cells["BookingID"].Value;
             }
+        }
+        private void searchbtn_Click(object sender, EventArgs e)
+        {
+            string search = txtSearch.Text;
+             paymentProcessor.SeacrhRecords(search, dgvBilling);
+
+        }
+
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            string search = txtSearch.Text;
+            paymentProcessor.SeacrhRecords(search, dgvBilling);
         }
     }
 }

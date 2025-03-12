@@ -34,11 +34,14 @@
             // 
             // dgvSchedule
             // 
+            this.dgvSchedule.AllowUserToAddRows = false;
+            this.dgvSchedule.AllowUserToDeleteRows = false;
             this.dgvSchedule.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvSchedule.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvSchedule.Location = new System.Drawing.Point(31, 47);
+            this.dgvSchedule.Location = new System.Drawing.Point(31, 40);
             this.dgvSchedule.Name = "dgvSchedule";
-            this.dgvSchedule.Size = new System.Drawing.Size(807, 421);
+            this.dgvSchedule.ReadOnly = true;
+            this.dgvSchedule.Size = new System.Drawing.Size(807, 458);
             this.dgvSchedule.TabIndex = 1;
             // 
             // Dashboard

@@ -112,6 +112,8 @@ namespace AlexisConstruction.Forms
 
         private void ClientManagement_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'dataSet2.SHOWCLIENTS' table. You can move, or remove it, as needed.
+            this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
             PhoneNumberList.ListPhneNumber(CountryCodecmb_SelectedIndexChanged, CountryCodecmb);
         }
 
@@ -123,6 +125,7 @@ namespace AlexisConstruction.Forms
         private void txtContactNumber_TextChanged(object sender, EventArgs e)
         {
             helper.HelperNumberRestriction(txtContactNumber);
+            helper.isValidPhoneNumber(txtCountyCode, txtContactNumber);
         }
 
         private void dgvClients_CellContentClick(object sender, DataGridViewCellEventArgs e)

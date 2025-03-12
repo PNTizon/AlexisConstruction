@@ -22,6 +22,11 @@ namespace AlexisConstruction.Forms
         private void Dashboard_Load(object sender, EventArgs e)
         {
             display.LoadWeeklySchedule(dgvSchedule);
+
+            Timer timer = new Timer();
+            timer.Interval = 60000; //1 min ni
+            timer.Tick += (s, args) => display.CheckAndUpdateCompletedServices(dgvSchedule);
+            timer.Start();
         }
     }
 }

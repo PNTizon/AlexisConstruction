@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
 
@@ -6,7 +8,7 @@ namespace AlexisConstruction.Classes
 {
     public class BookingManager
     {
-        public int ScheduleBooking(int clientID, DateTime bookedDate, DataGridView grid)
+        public int ScheduleBooking(int clientID, DateTime bookedDate, DataGridView grid,int serviceID)
         {
             int bookingID = 0;
             decimal totalAmount = 0;
@@ -33,8 +35,6 @@ namespace AlexisConstruction.Classes
                     {
                         if (row.IsNewRow) continue;
 
-                        int serviceID = Convert.ToInt32(row.Cells["ServiceID"].Value);
-
                         decimal serviceAmount = Convert.ToDecimal(row.Cells["HoursRendered"].Value) *
                                           Convert.ToDecimal(row.Cells["HourlyRate"].Value);
                         totalAmount += serviceAmount;
@@ -47,33 +47,22 @@ namespace AlexisConstruction.Classes
                         detailCmd.Parameters.AddWithValue("@ServiceID", row.Cells["ServiceID"].Value);
                         detailCmd.Parameters.AddWithValue("@HoursRendered", row.Cells["HoursRendered"].Value);
                         detailCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
-
                         detailCmd.ExecuteNonQuery();
-
-                        string updateInventory = @"SELECT InventoryID FROM ServiceMaterials WHERE ServiceID =@serviceID ";
-                        SqlCommand inventoryUpdate = new SqlCommand(updateInventory, con);
-                        inventoryUpdate.Parameters.AddWithValue("@serviceID", serviceID);
-                        int rowAffected = inventoryUpdate.ExecuteNonQuery();
-
-                        using (SqlDataReader reader = inventoryUpdate.ExecuteReader())
-                        {
-                            while( reader.Read())
-                            {
-                                int inventoryID = reader.GetInt32(0);
-                                string inventory = @"UPDATE Inventory SET Quantity = Quantity - 1 
-                                                   FROM Inventory i 
-                                                  WHERE InventoryID = @inventoryID AND i.Quantity > 0 AND i.Quantity - >= 0";
-                                SqlCommand cmdInventory = new SqlCommand(inventory, con);
-                                cmdInventory.Parameters.AddWithValue("@inventoryID", inventoryID);
-                                cmdInventory.ExecuteNonQuery();
-                            }
-                        }
                     }
+
+                    string updateInventory = @"UPDATE Inventory SET Quantity = Quantity - 1 
+                                           WHERE InventoryID IN  (SELECT InventoryID FROM ServiceMaterials s WHERE s.ServiceID = @serviceID)
+                                           AND Quantity  > 0";
+                    SqlCommand invenotryUpdate = new SqlCommand(updateInventory, con);
+                    invenotryUpdate.Parameters.AddWithValue("@serviceID", serviceID);
+                    int rowAffected = invenotryUpdate.ExecuteNonQuery();
+
                     string updateTotalAmountQuery = "UPDATE Booking SET TotalAmount = @TotalAmount WHERE BookingID = @BookingID";
                     SqlCommand updateCmd = new SqlCommand(updateTotalAmountQuery, con);
                     updateCmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
                     updateCmd.Parameters.AddWithValue("@BookingID", bookingID);
                     updateCmd.ExecuteNonQuery();
+
 
                     if (bookingID > 0)
                     {
@@ -89,7 +78,6 @@ namespace AlexisConstruction.Classes
                 }
             }
         }
-
 
         public void GenerateBilling(int bookingID, decimal totalAmount)
         {

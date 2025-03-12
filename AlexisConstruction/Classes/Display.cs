@@ -8,7 +8,8 @@ namespace AlexisConstruction.Classes
 {
     public class Display
     {
-        public DataTable GetAllServices()
+
+        public void GetAllServices(DataGridView grid)
         {
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
@@ -19,8 +20,11 @@ namespace AlexisConstruction.Classes
                     {
                         DataTable dt = new DataTable();
                         reader.Fill(dt);
+                        grid.DataSource =  dt;
 
-                        return dt;
+                        if (grid.Columns["ServiceID"] != null)
+                            grid.Columns["ServiceID"].Visible = false;
+                       
                     }
                 }
             }
@@ -47,7 +51,8 @@ namespace AlexisConstruction.Classes
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
-                string query = "SELECT BookingID,BillingDate,TotalAmount,PaymentStatus,PaymentMethod FROM Booking";
+                string query = @"SELECT BookingID, c.Firstname + '' + c.Lastname AS ClientName,BillingDate,BookedDate,TotalAmount,PaymentStatus,PaymentMethod FROM Booking bk
+                                    JOIN Clients c ON c.ClientID = bk.ClientID";
                 using (SqlCommand cmd = new SqlCommand(query, con))
                 {
                     SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -58,6 +63,7 @@ namespace AlexisConstruction.Classes
 
                     if (grid.Columns["ServiceID"] != null)
                         grid.Columns["ServiceID"].Visible = false;
+
                 }
             }
         }
@@ -77,6 +83,8 @@ namespace AlexisConstruction.Classes
 
                     if (grid.Columns["InventoryID"] != null)
                         grid.Columns["InventoryID"].Visible = false;
+                    if (grid.Columns["ServiceName"] != null)
+                        grid.Columns["ServiceName"].Visible = false;
                 }
             }
         }
@@ -86,7 +94,7 @@ namespace AlexisConstruction.Classes
             {
                 conn.Open();
                 string query = @"SELECT bk.BookingID, c.Firstname + ' ' + c.Lastname AS ClientName,c.ContactNumber,c.Address,
-                                        bk.BillingDate, bk.BookedDate,bk.TotalAmount, bk.PaymentStatus, bk.PaymentMethod , STRING_AGG(s.ServiceName,',') AS ServicesAvailed
+                                        bk.BillingDate, bk.BookedDate,bk.TotalAmount, bk.PaymentStatus, bk.PaymentMethod ,STRING_AGG(s.ServiceName,',') AS ServicesAvailed
                                 FROM Booking bk
                                 JOIN Clients c ON bk.ClientID = c.ClientID
                                 JOIN BookingDetails bd ON bk.BookingID = bd.BookingID
@@ -100,6 +108,8 @@ namespace AlexisConstruction.Classes
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 grid.DataSource = dt;
+                //if (grid.Columns["BookingID"] != null)
+                //    grid.Columns["BookingID"].Visible = false;
             }
         }
         public void LoadWeeklySchedule(DataGridView grid)
@@ -109,14 +119,14 @@ namespace AlexisConstruction.Classes
                 con.Open();
 
                 string query = @"SELECT c.Firstname +' '+ c.Lastname AS ClientName , bk.BookedDate,s.ServiceID,s.ServiceName,bd.HoursRendered,s.HourlyRate,
-                                DATEADD (HOUR,bd.HoursRendered,bk.BookingDate) AS EstimatedEndTime
-                                FROM BookingDetails bd
-                                JOIN Clients c ON bd.ClientID = c.ClientID
-                                JOIN Booking bk ON bk.BookingID = bd.BookingID
-                                JOIN Services s ON bd.ServiceID = s.ServiceID 
-                                WHERE DATEPART (WEEK,bk.BookedDate) = DATEPART (WEEK,GETDATE()) 
-                                AND DATEPART (YEAR,bk.BookedDate) = DATEPART(YEAR, GETDATE())
-                                ORDER BY bk.BookedDate";
+                         DATEADD (HOUR,bd.HoursRendered,bk.BookingDate) AS EstimatedEndTime
+                         FROM BookingDetails bd
+                         JOIN Clients c ON bd.ClientID = c.ClientID
+                         JOIN Booking bk ON bk.BookingID = bd.BookingID
+                         JOIN Services s ON bd.ServiceID = s.ServiceID 
+                         WHERE DATEPART (WEEK,bk.BookedDate) = DATEPART (WEEK,GETDATE()) 
+                         AND DATEPART (YEAR,bk.BookedDate) = DATEPART(YEAR, GETDATE())
+                         ORDER BY bk.BookedDate";
 
                 SqlCommand cmd = new SqlCommand(query, con);
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
@@ -130,6 +140,7 @@ namespace AlexisConstruction.Classes
                 {
                     int serviceID = Convert.ToInt32(row["ServiceID"]);
                     DateTime estimatedEndTime = Convert.ToDateTime(row["EstimatedEndTime"]);
+
                     if (!toolsData.ContainsKey(serviceID))
                     {
                         toolsData[serviceID] = LoadAssociatedTools(serviceID, estimatedEndTime);
@@ -137,6 +148,7 @@ namespace AlexisConstruction.Classes
                 }
             }
         }
+
         public DataTable LoadAssociatedTools(int serviceID, DateTime endTime)
         {
             using (SqlConnection con = new SqlConnection(Connection.Database))
@@ -158,6 +170,46 @@ namespace AlexisConstruction.Classes
                 da.Fill(dt);
                return dt;
 
+            }
+        }
+        public void CheckAndUpdateCompletedServices(DataGridView grid)
+        {
+            using (SqlConnection con = new SqlConnection(Connection.Database))
+            {
+                con.Open();
+
+                string query = @"UPDATE Inventory 
+                         SET Quantity = Quantity + 1
+                         FROM Inventory i
+                         JOIN ServiceMaterials sm ON sm.InventoryID = i.InventoryID
+                         JOIN BookingDetails bd ON sm.ServiceID = bd.ServiceID
+                         JOIN Booking bk ON bd.BookingID = bk.BookingID
+                         WHERE DATEADD(HOUR, bd.HoursRendered, bk.BookingDate) <= GETDATE() 
+                         AND bk.Status = 'Scheduled'
+                         AND DATEPART (WEEK,bk.BookedDate) = DATEPART (WEEK,GETDATE()) 
+                         AND DATEPART (YEAR,bk.BookedDate) = DATEPART(YEAR, GETDATE())";
+
+                SqlCommand cmd = new SqlCommand(query, con);
+                int rowAffected = cmd.ExecuteNonQuery();
+
+                if(rowAffected >0)
+                {
+                    string updatequary = @"UPDATE Booking 
+                         SET Status = 'Completed'
+                         FROM Booking bk 
+                         JOIN BookingDetails bd  ON bk.BookingID = bd.BookingID
+                         WHERE DATEADD(HOUR, bd.HoursRendered, bk.BookingDate) <= GETDATE()
+                         AND bk.Status = 'Scheduled'
+                         AND DATEPART (WEEK,bk.BookedDate) = DATEPART (WEEK,GETDATE()) 
+                         AND DATEPART (YEAR,bk.BookedDate) = DATEPART(YEAR, GETDATE())";
+
+                    SqlCommand updatecmd = new SqlCommand(updatequary, con);
+                    updatecmd.ExecuteNonQuery();
+                }
+                if( grid != null)
+                {
+                    LoadWeeklySchedule(grid);
+                }
             }
         }
     }

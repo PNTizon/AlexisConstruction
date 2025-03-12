@@ -10,7 +10,7 @@
 
 #pragma warning disable 1591
 
-namespace AlexisConstruction {
+namespace AlexisConstruction.DataSet {
     
     
     /// <summary>
@@ -20,9 +20,9 @@ namespace AlexisConstruction {
     [global::System.ComponentModel.DesignerCategoryAttribute("code")]
     [global::System.ComponentModel.ToolboxItem(true)]
     [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedDataSetSchema")]
-    [global::System.Xml.Serialization.XmlRootAttribute("AlexisConstructionDataSet1")]
+    [global::System.Xml.Serialization.XmlRootAttribute("AlexisConstructionDataSet")]
     [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.DataSet")]
-    public partial class AlexisConstructionDataSet1 : global::System.Data.DataSet {
+    public partial class AlexisConstructionDataSet : global::System.Data.DataSet {
         
         private RECEIPTDataTable tableRECEIPT;
         
@@ -30,7 +30,7 @@ namespace AlexisConstruction {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public AlexisConstructionDataSet1() {
+        public AlexisConstructionDataSet() {
             this.BeginInit();
             this.InitClass();
             global::System.ComponentModel.CollectionChangeEventHandler schemaChangedHandler = new global::System.ComponentModel.CollectionChangeEventHandler(this.SchemaChanged);
@@ -41,7 +41,7 @@ namespace AlexisConstruction {
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        protected AlexisConstructionDataSet1(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
+        protected AlexisConstructionDataSet(global::System.Runtime.Serialization.SerializationInfo info, global::System.Runtime.Serialization.StreamingContext context) : 
                 base(info, context, false) {
             if ((this.IsBinarySerialized(info, context) == true)) {
                 this.InitVars(false);
@@ -127,7 +127,7 @@ namespace AlexisConstruction {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public override global::System.Data.DataSet Clone() {
-            AlexisConstructionDataSet1 cln = ((AlexisConstructionDataSet1)(base.Clone()));
+            AlexisConstructionDataSet cln = ((AlexisConstructionDataSet)(base.Clone()));
             cln.InitVars();
             cln.SchemaSerializationMode = this.SchemaSerializationMode;
             return cln;
@@ -199,9 +199,9 @@ namespace AlexisConstruction {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         private void InitClass() {
-            this.DataSetName = "AlexisConstructionDataSet1";
+            this.DataSetName = "AlexisConstructionDataSet";
             this.Prefix = "";
-            this.Namespace = "http://tempuri.org/AlexisConstructionDataSet1.xsd";
+            this.Namespace = "http://tempuri.org/AlexisConstructionDataSet.xsd";
             this.EnforceConstraints = true;
             this.SchemaSerializationMode = global::System.Data.SchemaSerializationMode.IncludeSchema;
             this.tableRECEIPT = new RECEIPTDataTable();
@@ -225,7 +225,7 @@ namespace AlexisConstruction {
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedDataSetSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
-            AlexisConstructionDataSet1 ds = new AlexisConstructionDataSet1();
+            AlexisConstructionDataSet ds = new AlexisConstructionDataSet();
             global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
             global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
             global::System.Xml.Schema.XmlSchemaAny any = new global::System.Xml.Schema.XmlSchemaAny();
@@ -503,7 +503,7 @@ namespace AlexisConstruction {
             public static global::System.Xml.Schema.XmlSchemaComplexType GetTypedTableSchema(global::System.Xml.Schema.XmlSchemaSet xs) {
                 global::System.Xml.Schema.XmlSchemaComplexType type = new global::System.Xml.Schema.XmlSchemaComplexType();
                 global::System.Xml.Schema.XmlSchemaSequence sequence = new global::System.Xml.Schema.XmlSchemaSequence();
-                AlexisConstructionDataSet1 ds = new AlexisConstructionDataSet1();
+                AlexisConstructionDataSet ds = new AlexisConstructionDataSet();
                 global::System.Xml.Schema.XmlSchemaAny any1 = new global::System.Xml.Schema.XmlSchemaAny();
                 any1.Namespace = "http://www.w3.org/2001/XMLSchema";
                 any1.MinOccurs = new decimal(0);
@@ -724,7 +724,7 @@ namespace AlexisConstruction {
         }
     }
 }
-namespace AlexisConstruction.AlexisConstructionDataSet1TableAdapters {
+namespace AlexisConstruction.DataSet.AlexisConstructionDataSetTableAdapters {
     
     
     /// <summary>
@@ -879,7 +879,7 @@ namespace AlexisConstruction.AlexisConstructionDataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Fill, true)]
-        public virtual int Fill(AlexisConstructionDataSet1.RECEIPTDataTable dataTable, global::System.Nullable<global::System.DateTime> bookedDate, global::System.Nullable<int> clientID) {
+        public virtual int Fill(AlexisConstructionDataSet.RECEIPTDataTable dataTable, global::System.Nullable<global::System.DateTime> bookedDate, global::System.Nullable<int> clientID) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((bookedDate.HasValue == true)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(bookedDate.Value));
@@ -904,7 +904,7 @@ namespace AlexisConstruction.AlexisConstructionDataSet1TableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Select, true)]
-        public virtual AlexisConstructionDataSet1.RECEIPTDataTable GetData(global::System.Nullable<global::System.DateTime> bookedDate, global::System.Nullable<int> clientID) {
+        public virtual AlexisConstructionDataSet.RECEIPTDataTable GetData(global::System.Nullable<global::System.DateTime> bookedDate, global::System.Nullable<int> clientID) {
             this.Adapter.SelectCommand = this.CommandCollection[0];
             if ((bookedDate.HasValue == true)) {
                 this.Adapter.SelectCommand.Parameters[1].Value = ((System.DateTime)(bookedDate.Value));
@@ -918,7 +918,7 @@ namespace AlexisConstruction.AlexisConstructionDataSet1TableAdapters {
             else {
                 this.Adapter.SelectCommand.Parameters[2].Value = global::System.DBNull.Value;
             }
-            AlexisConstructionDataSet1.RECEIPTDataTable dataTable = new AlexisConstructionDataSet1.RECEIPTDataTable();
+            AlexisConstructionDataSet.RECEIPTDataTable dataTable = new AlexisConstructionDataSet.RECEIPTDataTable();
             this.Adapter.Fill(dataTable);
             return dataTable;
         }
@@ -992,7 +992,7 @@ namespace AlexisConstruction.AlexisConstructionDataSet1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateUpdatedRows(AlexisConstructionDataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateUpdatedRows(AlexisConstructionDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -1002,7 +1002,7 @@ namespace AlexisConstruction.AlexisConstructionDataSet1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateInsertedRows(AlexisConstructionDataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
+        private int UpdateInsertedRows(AlexisConstructionDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allAddedRows) {
             int result = 0;
             return result;
         }
@@ -1012,7 +1012,7 @@ namespace AlexisConstruction.AlexisConstructionDataSet1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        private int UpdateDeletedRows(AlexisConstructionDataSet1 dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
+        private int UpdateDeletedRows(AlexisConstructionDataSet dataSet, global::System.Collections.Generic.List<global::System.Data.DataRow> allChangedRows) {
             int result = 0;
             return result;
         }
@@ -1046,7 +1046,7 @@ namespace AlexisConstruction.AlexisConstructionDataSet1TableAdapters {
         ///</summary>
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "17.0.0.0")]
-        public virtual int UpdateAll(AlexisConstructionDataSet1 dataSet) {
+        public virtual int UpdateAll(AlexisConstructionDataSet dataSet) {
             if ((dataSet == null)) {
                 throw new global::System.ArgumentNullException("dataSet");
             }

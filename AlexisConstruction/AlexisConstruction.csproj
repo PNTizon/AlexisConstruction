@@ -86,12 +86,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AlexisConstructionDataSet.Designer.cs">
+    <Compile Include="DataSet\AlexisConstructionDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AlexisConstructionDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="AlexisConstructionDataSet1.Designer.cs">
+    <Compile Include="DataSet\AlexisConstructionDataSet1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AlexisConstructionDataSet1.xsd</DependentUpon>
@@ -107,7 +107,12 @@
     <Compile Include="Classes\Models.cs" />
     <Compile Include="Classes\PaymentManager.cs" />
     <Compile Include="Classes\ServiceManager.cs" />
-    <Compile Include="DataSet6.Designer.cs">
+    <Compile Include="DataSet\DataSet2.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </Compile>
+    <Compile Include="DataSet\DataSet6.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet6.xsd</DependentUpon>
@@ -215,37 +220,48 @@
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Receipt.rdlc" />
-    <None Include="AlexisConstructionDataSet.xsc">
+    <None Include="DataSet\AlexisConstructionDataSet.xsc">
       <DependentUpon>AlexisConstructionDataSet.xsd</DependentUpon>
     </None>
-    <None Include="AlexisConstructionDataSet.xsd">
+    <None Include="DataSet\AlexisConstructionDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>AlexisConstructionDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="AlexisConstructionDataSet.xss">
+    <None Include="DataSet\AlexisConstructionDataSet.xss">
       <DependentUpon>AlexisConstructionDataSet.xsd</DependentUpon>
     </None>
-    <None Include="AlexisConstructionDataSet1.xsc">
+    <None Include="DataSet\AlexisConstructionDataSet1.xsc">
       <DependentUpon>AlexisConstructionDataSet1.xsd</DependentUpon>
     </None>
-    <None Include="AlexisConstructionDataSet1.xsd">
+    <None Include="DataSet\AlexisConstructionDataSet1.xsd">
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>AlexisConstructionDataSet1.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="AlexisConstructionDataSet1.xss">
+    <None Include="DataSet\AlexisConstructionDataSet1.xss">
       <DependentUpon>AlexisConstructionDataSet1.xsd</DependentUpon>
     </None>
-    <None Include="DataSet6.xsc">
+    <None Include="DataSet\DataSet2.xsc">
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet\DataSet2.xsd">
+      <SubType>Designer</SubType>
+      <Generator>MSDataSetGenerator</Generator>
+      <LastGenOutput>DataSet2.Designer.cs</LastGenOutput>
+    </None>
+    <None Include="DataSet\DataSet2.xss">
+      <DependentUpon>DataSet2.xsd</DependentUpon>
+    </None>
+    <None Include="DataSet\DataSet6.xsc">
       <DependentUpon>DataSet6.xsd</DependentUpon>
     </None>
-    <None Include="DataSet6.xsd">
+    <None Include="DataSet\DataSet6.xsd">
       <SubType>Designer</SubType>
       <Generator>MSDataSetGenerator</Generator>
       <LastGenOutput>DataSet6.Designer.cs</LastGenOutput>
     </None>
-    <None Include="DataSet6.xss">
+    <None Include="DataSet\DataSet6.xss">
       <DependentUpon>DataSet6.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />

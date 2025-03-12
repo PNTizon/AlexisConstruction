@@ -41,7 +41,7 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(552, 162);
+            this.button3.Location = new System.Drawing.Point(552, 86);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 267;
@@ -51,7 +51,7 @@
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(414, 162);
+            this.button2.Location = new System.Drawing.Point(414, 86);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 266;
@@ -61,7 +61,7 @@
             // 
             // btnAdd
             // 
-            this.btnAdd.Location = new System.Drawing.Point(267, 162);
+            this.btnAdd.Location = new System.Drawing.Point(267, 86);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(75, 23);
             this.btnAdd.TabIndex = 265;
@@ -71,14 +71,14 @@
             // 
             // txtHourlyRate
             // 
-            this.txtHourlyRate.Location = new System.Drawing.Point(552, 72);
+            this.txtHourlyRate.Location = new System.Drawing.Point(589, 48);
             this.txtHourlyRate.Name = "txtHourlyRate";
             this.txtHourlyRate.Size = new System.Drawing.Size(100, 20);
             this.txtHourlyRate.TabIndex = 264;
             // 
             // txtServiceName
             // 
-            this.txtServiceName.Location = new System.Drawing.Point(267, 72);
+            this.txtServiceName.Location = new System.Drawing.Point(304, 48);
             this.txtServiceName.Name = "txtServiceName";
             this.txtServiceName.Size = new System.Drawing.Size(100, 20);
             this.txtServiceName.TabIndex = 263;
@@ -88,7 +88,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label6.Location = new System.Drawing.Point(469, 74);
+            this.label6.Location = new System.Drawing.Point(506, 50);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(81, 16);
             this.label6.TabIndex = 262;
@@ -99,7 +99,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(169, 73);
+            this.label2.Location = new System.Drawing.Point(206, 49);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 16);
             this.label2.TabIndex = 261;
@@ -107,11 +107,14 @@
             // 
             // dgvServices
             // 
+            this.dgvServices.AllowUserToAddRows = false;
+            this.dgvServices.AllowUserToDeleteRows = false;
             this.dgvServices.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvServices.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvServices.Location = new System.Drawing.Point(58, 217);
+            this.dgvServices.Location = new System.Drawing.Point(58, 134);
             this.dgvServices.Name = "dgvServices";
-            this.dgvServices.Size = new System.Drawing.Size(740, 281);
+            this.dgvServices.ReadOnly = true;
+            this.dgvServices.Size = new System.Drawing.Size(740, 364);
             this.dgvServices.TabIndex = 260;
             this.dgvServices.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServices_CellContentClick);
             // 

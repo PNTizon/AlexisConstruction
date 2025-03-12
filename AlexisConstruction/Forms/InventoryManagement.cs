@@ -37,6 +37,23 @@ namespace AlexisConstruction.Forms
                 }
             }
         }
+        public void LoadServiceItems (int serviceID,DataGridView grid)
+        {
+            using(SqlConnection con = new SqlConnection(Connection.Database))
+            {
+                con.Open();
+
+                string query = @"SELECT InventoryID,ItemName,Quantity FROM Inventory WHERE ServiceID = @servicename";
+
+                using(SqlCommand cmd = new SqlCommand(query,con))
+                {
+                    cmd.Parameters.AddWithValue("@servicename", serviceID);
+                    DataTable dt = new DataTable();
+                    dt.Load(cmd.ExecuteReader());
+                    grid.DataSource = dt;
+                }
+            }
+        }
 
         private void btnAddInventory_Click(object sender, EventArgs e)
         {
@@ -53,6 +70,7 @@ namespace AlexisConstruction.Forms
             {
                 MessageBox.Show("Inventory item added successfully!", "Success");
                 inventorymanange.LoadServiceItems(serviceID,dgvInventory);
+                //display.GetAllInventory(dgvInventory);
             }
             else
             {
@@ -85,6 +103,7 @@ namespace AlexisConstruction.Forms
                 {
                     MessageBox.Show("Inventory item updated successfully!", "Success");
                     inventorymanange.LoadServiceItems(Convert.ToInt32(cmbServices.SelectedValue), dgvInventory);
+                    //display.GetAllInventory(dgvInventory);
                 }
                 else
                 {
@@ -109,6 +128,7 @@ namespace AlexisConstruction.Forms
                 {
                     MessageBox.Show("Inventory item deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     inventorymanange.LoadServiceItems(serviceID, dgvInventory);
+                    //display.GetAllInventory(dgvInventory);
                 }
                 else
                 {
@@ -130,6 +150,16 @@ namespace AlexisConstruction.Forms
         {
             LoadServices();
             display.GetAllInventory(dgvInventory);
+
+            cmbServices.SelectedIndexChanged += cmbServices_SelectedIndexChanged;
+        }
+
+        private void cmbServices_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if(cmbServices.SelectedValue != null && int.TryParse(cmbServices.SelectedValue.ToString(),out int serviceID))
+            {
+                inventorymanange.LoadServiceItems(serviceID, dgvInventory);
+            }
         }
     }
 }

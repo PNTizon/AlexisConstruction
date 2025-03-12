@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -44,7 +45,21 @@
             this.label2 = new System.Windows.Forms.Label();
             this.CountryCodecmb = new System.Windows.Forms.ComboBox();
             this.dgvClients = new System.Windows.Forms.DataGridView();
+            this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet2BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
+            this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
+            this.ClientID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Firstname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.CountryCode = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ContactNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet2BindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet2)).BeginInit();
             this.SuspendLayout();
             // 
             // button3
@@ -191,13 +206,95 @@
             // 
             // dgvClients
             // 
+            this.dgvClients.AllowUserToAddRows = false;
+            this.dgvClients.AllowUserToDeleteRows = false;
+            this.dgvClients.AutoGenerateColumns = false;
             this.dgvClients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            this.dgvClients.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
+            this.ClientID,
+            this.Firstname,
+            this.Lastname,
+            this.CountryCode,
+            this.ContactNumber,
+            this.Email,
+            this.Address});
+            this.dgvClients.DataSource = this.sHOWCLIENTSBindingSource;
             this.dgvClients.Location = new System.Drawing.Point(37, 205);
             this.dgvClients.Name = "dgvClients";
+            this.dgvClients.ReadOnly = true;
             this.dgvClients.Size = new System.Drawing.Size(795, 289);
             this.dgvClients.TabIndex = 258;
             this.dgvClients.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClients_CellContentClick);
+            // 
+            // sHOWCLIENTSBindingSource
+            // 
+            this.sHOWCLIENTSBindingSource.DataMember = "SHOWCLIENTS";
+            this.sHOWCLIENTSBindingSource.DataSource = this.dataSet2BindingSource;
+            // 
+            // dataSet2BindingSource
+            // 
+            this.dataSet2BindingSource.DataSource = this.dataSet2;
+            this.dataSet2BindingSource.Position = 0;
+            // 
+            // dataSet2
+            // 
+            this.dataSet2.DataSetName = "DataSet2";
+            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // sHOWCLIENTSTableAdapter
+            // 
+            this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
+            // 
+            // ClientID
+            // 
+            this.ClientID.DataPropertyName = "ClientID";
+            this.ClientID.HeaderText = "ClientID";
+            this.ClientID.Name = "ClientID";
+            this.ClientID.ReadOnly = true;
+            this.ClientID.Visible = false;
+            // 
+            // Firstname
+            // 
+            this.Firstname.DataPropertyName = "Firstname";
+            this.Firstname.HeaderText = "First Name";
+            this.Firstname.Name = "Firstname";
+            this.Firstname.ReadOnly = true;
+            // 
+            // Lastname
+            // 
+            this.Lastname.DataPropertyName = "Lastname";
+            this.Lastname.HeaderText = "Last Name";
+            this.Lastname.Name = "Lastname";
+            this.Lastname.ReadOnly = true;
+            // 
+            // CountryCode
+            // 
+            this.CountryCode.DataPropertyName = "CountryCode";
+            this.CountryCode.HeaderText = "Country Code";
+            this.CountryCode.Name = "CountryCode";
+            this.CountryCode.ReadOnly = true;
+            // 
+            // ContactNumber
+            // 
+            this.ContactNumber.DataPropertyName = "ContactNumber";
+            this.ContactNumber.HeaderText = "Contact Number";
+            this.ContactNumber.Name = "ContactNumber";
+            this.ContactNumber.ReadOnly = true;
+            // 
+            // Email
+            // 
+            this.Email.DataPropertyName = "Email";
+            this.Email.HeaderText = "Email";
+            this.Email.Name = "Email";
+            this.Email.ReadOnly = true;
+            // 
+            // Address
+            // 
+            this.Address.DataPropertyName = "Address";
+            this.Address.HeaderText = "Address";
+            this.Address.Name = "Address";
+            this.Address.ReadOnly = true;
             // 
             // ClientManagement
             // 
@@ -225,6 +322,9 @@
             this.Text = "ClientManagement";
             this.Load += new System.EventHandler(this.ClientManagement_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet2BindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataSet2)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,5 +348,16 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.ComboBox CountryCodecmb;
         private System.Windows.Forms.DataGridView dgvClients;
+        private System.Windows.Forms.BindingSource dataSet2BindingSource;
+        private DataSet.DataSet2 dataSet2;
+        private System.Windows.Forms.BindingSource sHOWCLIENTSBindingSource;
+        private DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter sHOWCLIENTSTableAdapter;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ClientID;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Firstname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Lastname;
+        private System.Windows.Forms.DataGridViewTextBoxColumn CountryCode;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ContactNumber;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Email;
+        private System.Windows.Forms.DataGridViewTextBoxColumn Address;
     }
 }

@@ -42,7 +42,7 @@ namespace AlexisConstruction.Forms
             if (result == "Service added successfully")
             {
                 MessageBox.Show("Service added successfully!");
-                LoadServices();
+                display.GetAllServices(dgvServices);
             }
             else
             {
@@ -64,8 +64,7 @@ namespace AlexisConstruction.Forms
                 if (services.EditService(service))
                 {
                     MessageBox.Show("Service updated successfully!");
-
-                    LoadServices();
+                    display.GetAllServices(dgvServices);
                 }
                 else
                 {
@@ -92,7 +91,7 @@ namespace AlexisConstruction.Forms
                     if (services.DeleteService(serviceID))
                     {
                         MessageBox.Show("Service deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        LoadServices();
+                        display.GetAllServices(dgvServices);
                     }
                     else
                     {
@@ -110,14 +109,11 @@ namespace AlexisConstruction.Forms
         {
             select.PopulateService(e.RowIndex,dgvServices,txtHourlyRate,txtServiceName);
         }
-        public void LoadServices()
-        {
-            dgvServices.DataSource = display.GetAllServices();
-        }
+       
 
         private void ServicesManagement_Load(object sender, EventArgs e)
         {
-            LoadServices();
+            display.GetAllServices(dgvServices);
         }
     }
 }
