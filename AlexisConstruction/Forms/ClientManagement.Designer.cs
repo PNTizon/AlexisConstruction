@@ -29,6 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle2 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle3 = new System.Windows.Forms.DataGridViewCellStyle();
             this.button3 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
@@ -45,10 +48,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.CountryCodecmb = new System.Windows.Forms.ComboBox();
             this.dgvClients = new System.Windows.Forms.DataGridView();
-            this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet2BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
-            this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
             this.ClientID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Firstname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -56,6 +55,10 @@
             this.ContactNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet2BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
+            this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2BindingSource)).BeginInit();
@@ -64,46 +67,60 @@
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(534, 164);
+            this.button3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(153)))), ((int)(((byte)(78)))));
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.ForeColor = System.Drawing.Color.White;
+            this.button3.Location = new System.Drawing.Point(490, 164);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(75, 23);
             this.button3.TabIndex = 273;
             this.button3.Text = "Delete";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button3.UseVisualStyleBackColor = false;
             this.button3.Click += new System.EventHandler(this.btnDeleteClient_Click);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(363, 164);
+            this.button2.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(153)))), ((int)(((byte)(78)))));
+            this.button2.FlatAppearance.BorderSize = 0;
+            this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button2.ForeColor = System.Drawing.Color.White;
+            this.button2.Location = new System.Drawing.Point(383, 164);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(75, 23);
             this.button2.TabIndex = 272;
             this.button2.Text = "Edit";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.btnUpdateClient_Click);
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(191, 164);
+            this.button1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(153)))), ((int)(((byte)(78)))));
+            this.button1.FlatAppearance.BorderSize = 0;
+            this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button1.ForeColor = System.Drawing.Color.White;
+            this.button1.Location = new System.Drawing.Point(270, 164);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(75, 23);
             this.button1.TabIndex = 271;
             this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.btnAddClient_Click);
             // 
             // txtemail
             // 
-            this.txtemail.Location = new System.Drawing.Point(551, 123);
+            this.txtemail.Location = new System.Drawing.Point(551, 111);
             this.txtemail.Name = "txtemail";
             this.txtemail.Size = new System.Drawing.Size(225, 20);
             this.txtemail.TabIndex = 270;
+            this.txtemail.TextChanged += new System.EventHandler(this.txtemail_TextChanged);
             // 
             // txtContactNumber
             // 
-            this.txtContactNumber.Location = new System.Drawing.Point(676, 83);
+            this.txtContactNumber.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtContactNumber.Location = new System.Drawing.Point(670, 74);
             this.txtContactNumber.Name = "txtContactNumber";
-            this.txtContactNumber.Size = new System.Drawing.Size(100, 20);
+            this.txtContactNumber.Size = new System.Drawing.Size(106, 21);
             this.txtContactNumber.TabIndex = 269;
             this.txtContactNumber.TextChanged += new System.EventHandler(this.txtContactNumber_TextChanged);
             // 
@@ -116,7 +133,7 @@
             // 
             // txtLastname
             // 
-            this.txtLastname.Location = new System.Drawing.Point(200, 80);
+            this.txtLastname.Location = new System.Drawing.Point(200, 74);
             this.txtLastname.Name = "txtLastname";
             this.txtLastname.Size = new System.Drawing.Size(189, 20);
             this.txtLastname.TabIndex = 267;
@@ -133,7 +150,7 @@
             this.txtCountyCode.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtCountyCode.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCountyCode.ForeColor = System.Drawing.Color.Black;
-            this.txtCountyCode.Location = new System.Drawing.Point(552, 82);
+            this.txtCountyCode.Location = new System.Drawing.Point(552, 73);
             this.txtCountyCode.Name = "txtCountyCode";
             this.txtCountyCode.Size = new System.Drawing.Size(102, 22);
             this.txtCountyCode.TabIndex = 264;
@@ -154,7 +171,7 @@
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label1.Location = new System.Drawing.Point(92, 79);
+            this.label1.Location = new System.Drawing.Point(92, 73);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(66, 16);
             this.label1.TabIndex = 262;
@@ -165,7 +182,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label6.Location = new System.Drawing.Point(504, 127);
+            this.label6.Location = new System.Drawing.Point(504, 115);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(41, 16);
             this.label6.TabIndex = 261;
@@ -176,7 +193,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label5.Location = new System.Drawing.Point(460, 81);
+            this.label5.Location = new System.Drawing.Point(460, 72);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(70, 16);
             this.label5.TabIndex = 260;
@@ -198,7 +215,7 @@
             this.CountryCodecmb.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.CountryCodecmb.ForeColor = System.Drawing.SystemColors.InactiveCaptionText;
             this.CountryCodecmb.FormattingEnabled = true;
-            this.CountryCodecmb.Location = new System.Drawing.Point(551, 81);
+            this.CountryCodecmb.Location = new System.Drawing.Point(551, 72);
             this.CountryCodecmb.Name = "CountryCodecmb";
             this.CountryCodecmb.Size = new System.Drawing.Size(119, 24);
             this.CountryCodecmb.TabIndex = 265;
@@ -210,6 +227,16 @@
             this.dgvClients.AllowUserToDeleteRows = false;
             this.dgvClients.AutoGenerateColumns = false;
             this.dgvClients.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvClients.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.DisplayedCells;
+            this.dgvClients.BackgroundColor = System.Drawing.Color.White;
+            dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(245)))), ((int)(((byte)(153)))));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
+            dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle1.WrapMode = System.Windows.Forms.DataGridViewTriState.True;
+            this.dgvClients.ColumnHeadersDefaultCellStyle = dataGridViewCellStyle1;
             this.dgvClients.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvClients.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.ClientID,
@@ -220,31 +247,26 @@
             this.Email,
             this.Address});
             this.dgvClients.DataSource = this.sHOWCLIENTSBindingSource;
+            dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
+            dataGridViewCellStyle2.BackColor = System.Drawing.SystemColors.Window;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
+            this.dgvClients.DefaultCellStyle = dataGridViewCellStyle2;
+            this.dgvClients.EnableHeadersVisualStyles = false;
+            this.dgvClients.GridColor = System.Drawing.Color.Black;
             this.dgvClients.Location = new System.Drawing.Point(37, 205);
             this.dgvClients.Name = "dgvClients";
             this.dgvClients.ReadOnly = true;
+            dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
+            dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
+            dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
+            this.dgvClients.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvClients.Size = new System.Drawing.Size(795, 289);
             this.dgvClients.TabIndex = 258;
             this.dgvClients.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClients_CellContentClick);
-            // 
-            // sHOWCLIENTSBindingSource
-            // 
-            this.sHOWCLIENTSBindingSource.DataMember = "SHOWCLIENTS";
-            this.sHOWCLIENTSBindingSource.DataSource = this.dataSet2BindingSource;
-            // 
-            // dataSet2BindingSource
-            // 
-            this.dataSet2BindingSource.DataSource = this.dataSet2;
-            this.dataSet2BindingSource.Position = 0;
-            // 
-            // dataSet2
-            // 
-            this.dataSet2.DataSetName = "DataSet2";
-            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // sHOWCLIENTSTableAdapter
-            // 
-            this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
             // 
             // ClientID
             // 
@@ -296,10 +318,30 @@
             this.Address.Name = "Address";
             this.Address.ReadOnly = true;
             // 
+            // sHOWCLIENTSBindingSource
+            // 
+            this.sHOWCLIENTSBindingSource.DataMember = "SHOWCLIENTS";
+            this.sHOWCLIENTSBindingSource.DataSource = this.dataSet2BindingSource;
+            // 
+            // dataSet2BindingSource
+            // 
+            this.dataSet2BindingSource.DataSource = this.dataSet2;
+            this.dataSet2BindingSource.Position = 0;
+            // 
+            // dataSet2
+            // 
+            this.dataSet2.DataSetName = "DataSet2";
+            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // sHOWCLIENTSTableAdapter
+            // 
+            this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
+            // 
             // ClientManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.BackColor = System.Drawing.Color.White;
             this.ClientSize = new System.Drawing.Size(869, 531);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);

@@ -28,17 +28,23 @@ namespace AlexisConstruction.Classes
     public class Bookings
     {
         public int BookingID { get; set; }
+        public string CustomerName { get; set; }
         public int HoursRendered { get; set; }
         public Services Service { get; set; }
         public string ServiceName => Service?.ServiceName ?? ""; 
         public decimal HourlyRate => Service?.HourlyRate ?? 0;
         public decimal Amount => HoursRendered * HourlyRate;
         public DateTime BillingDate { get; set; }
+        public DateTime BookedDate { get; set; }
         public decimal TotalAmount { get; set; }
         public string PaymentStatus { get; set; } = "Pending";
         public string PaymentMethod { get; set; } = "Cash";
+        public Bookings ()
+        {
+            PaymentReceipt = new List<Orders>();
+        }
+        public List<Orders> PaymentReceipt { get; set; }
     }
-   
     public class Services
     {
         public  int ServiceID { get; set; }
@@ -46,14 +52,12 @@ namespace AlexisConstruction.Classes
         public  decimal HourlyRate { get; set; }
         public decimal Amount { get; set; }
     }
-   
     public class Inventory
     {
         public int InventoryID { get; set; }
         public string ItemName { get; set; }
         public int Quantity { get; set; }
     }
-
     public class Connection
     {
         public static string Database { get; } = "Data Source=(local);Initial Catalog=AlexisConstruction;Integrated Security=True;TrustServerCertificate=True";

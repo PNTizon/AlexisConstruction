@@ -19,41 +19,7 @@ namespace AlexisConstruction.Classes
 
             phoneNum.SelectionStart = phoneNum.Text.Length;// para ang cursur magpundo sa last
         }
-        public void Copies(TextBox copy)
-        {
-            string currentText = copy.Text;
-            copy.Text = string.Concat(currentText.Where(char.IsDigit));
-            if (currentText.Length > 2)
-            {
-                copy.Text = currentText.Substring(0, 2);
-            }
-            copy.SelectionStart = copy.Text.Length;
-        }
-        public void PasswordHelper(TextBox passwordtext)
-        {
-            string currentText = passwordtext.Text;
-
-            if (currentText.Length > 8)
-            {
-                passwordtext.Text = currentText.Substring(0, 8);
-            }
-            passwordtext.SelectionStart = passwordtext.Text.Length;
-        }
-
-        public bool isValidName(string name)
-        {
-            return Regex.IsMatch(name, @"^[a-zA-Z]+$");
-        }
-
-        public bool isValidAddress(string street)
-        {
-            return !string.IsNullOrEmpty(street);
-        }
-        public bool isValidEmail(string email)
-        {
-            return email.EndsWith("@gmail.com") && email.Contains("@");
-        }
-      
+        
         public bool isValidPhoneNumber(TextBox countryCode, TextBox phoneNumber)
         {
             string fullNumber = countryCode.Text + phoneNumber.Text;
@@ -65,5 +31,44 @@ namespace AlexisConstruction.Classes
 
             return Regex.IsMatch(fullNumber, @"^\+\d{1,3}\d{10}$");
         }
+        #region Unused Helpers
+
+        //public void Copies(TextBox copy)
+        //{
+        //    string currentText = copy.Text;
+        //    copy.Text = string.Concat(currentText.Where(char.IsDigit));
+        //    if (currentText.Length > )
+        //    {
+        //        copy.Text = currentText.Substring(0, 2);
+        //    }
+        //    copy.SelectionStart = copy.Text.Length;
+        //}
+        //public void PasswordHelper(TextBox passwordtext)
+        //{
+        //    string currentText = passwordtext.Text;
+
+        //    if (currentText.Length > 8)
+        //    {
+        //        passwordtext.Text = currentText.Substring(0, 8);
+        //    }
+        //    passwordtext.SelectionStart = passwordtext.Text.Length;
+        //}
+
+        //public bool isValidName(string name)
+        //{
+        //    return Regex.IsMatch(name, @"^[a-zA-Z]+$");
+        //}
+
+        //public bool isValidAddress(string street)
+        //{
+        //    return !string.IsNullOrEmpty(street);
+        //}
+        //public bool isValidEmail(string email)
+        //{
+        //    return email.EndsWith("@gmail.com") && email.Contains("@");
+        //}
+
+
+        #endregion
     }
 }

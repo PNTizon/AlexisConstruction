@@ -21,6 +21,8 @@ namespace AlexisConstruction.Forms
 
         private void Dashboard_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'dataSet2.WEEKLYSCHEDULE' table. You can move, or remove it, as needed.
+            //this.wEEKLYSCHEDULETableAdapter.Fill(this.dataSet2.WEEKLYSCHEDULE);
             display.LoadWeeklySchedule(dgvSchedule);
 
             Timer timer = new Timer();

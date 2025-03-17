@@ -42,7 +42,7 @@ namespace AlexisConstruction.Forms
             if (result == "Service added successfully")
             {
                 MessageBox.Show("Service added successfully!");
-                display.GetAllServices(dgvServices);
+                this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
             }
             else
             {
@@ -64,7 +64,7 @@ namespace AlexisConstruction.Forms
                 if (services.EditService(service))
                 {
                     MessageBox.Show("Service updated successfully!");
-                    display.GetAllServices(dgvServices);
+                    this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
                 }
                 else
                 {
@@ -91,7 +91,7 @@ namespace AlexisConstruction.Forms
                     if (services.DeleteService(serviceID))
                     {
                         MessageBox.Show("Service deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        display.GetAllServices(dgvServices);
+                        this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
                     }
                     else
                     {
@@ -109,11 +109,10 @@ namespace AlexisConstruction.Forms
         {
             select.PopulateService(e.RowIndex,dgvServices,txtHourlyRate,txtServiceName);
         }
-       
-
         private void ServicesManagement_Load(object sender, EventArgs e)
         {
-            display.GetAllServices(dgvServices);
+            // TODO: This line of code loads data into the 'dataSet2.SHOWSERVICES' table. You can move, or remove it, as needed.
+            this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
         }
     }
 }

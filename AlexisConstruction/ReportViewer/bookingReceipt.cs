@@ -13,7 +13,6 @@ namespace AlexisConstruction.Forms
     public partial class bookingReceipt : Form
     {
         BookingDetails _booking;
-        List<Orders> _orders;
         public bookingReceipt(BookingDetails details, List<Orders> list)
         {
             InitializeComponent();
@@ -53,7 +52,6 @@ namespace AlexisConstruction.Forms
                     reportViewer1.LocalReport.SetParameters(bookingDate);
                     reportViewer1.LocalReport.SetParameters(total);
                     reportViewer1.LocalReport.SetParameters(paymentMethod);
-
                     
                     this.reportViewer1.RefreshReport();
                 }

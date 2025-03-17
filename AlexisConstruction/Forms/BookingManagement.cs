@@ -1,5 +1,6 @@
 ﻿using AlexisConstruction.Classes;
 using System;
+using System.Data;
 using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
@@ -10,11 +11,15 @@ namespace AlexisConstruction.Forms
     public partial class BookingManagement : Form
     {
         private BookingManager bookingManager = new BookingManager();
-        private List<Bookings> bookingDetails = new List<Bookings>();
         public BookingManagement()
         {
             InitializeComponent();
             dtpBookingDate.MinDate = DateTime.Now;
+
+            cmbClients.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbClients.AutoCompleteSource = AutoCompleteSource.ListItems;
+            cmbServices.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
+            cmbServices.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
         private static List<Client> LoadClients()
         {
@@ -23,8 +28,8 @@ namespace AlexisConstruction.Forms
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
-                SqlCommand cmd = new SqlCommand("SELECT ClientID, FirstName + ' ' + LastName AS FullName FROM Clients", con);
-
+                SqlCommand cmd = new SqlCommand("ConcatinateName", con);
+                cmd.CommandType = CommandType.StoredProcedure;
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -47,6 +52,7 @@ namespace AlexisConstruction.Forms
             {
                 con.Open();
                 SqlCommand cmd = new SqlCommand("SELECT ServiceID, ServiceName, HourlyRate FROM Services", con);
+
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
                     while (reader.Read())
@@ -95,14 +101,14 @@ namespace AlexisConstruction.Forms
                 return;
             }
 
-            int bookingID = bookingManager.ScheduleBooking(clientID, bookedDate, dgvServices,Convert.ToInt32(txtServiceID.Text));
-            
+            int bookingID = bookingManager.ScheduleBooking(clientID, bookedDate, dgvServices, Convert.ToInt32(txtServiceID.Text));
+
             if (bookingID > 0)
             {
                 bookingManager.UpdatePaymentStatus(bookingID);
 
                 MessageBox.Show("Booking and payment successfully processed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                button3_Click(); 
+                button3_Click();
                 button1.Enabled = false;
                 ClearForm();
             }
@@ -228,12 +234,8 @@ namespace AlexisConstruction.Forms
             {
                 con.Open();
 
-                string query = @"SELECT s.ServiceName ,bd.HoursRendered,s.HourlyRate,(bd.HoursRendered * s.HourlyRate) AS TotalAmount
-                                FROM BookingDetails bd
-                                JOIN Services s ON bd.ServiceID = s.ServiceID
-                                WHERE bd.BookingID = @bookingID";
-
-                SqlCommand cmd = new SqlCommand(query, con);
+                SqlCommand cmd = new SqlCommand("GetServiceDetails", con);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@bookingID", bookingID);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
@@ -306,6 +308,16 @@ namespace AlexisConstruction.Forms
             button1.Enabled = true;
 
             MessageBox.Show("Payment validated! You can now book the service.", "Payment Validated", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void txtServices_TextChanged(object sender, EventArgs e)
+        {
+            LoadServices();
+        }
+
+        private void txtClients_TextChanged(object sender, EventArgs e)
+        {
+            LoadClients();
         }
     }
 }

@@ -17,9 +17,9 @@ namespace AlexisConstruction.Classes
                 {
                     con.Open();
 
-                    string query = "INSERT INTO Services (ServiceName, HourlyRate) VALUES (@service, @rate)";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (SqlCommand cmd = new SqlCommand("InsertServices", con))
                     {
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@service", service.ServiceName);
                         cmd.Parameters.AddWithValue("@rate", service.HourlyRate);
 
@@ -43,34 +43,42 @@ namespace AlexisConstruction.Classes
         }
         public bool EditService(Services service)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
-                string query = "UPDATE Services SET  ServiceName = @name, HourlyRate =@rate WHERE ServiceID= @id";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
-                    cmd.Parameters.AddWithValue("@id", service.ServiceID);
-                    cmd.Parameters.AddWithValue("@name", service.ServiceName);
-                    cmd.Parameters.AddWithValue("@rate", service.HourlyRate);
+                    con.Open();
 
-                    return cmd.ExecuteNonQuery() > 0;
+                    using (SqlCommand cmd = new SqlCommand("UpdateServices", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@id", service.ServiceID);
+                        cmd.Parameters.AddWithValue("@name", service.ServiceName);
+                        cmd.Parameters.AddWithValue("@rate", service.HourlyRate);
+
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
                 }
             }
+           catch { throw; }
         }
         public bool DeleteService(int service)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
-                string query = "DELETE FROM Services WHERE ServiceID = @id";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
-                    cmd.Parameters.AddWithValue("@id", service);
-
-                    return cmd.ExecuteNonQuery() > 0;
-
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("DeleteServices", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@id", service);
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
                 }
             }
+            catch { throw; }
+           
         }
         #endregion
 
@@ -82,9 +90,9 @@ namespace AlexisConstruction.Classes
                 using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
                     con.Open();
-                    string query = "UPDATE Inventory SET ItemName = @itemName, Quantity = @quantity WHERE InventoryID = @inventoryID";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    using (SqlCommand cmd = new SqlCommand("UpdateInventory", con))
                     {
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@itemName", item.ItemName);
                         cmd.Parameters.AddWithValue("@quantity", item.Quantity);
                         cmd.Parameters.AddWithValue("@inventoryID", item.InventoryID);
@@ -102,9 +110,10 @@ namespace AlexisConstruction.Classes
                 using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
                     con.Open();
-                    string query = "DELETE FROM Inventory WHERE InventoryID = @inventoryID";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                   
+                    using (SqlCommand cmd = new SqlCommand("DeleteInventory", con))
                     {
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@inventoryID", inventoryID);
                         return cmd.ExecuteNonQuery() > 0;
                     }
@@ -121,10 +130,11 @@ namespace AlexisConstruction.Classes
                 {
                     con.Open();
 
-                    string checkitenQuantity = "SELECT InventoryID FROM Inventory WHERE ItemName = @itemname";
+                   
                     int inventoryID;
-                    using (SqlCommand cmd = new SqlCommand(checkitenQuantity, con))
+                    using (SqlCommand cmd = new SqlCommand("InsertItem", con))
                     {
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@itemname", itemname);
                         var result = cmd.ExecuteScalar();
                         if (result != null)
@@ -133,9 +143,9 @@ namespace AlexisConstruction.Classes
                         }
                         else
                         {
-                            string insetediten = "INSERT INTO Inventory(ServiceName,ItemName,Quantity) OUTPUT INSERTED.InventoryID VALUES (@servicename,@itemname,@quantity)";
-                            using (SqlCommand insertcmd = new SqlCommand(insetediten, con))
+                            using (SqlCommand insertcmd = new SqlCommand("InsertInventory", con))
                             {
+                                insertcmd.CommandType = CommandType.StoredProcedure;
                                 insertcmd.Parameters.AddWithValue("@itemname", itemname);
                                 insertcmd.Parameters.AddWithValue("@quantity", quantity);
                                 insertcmd.Parameters.AddWithValue("@servicename", servicename);
@@ -143,9 +153,9 @@ namespace AlexisConstruction.Classes
                             }
                         }
                     }
-                    string serviceMaterial = "INSERT INTO ServiceMaterials (ServiceID,InventoryID) VALUES (@serviceID,@inventoryID)";
-                    using (SqlCommand cmd = new SqlCommand(serviceMaterial, con))
+                    using (SqlCommand cmd = new SqlCommand("InsertServiceDetails", con))
                     {
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@serviceID", serviceID);
                         cmd.Parameters.AddWithValue("@inventoryID", inventoryID);
                         cmd.ExecuteNonQuery();
@@ -165,12 +175,10 @@ namespace AlexisConstruction.Classes
                 using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
                     con.Open();
-                    string query = @"SELECT i.InventoryID ,i.ServiceName,i.ItemName, i.Quantity
-                                    FROM ServiceMaterials sm 
-                                    INNER JOIN Inventory i on sm.InventoryID = i.InventoryID 
-                                    WHERE sm.ServiceID = @serviceID";
-                    using (SqlCommand cmd = new SqlCommand(query, con))
+                 
+                    using (SqlCommand cmd = new SqlCommand("LoadServiceItems", con))
                     {
+                        cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@serviceID", serviceID);
                         DataTable dt = new DataTable();
                         dt.Load(cmd.ExecuteReader());

@@ -14,9 +14,9 @@ namespace AlexisConstruction.Forms
 {
     public partial class printReceipt: Form
     {
-        OrderDetails order;
+        Bookings order;
         List<Orders> _list;
-        public printReceipt(OrderDetails orders,List<Orders> list)
+        public printReceipt(Bookings orders,List<Orders> list)
         {
             InitializeComponent();
             order = orders;
@@ -25,16 +25,13 @@ namespace AlexisConstruction.Forms
 
         private void printReceipt_Load(object sender, EventArgs e)
         {
-
             Microsoft.Reporting.WinForms.ReportParameter[] p = new Microsoft.Reporting.WinForms.ReportParameter[]
             {
-                new Microsoft.Reporting.WinForms.ReportParameter("pBookingID",order.BookingsID.ToString()),
                 new Microsoft.Reporting.WinForms.ReportParameter("pFullname",order.CustomerName),
-                new Microsoft.Reporting.WinForms.ReportParameter("pAddress", order.Address),
-                new Microsoft.Reporting.WinForms.ReportParameter("pNumber",order.ContactNumber),
                 new Microsoft.Reporting.WinForms.ReportParameter("pBillingDate",order.BillingDate.ToString("MM/dd/yyyy")),
-                new Microsoft.Reporting.WinForms.ReportParameter("pTotal",order.ReceiptOrder.Sum(o => o.TotalAmount).ToString("N2")),
-                new Microsoft.Reporting.WinForms.ReportParameter("pPaymentMethod",order.MOP)
+                new Microsoft.Reporting.WinForms.ReportParameter("pBookedDate",order.BookedDate.ToString("MM/dd/yy")),
+                new Microsoft.Reporting.WinForms.ReportParameter("pTotal",order.TotalAmount.ToString("N2")),
+                new Microsoft.Reporting.WinForms.ReportParameter("pPaymentMethod",order.PaymentMethod)
             };
 
             this.reportViewer1.LocalReport.SetParameters(p);

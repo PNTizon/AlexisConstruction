@@ -13,17 +13,14 @@ namespace AlexisConstruction.Classes
             int bookingID = 0;
             decimal totalAmount = 0;
 
-
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
 
                 try
                 {
-                    string insertBookingQuery = @"INSERT INTO Booking (ClientID ,BookingDate, BookedDate, Status, TotalAmount, PaymentStatus, PaymentMethod) 
-                                                  OUTPUT INSERTED.BookingID
-                                                  VALUES (@ClientID ,@BookingDate, @BookedDate, @Status, @TotalAmount, 'Pending', 'Cash')";
-                    SqlCommand cmd = new SqlCommand(insertBookingQuery, con);
+                    SqlCommand cmd = new SqlCommand("InsertNewBooking", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@ClientID", clientID);
                     cmd.Parameters.AddWithValue("@BookingDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@BookedDate", bookedDate);
@@ -39,9 +36,8 @@ namespace AlexisConstruction.Classes
                                           Convert.ToDecimal(row.Cells["HourlyRate"].Value);
                         totalAmount += serviceAmount;
 
-                        string insertDetailQuery = @"INSERT INTO BookingDetails (BookingID, ClientID, ServiceID, HoursRendered, BookedDate)
-                                           VALUES (@BookingID, @ClientID, @ServiceID, @HoursRendered, @BookedDate)";
-                        SqlCommand detailCmd = new SqlCommand(insertDetailQuery, con);
+                        SqlCommand detailCmd = new SqlCommand("InsertBookingDetails", con);
+                        detailCmd.CommandType = CommandType.StoredProcedure;
                         detailCmd.Parameters.AddWithValue("@BookingID", bookingID);
                         detailCmd.Parameters.AddWithValue("@ClientID", clientID);
                         detailCmd.Parameters.AddWithValue("@ServiceID", row.Cells["ServiceID"].Value);
@@ -49,16 +45,13 @@ namespace AlexisConstruction.Classes
                         detailCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
                         detailCmd.ExecuteNonQuery();
                     }
-
-                    string updateInventory = @"UPDATE Inventory SET Quantity = Quantity - 1 
-                                           WHERE InventoryID IN  (SELECT InventoryID FROM ServiceMaterials s WHERE s.ServiceID = @serviceID)
-                                           AND Quantity  > 0";
-                    SqlCommand invenotryUpdate = new SqlCommand(updateInventory, con);
+                   
+                    SqlCommand invenotryUpdate = new SqlCommand("UpdateQuantity", con);
+                    invenotryUpdate.CommandType = CommandType.StoredProcedure;
                     invenotryUpdate.Parameters.AddWithValue("@serviceID", serviceID);
                     int rowAffected = invenotryUpdate.ExecuteNonQuery();
-
-                    string updateTotalAmountQuery = "UPDATE Booking SET TotalAmount = @TotalAmount WHERE BookingID = @BookingID";
-                    SqlCommand updateCmd = new SqlCommand(updateTotalAmountQuery, con);
+                 
+                    SqlCommand updateCmd = new SqlCommand("UpdateAmount", con);
                     updateCmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
                     updateCmd.Parameters.AddWithValue("@BookingID", bookingID);
                     updateCmd.ExecuteNonQuery();
@@ -86,12 +79,7 @@ namespace AlexisConstruction.Classes
                 con.Open();
                 try
                 {
-                    string updateBillingQuery = @"UPDATE Booking 
-                                              SET BillingDate = @BillingDate, 
-                                                  TotalAmount = @TotalAmount 
-                                              WHERE BookingID = @BookingID";
-
-                    SqlCommand cmd = new SqlCommand(updateBillingQuery, con);
+                    SqlCommand cmd = new SqlCommand("UpdaetBilling", con);
                     cmd.Parameters.AddWithValue("@BillingDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
                     cmd.Parameters.AddWithValue("@BookingID", bookingID);
@@ -109,9 +97,7 @@ namespace AlexisConstruction.Classes
             {
                 con.Open();
 
-                string query = "SELECT COUNT(*) FROM Booking WHERE CAST( BookedDate AS DATE) = @BookedDate";
-
-                SqlCommand cmd = new SqlCommand(query, con);
+                SqlCommand cmd = new SqlCommand("CheckBookedDate", con);
                 cmd.Parameters.AddWithValue("@BookedDate", bookedDate.Date);
 
                 int count = (int)cmd.ExecuteScalar();
@@ -124,8 +110,7 @@ namespace AlexisConstruction.Classes
             {
                 con.Open();
 
-                string query = "UPDATE Booking SET PaymentStatus = 'Paid' WHERE BookingID = @bookingID";
-                SqlCommand cmd = new SqlCommand(query, con);
+                SqlCommand cmd = new SqlCommand("UpdatePaymentStatus", con);
                 cmd.Parameters.AddWithValue("@bookingID", bookingID);
                 cmd.ExecuteNonQuery();
             }

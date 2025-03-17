@@ -13,19 +13,14 @@ namespace AlexisConstruction.Forms
 {
     public partial class ClientManagement : Form
     {
-        private Display display = new Display();
         private ClientManager userManagement = new ClientManager();
         private Helper helper = new Helper();
         private DataGridSelection select = new DataGridSelection();
+        private Display display = new Display();
         public ClientManagement()
         {
             InitializeComponent();
-            LoadClients();
-        }
-
-        private void LoadClients()
-        {
-           display.GetClients(dgvClients);
+            this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
         }
 
         private void btnAddClient_Click(object sender, EventArgs e)
@@ -48,7 +43,7 @@ namespace AlexisConstruction.Forms
             if (userManagement.AddClient(client))
             {
                 MessageBox.Show("Client added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                LoadClients();
+                display.GetClients(dgvClients);
             }
             else
             {
@@ -57,11 +52,13 @@ namespace AlexisConstruction.Forms
         }
         private void btnUpdateClient_Click(Object sender, EventArgs e)
         {
+
             if (dgvClients.SelectedRows.Count > 0)
             {
                 int clientId = Convert.ToInt32(dgvClients.SelectedRows[0].Cells["ClientID"].Value);
                 Client client = new Client
                 {
+                    ClientID = clientId,
                     FirstName = txtFirstName.Text,
                     Lastname = txtLastname.Text,
                     CountryCode = txtCountyCode.Text,
@@ -69,10 +66,11 @@ namespace AlexisConstruction.Forms
                     Email = txtemail.Text,
                     Address = txtaddress.Text
                 };
+               
                 if (userManagement.UpdateClient(client))
                 {
                     MessageBox.Show("Client information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadClients();
+                    display.GetClients(dgvClients);
                 }
                 else
                 {
@@ -97,7 +95,7 @@ namespace AlexisConstruction.Forms
                 if (userManagement.DeleteClient(clientID))
                 {
                     MessageBox.Show("Client deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    LoadClients();
+                    display.GetClients(dgvClients);
                 }
                 else
                 {
@@ -134,6 +132,12 @@ namespace AlexisConstruction.Forms
             {
                 select.PopulateClientData(e.RowIndex, dgvClients, txtFirstName, txtLastname, txtCountyCode, txtContactNumber, txtaddress, txtemail);
             }
+
+        }
+
+        private void txtemail_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

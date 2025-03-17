@@ -13,9 +13,9 @@ namespace AlexisConstruction.Classes
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
-                string query = "UPDATE Booking SET PaymentStatus = 'Paid', PaymentMethod = 'Cash' , BillingDate = @billingdate WHERE BookingID = @bookingID ";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlCommand cmd = new SqlCommand("UpdatePayment", con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@bookingID", payment.BookingID);
                     cmd.Parameters.AddWithValue("@billingdate", DateTime.Now);
                     return cmd.ExecuteNonQuery() > 0;
@@ -29,9 +29,9 @@ namespace AlexisConstruction.Classes
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
-                string query = "SELECT * FROM Booking WHERE BookingID = @bookingID";
-                using (SqlCommand cmd = new SqlCommand(query, con))
+                using (SqlCommand cmd = new SqlCommand("GetBooking", con))
                 {
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@bookingID", billingID);
                     using (SqlDataReader reader = cmd.ExecuteReader())
                     {
@@ -63,7 +63,6 @@ namespace AlexisConstruction.Classes
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@SearchInput", search?.Trim() ?? (object)DBNull.Value);
-
 
                         SqlDataAdapter adapter = new SqlDataAdapter(cmd);
                         DataTable table = new DataTable();
