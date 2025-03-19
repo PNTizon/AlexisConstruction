@@ -52,6 +52,7 @@ namespace AlexisConstruction.Classes
                     int rowAffected = invenotryUpdate.ExecuteNonQuery();
                  
                     SqlCommand updateCmd = new SqlCommand("UpdateAmount", con);
+                    updateCmd.CommandType = CommandType.StoredProcedure;
                     updateCmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
                     updateCmd.Parameters.AddWithValue("@BookingID", bookingID);
                     updateCmd.ExecuteNonQuery();
@@ -80,6 +81,7 @@ namespace AlexisConstruction.Classes
                 try
                 {
                     SqlCommand cmd = new SqlCommand("UpdaetBilling", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BillingDate", DateTime.Now);
                     cmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
                     cmd.Parameters.AddWithValue("@BookingID", bookingID);
@@ -98,6 +100,7 @@ namespace AlexisConstruction.Classes
                 con.Open();
 
                 SqlCommand cmd = new SqlCommand("CheckBookedDate", con);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@BookedDate", bookedDate.Date);
 
                 int count = (int)cmd.ExecuteScalar();
@@ -111,6 +114,7 @@ namespace AlexisConstruction.Classes
                 con.Open();
 
                 SqlCommand cmd = new SqlCommand("UpdatePaymentStatus", con);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@bookingID", bookingID);
                 cmd.ExecuteNonQuery();
             }

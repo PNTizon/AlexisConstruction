@@ -58,9 +58,9 @@
             this.btnPaid.FlatAppearance.BorderSize = 0;
             this.btnPaid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPaid.ForeColor = System.Drawing.Color.White;
-            this.btnPaid.Location = new System.Drawing.Point(737, 483);
+            this.btnPaid.Location = new System.Drawing.Point(857, 540);
             this.btnPaid.Name = "btnPaid";
-            this.btnPaid.Size = new System.Drawing.Size(75, 23);
+            this.btnPaid.Size = new System.Drawing.Size(80, 26);
             this.btnPaid.TabIndex = 5;
             this.btnPaid.Text = "Paid";
             this.btnPaid.UseVisualStyleBackColor = false;
@@ -76,7 +76,7 @@
             this.dgvBilling.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(245)))), ((int)(((byte)(153)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
@@ -102,14 +102,14 @@
             this.dgvBilling.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvBilling.EnableHeadersVisualStyles = false;
             this.dgvBilling.GridColor = System.Drawing.Color.Black;
-            this.dgvBilling.Location = new System.Drawing.Point(37, 64);
+            this.dgvBilling.Location = new System.Drawing.Point(46, 70);
             this.dgvBilling.Name = "dgvBilling";
             this.dgvBilling.ReadOnly = true;
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvBilling.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvBilling.Size = new System.Drawing.Size(793, 401);
+            this.dgvBilling.Size = new System.Drawing.Size(905, 454);
             this.dgvBilling.TabIndex = 4;
             this.dgvBilling.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBilling_CellClick);
             // 
@@ -175,9 +175,10 @@
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(163, 37);
+            this.txtSearch.Location = new System.Drawing.Point(174, 27);
+            this.txtSearch.Multiline = true;
             this.txtSearch.Name = "txtSearch";
-            this.txtSearch.Size = new System.Drawing.Size(327, 20);
+            this.txtSearch.Size = new System.Drawing.Size(681, 24);
             this.txtSearch.TabIndex = 6;
             this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
@@ -187,9 +188,9 @@
             this.searchbtn.FlatAppearance.BorderSize = 0;
             this.searchbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.searchbtn.ForeColor = System.Drawing.Color.White;
-            this.searchbtn.Location = new System.Drawing.Point(496, 34);
+            this.searchbtn.Location = new System.Drawing.Point(860, 27);
             this.searchbtn.Name = "searchbtn";
-            this.searchbtn.Size = new System.Drawing.Size(75, 23);
+            this.searchbtn.Size = new System.Drawing.Size(80, 26);
             this.searchbtn.TabIndex = 7;
             this.searchbtn.Text = "Search";
             this.searchbtn.UseVisualStyleBackColor = false;
@@ -201,13 +202,14 @@
             // 
             // comboBox1
             // 
+            this.comboBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Paid",
             "Pending"});
-            this.comboBox1.Location = new System.Drawing.Point(40, 37);
+            this.comboBox1.Location = new System.Drawing.Point(52, 27);
             this.comboBox1.Name = "comboBox1";
-            this.comboBox1.Size = new System.Drawing.Size(121, 21);
+            this.comboBox1.Size = new System.Drawing.Size(121, 24);
             this.comboBox1.TabIndex = 8;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
@@ -216,7 +218,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(869, 531);
+            this.ClientSize = new System.Drawing.Size(1000, 578);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.searchbtn);
             this.Controls.Add(this.txtSearch);

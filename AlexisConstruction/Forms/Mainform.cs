@@ -13,6 +13,8 @@ namespace AlexisConstruction.Forms
 {
     public partial class Mainform : Form
     {
+        private FormManager form = new FormManager();
+
         public Mainform()
         {
             InitializeComponent();
@@ -20,12 +22,11 @@ namespace AlexisConstruction.Forms
 
         private void Mainform_Load(object sender, EventArgs e)
         {
-
+            Dashboard bookInfoForm = new Dashboard();
+            form.OpenForm(bookInfoForm, paneldash);
         }
         private void Form1_Click(object sender, EventArgs e)
         {
-            FormManager form = new FormManager();
-
             if (sender is Button button)
             {
                 Dashboardbtn.Name = "Dash";

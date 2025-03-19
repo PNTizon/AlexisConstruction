@@ -20,7 +20,7 @@ namespace AlexisConstruction.Forms
         public ClientManagement()
         {
             InitializeComponent();
-            this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
+            //this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
         }
 
         private void btnAddClient_Click(object sender, EventArgs e)
@@ -43,7 +43,9 @@ namespace AlexisConstruction.Forms
             if (userManagement.AddClient(client))
             {
                 MessageBox.Show("Client added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                display.GetClients(dgvClients);
+                //display.GetClients(dgvClients);
+                this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
+                Clear();
             }
             else
             {
@@ -70,7 +72,9 @@ namespace AlexisConstruction.Forms
                 if (userManagement.UpdateClient(client))
                 {
                     MessageBox.Show("Client information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    display.GetClients(dgvClients);
+                    //display.GetClients(dgvClients);
+                    this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
+                    Clear();
                 }
                 else
                 {
@@ -95,7 +99,9 @@ namespace AlexisConstruction.Forms
                 if (userManagement.DeleteClient(clientID))
                 {
                     MessageBox.Show("Client deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    display.GetClients(dgvClients);
+                    //display.GetClients(dgvClients);
+                    this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
+                    Clear();
                 }
                 else
                 {
@@ -134,7 +140,14 @@ namespace AlexisConstruction.Forms
             }
 
         }
-
+        public void Clear()
+        {
+            txtFirstName.Text = string.Empty;
+            txtLastname.Text = string.Empty;
+            txtaddress.Text = string.Empty;
+            txtCountyCode.Text = string.Empty;
+            txtContactNumber.Text = string.Empty;
+        }
         private void txtemail_TextChanged(object sender, EventArgs e)
         {
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Globalization;
 using System.Windows.Forms;
+using System.Management.Instrumentation;
 
 namespace AlexisConstruction.Forms
 {
@@ -15,16 +16,10 @@ namespace AlexisConstruction.Forms
         {
             InitializeComponent();
             dtpBookingDate.MinDate = DateTime.Now;
-
-            cmbClients.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbClients.AutoCompleteSource = AutoCompleteSource.ListItems;
-            cmbServices.AutoCompleteMode = AutoCompleteMode.SuggestAppend;
-            cmbServices.AutoCompleteSource = AutoCompleteSource.ListItems;
         }
         private static List<Client> LoadClients()
         {
             List<Client> customer = new List<Client>();
-
             using (SqlConnection con = new SqlConnection(Connection.Database))
             {
                 con.Open();
@@ -44,7 +39,6 @@ namespace AlexisConstruction.Forms
             }
             return customer;
         }
-
         public static List<Services> LoadServices()
         {
             List<Services> service = new List<Services>();
@@ -61,7 +55,7 @@ namespace AlexisConstruction.Forms
                         {
                             ServiceID = Convert.ToInt32(reader["ServiceID"].ToString()),
                             ServiceName = reader["ServiceName"].ToString(),
-                            HourlyRate = Convert.ToDecimal(reader["HourlyRate"].ToString()),
+                            HourlyRate = Convert.ToDecimal(reader["HourlyRate"].ToString())
                         });
                     }
                 }
@@ -87,7 +81,7 @@ namespace AlexisConstruction.Forms
                 MessageBox.Show("Please select a valid booking date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
-
+            
             if (bookingManager.IsDateAlreadyBooked(dtpBookingDate.Value))
             {
                 MessageBox.Show("This date is already booked. Please select another date.", "Booking Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -108,8 +102,7 @@ namespace AlexisConstruction.Forms
                 bookingManager.UpdatePaymentStatus(bookingID);
 
                 MessageBox.Show("Booking and payment successfully processed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                button3_Click();
-                button1.Enabled = false;
+                Print();
                 ClearForm();
             }
             else
@@ -188,9 +181,6 @@ namespace AlexisConstruction.Forms
             {
                 MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
-            if (dgvServices.Columns.Contains("Service"))
-                dgvServices.Columns["Service"].Visible = false;
         }
         private void cmbClients_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -201,7 +191,6 @@ namespace AlexisConstruction.Forms
                 txtName.Text = customer.ClientID.ToString();
             }
         }
-
         private void cmbServices_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbServices.SelectedValue != null)
@@ -210,8 +199,7 @@ namespace AlexisConstruction.Forms
                 txtServiceID.Text = customer.ServiceID.ToString();
             }
         }
-
-        private void button3_Click()
+        private void Print()
         {
             BookingDetails bookings = new BookingDetails();
             int bookingID = Convert.ToInt32(cmbClients.SelectedValue);
@@ -276,9 +264,9 @@ namespace AlexisConstruction.Forms
         {
             dgvServices.Rows.Clear();
 
-            txtCash.Text = "";
-            txtChange.Text = "";
-            lblTotalAmount.Text = "₱0.00";
+            txtCash.Text = string.Empty;
+            txtChange.Text = string.Empty;
+            lblTotalAmount.Text = "0.00";
         }
         private void txtCash_TextChanged(object sender, EventArgs e)
         {
@@ -310,14 +298,19 @@ namespace AlexisConstruction.Forms
             MessageBox.Show("Payment validated! You can now book the service.", "Payment Validated", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        private void txtServices_TextChanged(object sender, EventArgs e)
+        private void txtChange_TextChanged(object sender, EventArgs e)
         {
-            LoadServices();
+
         }
 
-        private void txtClients_TextChanged(object sender, EventArgs e)
+        private void dtpBookingDate_ValueChanged(object sender, EventArgs e)
         {
-            LoadClients();
+
+        }
+
+        private void nudHoursRendered_ValueChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }

@@ -14,11 +14,13 @@ namespace AlexisConstruction.Forms
         public BillingStatementForm()
         {
             InitializeComponent();
+           
         }
 
         private void btnViewReport_Click(object sender, EventArgs e)
         {
             LoadBillingReport(txtSearchBox.Text);
+           
         }
         private void btnFilter_Click(object sender, EventArgs e)
         {
@@ -39,6 +41,9 @@ namespace AlexisConstruction.Forms
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dataGridView1.DataSource = dt;
+
+                if (dataGridView1.Columns["ServicesAvailed"] != null)
+                    dataGridView1.Columns["ServicesAvailed"].Visible = false;
             }
         }
         private void LoadBillingByDate(DateTime startDate, DateTime endDate)
@@ -56,12 +61,15 @@ namespace AlexisConstruction.Forms
                 DataTable dt = new DataTable();
                 da.Fill(dt);
                 dataGridView1.DataSource = dt;
+
+                if (dataGridView1.Columns["ServicesAvailed"] != null)
+                    dataGridView1.Columns["ServicesAvailed"].Visible = false;
             }
         }
         private void BillingStatementForm_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'dataSet2.BILLINGSTATEMENT' table. You can move, or remove it, as needed.
-            this.bILLINGSTATEMENTTableAdapter.Fill(this.dataSet2.BILLINGSTATEMENT);
+            // TODO: This line of code loads data into the 'dataSet2.BILLINGSTATEMENT1' table. You can move, or remove it, as needed.
+            this.bILLINGSTATEMENT1TableAdapter1.Fill(this.dataSet2.BILLINGSTATEMENT1);
         }
         #region Unused Receipt Function
         //    private void btnPrint_Click(object sender, EventArgs e)

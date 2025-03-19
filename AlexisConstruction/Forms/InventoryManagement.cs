@@ -125,8 +125,8 @@ namespace AlexisConstruction.Forms
         }
         public void Clear()
         {
-            txtItemName.Text = "";
-            txtQuantity.Text = "";
+            txtItemName.Text = string.Empty;
+            txtQuantity.Text = string.Empty;
             cmbServices.SelectedValue = -1;
         }
         private void dgvInventory_CellClick(object sender, DataGridViewCellEventArgs e)

@@ -43,6 +43,7 @@ namespace AlexisConstruction.Forms
             {
                 MessageBox.Show("Service added successfully!");
                 this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
+                Clear();
             }
             else
             {
@@ -65,6 +66,7 @@ namespace AlexisConstruction.Forms
                 {
                     MessageBox.Show("Service updated successfully!");
                     this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
+                    Clear();
                 }
                 else
                 {
@@ -92,6 +94,7 @@ namespace AlexisConstruction.Forms
                     {
                         MessageBox.Show("Service deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
+                        Clear();
                     }
                     else
                     {
@@ -104,7 +107,11 @@ namespace AlexisConstruction.Forms
                 MessageBox.Show("Please select a service to delete.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
-
+        public void Clear()
+        {
+            txtServiceName.Text = string.Empty;
+            txtHourlyRate.Text = string.Empty;
+        }
         private void dgvServices_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             select.PopulateService(e.RowIndex,dgvServices,txtHourlyRate,txtServiceName);

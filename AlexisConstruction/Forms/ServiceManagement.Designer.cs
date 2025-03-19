@@ -57,9 +57,9 @@
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(552, 86);
+            this.button3.Location = new System.Drawing.Point(625, 90);
             this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.Size = new System.Drawing.Size(80, 26);
             this.button3.TabIndex = 267;
             this.button3.Text = "Delete";
             this.button3.UseVisualStyleBackColor = false;
@@ -71,9 +71,9 @@
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(414, 86);
+            this.button2.Location = new System.Drawing.Point(487, 90);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
+            this.button2.Size = new System.Drawing.Size(80, 26);
             this.button2.TabIndex = 266;
             this.button2.Text = "Edit";
             this.button2.UseVisualStyleBackColor = false;
@@ -85,9 +85,9 @@
             this.btnAdd.FlatAppearance.BorderSize = 0;
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(267, 86);
+            this.btnAdd.Location = new System.Drawing.Point(340, 90);
             this.btnAdd.Name = "btnAdd";
-            this.btnAdd.Size = new System.Drawing.Size(75, 23);
+            this.btnAdd.Size = new System.Drawing.Size(80, 26);
             this.btnAdd.TabIndex = 265;
             this.btnAdd.Text = "Add";
             this.btnAdd.UseVisualStyleBackColor = false;
@@ -95,16 +95,18 @@
             // 
             // txtHourlyRate
             // 
-            this.txtHourlyRate.Location = new System.Drawing.Point(589, 48);
+            this.txtHourlyRate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtHourlyRate.Location = new System.Drawing.Point(643, 49);
             this.txtHourlyRate.Name = "txtHourlyRate";
-            this.txtHourlyRate.Size = new System.Drawing.Size(100, 20);
+            this.txtHourlyRate.Size = new System.Drawing.Size(199, 22);
             this.txtHourlyRate.TabIndex = 264;
             // 
             // txtServiceName
             // 
-            this.txtServiceName.Location = new System.Drawing.Point(304, 48);
+            this.txtServiceName.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtServiceName.Location = new System.Drawing.Point(295, 52);
             this.txtServiceName.Name = "txtServiceName";
-            this.txtServiceName.Size = new System.Drawing.Size(100, 20);
+            this.txtServiceName.Size = new System.Drawing.Size(199, 22);
             this.txtServiceName.TabIndex = 263;
             // 
             // label6
@@ -112,7 +114,7 @@
             this.label6.AutoSize = true;
             this.label6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label6.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label6.Location = new System.Drawing.Point(506, 50);
+            this.label6.Location = new System.Drawing.Point(559, 52);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(81, 16);
             this.label6.TabIndex = 262;
@@ -123,7 +125,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(206, 49);
+            this.label2.Location = new System.Drawing.Point(196, 55);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(96, 16);
             this.label2.TabIndex = 261;
@@ -139,7 +141,7 @@
             this.dgvServices.BackgroundColor = System.Drawing.Color.White;
             dataGridViewCellStyle1.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleCenter;
             dataGridViewCellStyle1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(214)))), ((int)(((byte)(245)))), ((int)(((byte)(153)))));
-            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle1.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle1.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle1.SelectionForeColor = System.Drawing.Color.Black;
@@ -161,14 +163,14 @@
             this.dgvServices.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvServices.EnableHeadersVisualStyles = false;
             this.dgvServices.GridColor = System.Drawing.Color.Black;
-            this.dgvServices.Location = new System.Drawing.Point(58, 134);
+            this.dgvServices.Location = new System.Drawing.Point(52, 132);
             this.dgvServices.Name = "dgvServices";
             this.dgvServices.ReadOnly = true;
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvServices.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvServices.Size = new System.Drawing.Size(740, 364);
+            this.dgvServices.Size = new System.Drawing.Size(902, 414);
             this.dgvServices.TabIndex = 260;
             this.dgvServices.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServices_CellContentClick);
             // 
@@ -213,7 +215,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(869, 531);
+            this.ClientSize = new System.Drawing.Size(1000, 578);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btnAdd);

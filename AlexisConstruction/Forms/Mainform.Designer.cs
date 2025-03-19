@@ -53,7 +53,7 @@
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
             this.panel1.Location = new System.Drawing.Point(0, 0);
             this.panel1.Name = "panel1";
-            this.panel1.Size = new System.Drawing.Size(154, 532);
+            this.panel1.Size = new System.Drawing.Size(194, 579);
             this.panel1.TabIndex = 10;
             // 
             // BillingStatement
@@ -66,7 +66,7 @@
             this.BillingStatement.ForeColor = System.Drawing.Color.White;
             this.BillingStatement.Location = new System.Drawing.Point(0, 340);
             this.BillingStatement.Name = "BillingStatement";
-            this.BillingStatement.Size = new System.Drawing.Size(154, 39);
+            this.BillingStatement.Size = new System.Drawing.Size(194, 39);
             this.BillingStatement.TabIndex = 12;
             this.BillingStatement.Text = "Billing Reports";
             this.BillingStatement.UseVisualStyleBackColor = true;
@@ -82,7 +82,7 @@
             this.PaymentManagerbtn.ForeColor = System.Drawing.Color.White;
             this.PaymentManagerbtn.Location = new System.Drawing.Point(0, 302);
             this.PaymentManagerbtn.Name = "PaymentManagerbtn";
-            this.PaymentManagerbtn.Size = new System.Drawing.Size(154, 39);
+            this.PaymentManagerbtn.Size = new System.Drawing.Size(194, 39);
             this.PaymentManagerbtn.TabIndex = 11;
             this.PaymentManagerbtn.Text = "Payment Transaction";
             this.PaymentManagerbtn.UseVisualStyleBackColor = true;
@@ -98,7 +98,7 @@
             this.InventoryManagerbtn.ForeColor = System.Drawing.Color.White;
             this.InventoryManagerbtn.Location = new System.Drawing.Point(0, 264);
             this.InventoryManagerbtn.Name = "InventoryManagerbtn";
-            this.InventoryManagerbtn.Size = new System.Drawing.Size(154, 39);
+            this.InventoryManagerbtn.Size = new System.Drawing.Size(194, 39);
             this.InventoryManagerbtn.TabIndex = 10;
             this.InventoryManagerbtn.Text = "Inventory";
             this.InventoryManagerbtn.UseVisualStyleBackColor = true;
@@ -114,7 +114,7 @@
             this.ServiceManagerbtn.ForeColor = System.Drawing.Color.White;
             this.ServiceManagerbtn.Location = new System.Drawing.Point(0, 226);
             this.ServiceManagerbtn.Name = "ServiceManagerbtn";
-            this.ServiceManagerbtn.Size = new System.Drawing.Size(154, 39);
+            this.ServiceManagerbtn.Size = new System.Drawing.Size(194, 39);
             this.ServiceManagerbtn.TabIndex = 9;
             this.ServiceManagerbtn.Text = "Services";
             this.ServiceManagerbtn.UseVisualStyleBackColor = true;
@@ -130,7 +130,7 @@
             this.ClientManagerbtn.ForeColor = System.Drawing.Color.White;
             this.ClientManagerbtn.Location = new System.Drawing.Point(0, 188);
             this.ClientManagerbtn.Name = "ClientManagerbtn";
-            this.ClientManagerbtn.Size = new System.Drawing.Size(154, 39);
+            this.ClientManagerbtn.Size = new System.Drawing.Size(194, 39);
             this.ClientManagerbtn.TabIndex = 8;
             this.ClientManagerbtn.Text = "Clients";
             this.ClientManagerbtn.UseVisualStyleBackColor = true;
@@ -146,7 +146,7 @@
             this.BookingManagerbtn.ForeColor = System.Drawing.Color.White;
             this.BookingManagerbtn.Location = new System.Drawing.Point(0, 151);
             this.BookingManagerbtn.Name = "BookingManagerbtn";
-            this.BookingManagerbtn.Size = new System.Drawing.Size(154, 39);
+            this.BookingManagerbtn.Size = new System.Drawing.Size(194, 39);
             this.BookingManagerbtn.TabIndex = 7;
             this.BookingManagerbtn.Text = "Bookings";
             this.BookingManagerbtn.UseVisualStyleBackColor = true;
@@ -162,7 +162,7 @@
             this.Dashboardbtn.ForeColor = System.Drawing.Color.White;
             this.Dashboardbtn.Location = new System.Drawing.Point(0, 114);
             this.Dashboardbtn.Name = "Dashboardbtn";
-            this.Dashboardbtn.Size = new System.Drawing.Size(154, 39);
+            this.Dashboardbtn.Size = new System.Drawing.Size(194, 39);
             this.Dashboardbtn.TabIndex = 6;
             this.Dashboardbtn.Text = "Schedule";
             this.Dashboardbtn.UseVisualStyleBackColor = true;
@@ -171,16 +171,16 @@
             // paneldash
             // 
             this.paneldash.BackColor = System.Drawing.Color.White;
-            this.paneldash.Location = new System.Drawing.Point(155, 1);
+            this.paneldash.Location = new System.Drawing.Point(195, 1);
             this.paneldash.Name = "paneldash";
-            this.paneldash.Size = new System.Drawing.Size(869, 531);
+            this.paneldash.Size = new System.Drawing.Size(1000, 578);
             this.paneldash.TabIndex = 9;
             // 
             // Mainform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1025, 532);
+            this.ClientSize = new System.Drawing.Size(1194, 579);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.paneldash);
             this.MaximizeBox = false;

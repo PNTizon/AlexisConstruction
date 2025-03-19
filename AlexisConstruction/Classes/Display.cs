@@ -96,25 +96,26 @@ namespace AlexisConstruction.Classes
         //        //    grid.Columns["BookingID"].Visible = false;
         //    }
         //}
+        //public void GetClients(DataGridView grid)
+        //{
+        //    using (SqlConnection con = new SqlConnection(Connection.Database))
+        //    {
+        //        con.Open();
+        //        string query = "SELECT ClientID, FirstName, LastName, CountryCode,ContactNumber, Email, Address FROM Clients";
+        //        using (SqlCommand cmd = new SqlCommand(query, con))
+        //        {
+        //            SqlDataAdapter da = new SqlDataAdapter(cmd);
+        //            DataTable table = new DataTable();
+        //            da.Fill(table);
+
+        //            grid.DataSource = table;
+
+        //        }
+        //    }
+        //}
 
         #endregion
-        public void GetClients(DataGridView grid)
-        {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
-            {
-                con.Open();
-                string query = "SELECT ClientID, FirstName, LastName, CountryCode,ContactNumber, Email, Address FROM Clients";
-                using (SqlCommand cmd = new SqlCommand(query, con))
-                {
-                    SqlDataAdapter da = new SqlDataAdapter(cmd);
-                    DataTable table = new DataTable();
-                    da.Fill(table);
 
-                    grid.DataSource = table;
-
-                }
-            }
-        }
         public void LoadWeeklySchedule(DataGridView grid)
         {
             using (SqlConnection con = new SqlConnection(Connection.Database))
