@@ -92,6 +92,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Classes\DatabaseHelper.cs" />
     <Compile Include="DataSet\AlexisConstructionDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
@@ -116,11 +117,6 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>DataSet2.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="DataSet\DataSet6.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>DataSet6.xsd</DependentUpon>
     </Compile>
     <Compile Include="Forms\BillingStatementForm.cs">
       <SubType>Form</SubType>
@@ -257,17 +253,6 @@
     </None>
     <None Include="DataSet\DataSet2.xss">
       <DependentUpon>DataSet2.xsd</DependentUpon>
-    </None>
-    <None Include="DataSet\DataSet6.xsc">
-      <DependentUpon>DataSet6.xsd</DependentUpon>
-    </None>
-    <None Include="DataSet\DataSet6.xsd">
-      <SubType>Designer</SubType>
-      <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>DataSet6.Designer.cs</LastGenOutput>
-    </None>
-    <None Include="DataSet\DataSet6.xss">
-      <DependentUpon>DataSet6.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\DataSources\AlexisConstruction.Classes.BookingDetails.datasource" />

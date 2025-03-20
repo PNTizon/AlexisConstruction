@@ -118,66 +118,81 @@ namespace AlexisConstruction.Classes
 
         public void LoadWeeklySchedule(DataGridView grid)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
-
-                SqlCommand cmd = new SqlCommand("WEEKLYSCHEDULE", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-                grid.DataSource = dt;
-
-                if (grid.Columns["ServiceID"] != null)
-                    grid.Columns["ServiceID"].Visible = false;
-                Dictionary<int, DataTable> toolsData = new Dictionary<int, DataTable>();
-
-                foreach (DataRow row in dt.Rows)
+                using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
-                    int serviceID = Convert.ToInt32(row["ServiceID"]);
-                    DateTime estimatedEndTime = Convert.ToDateTime(row["EstimatedEndTime"]);
+                    con.Open();
 
-                    if (!toolsData.ContainsKey(serviceID))
+                    SqlCommand cmd = new SqlCommand("WEEKLYSCHEDULE", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    grid.DataSource = dt;
+
+                    if (grid.Columns["ServiceID"] != null)
+                        grid.Columns["ServiceID"].Visible = false;
+                    Dictionary<int, DataTable> toolsData = new Dictionary<int, DataTable>();
+
+                    foreach (DataRow row in dt.Rows)
                     {
-                        toolsData[serviceID] = LoadAssociatedTools(serviceID, estimatedEndTime);
+                        int serviceID = Convert.ToInt32(row["ServiceID"]);
+                        DateTime estimatedEndTime = Convert.ToDateTime(row["EstimatedEndTime"]);
+
+                        if (!toolsData.ContainsKey(serviceID))
+                        {
+                            toolsData[serviceID] = LoadAssociatedTools(serviceID, estimatedEndTime);
+                        }
                     }
                 }
             }
+            catch { throw; }
         }
         public DataTable LoadAssociatedTools(int serviceID, DateTime endTime)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
 
-                SqlCommand cmd = new SqlCommand("LoadAssociatedTools", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@serviceID", serviceID);
-                cmd.Parameters.AddWithValue("@endTime", endTime);
+                    SqlCommand cmd = new SqlCommand("LoadAssociatedTools", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@serviceID", serviceID);
+                    cmd.Parameters.AddWithValue("@endTime", endTime);
 
-                SqlDataAdapter da = new SqlDataAdapter(cmd);
-                DataTable dt = new DataTable();
-                da.Fill(dt);
-               return dt;
-
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    DataTable dt = new DataTable();
+                    da.Fill(dt);
+                    return dt;
+                }
+            }
+            catch
+            {
+                return new DataTable();
+                throw;
             }
         }
         public void CheckAndUpdateCompletedServices(DataGridView grid)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
-              
-                SqlCommand cmd = new SqlCommand("UpdateIventoryAndBooking", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                int rowAffected = cmd.ExecuteNonQuery();
-
-                if(rowAffected >0 && grid != null)
+                using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
-                    LoadWeeklySchedule(grid);
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("UpdateIventoryAndBooking", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    int rowAffected = cmd.ExecuteNonQuery();
+
+                    if (rowAffected > 0 && grid != null)
+                    {
+                        LoadWeeklySchedule(grid);
+                    }
                 }
             }
+            catch { throw; }
         }
     }
 }

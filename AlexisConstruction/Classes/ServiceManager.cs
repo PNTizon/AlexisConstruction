@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -9,7 +8,7 @@ namespace AlexisConstruction.Classes
     public class ServiceManager
     {
         #region Services
-        public static string AddService(Services service)
+        public bool AddService(Services service)
         {
             try
             {
@@ -23,23 +22,11 @@ namespace AlexisConstruction.Classes
                         cmd.Parameters.AddWithValue("@service", service.ServiceName);
                         cmd.Parameters.AddWithValue("@rate", service.HourlyRate);
 
-                        int rowsAffected = cmd.ExecuteNonQuery();
-
-                        if (rowsAffected > 0)
-                        {
-                            return "Service added successfully";
-                        }
-                        else
-                        {
-                            return "Error: Failed to add the service";
-                        }
+                       return cmd.ExecuteNonQuery() > 0;
                     }
                 }
             }
-            catch (Exception ex)
-            {
-                return $"Error: {ex.Message}";
-            }
+            catch { throw; }
         }
         public bool EditService(Services service)
         {
@@ -60,7 +47,7 @@ namespace AlexisConstruction.Classes
                     }
                 }
             }
-           catch { throw; }
+            catch { throw; }
         }
         public bool DeleteService(int service)
         {
@@ -78,9 +65,10 @@ namespace AlexisConstruction.Classes
                 }
             }
             catch { throw; }
-           
+
         }
         #endregion
+
 
         #region Inventory
         public bool UpdateInventoryItem(Inventory item)
@@ -110,7 +98,7 @@ namespace AlexisConstruction.Classes
                 using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
                     con.Open();
-                   
+
                     using (SqlCommand cmd = new SqlCommand("DeleteInventory", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -122,7 +110,7 @@ namespace AlexisConstruction.Classes
             catch { throw; }
         }
 
-        public bool AddItemToService(int serviceID, string itemname, int quantity,string servicename)
+        public bool AddItemToService(int serviceID, string itemname, int quantity, string servicename)
         {
             try
             {
@@ -130,7 +118,7 @@ namespace AlexisConstruction.Classes
                 {
                     con.Open();
 
-                   
+
                     int inventoryID;
                     using (SqlCommand cmd = new SqlCommand("InsertItem", con))
                     {
@@ -168,14 +156,14 @@ namespace AlexisConstruction.Classes
                 throw;
             }
         }
-        public bool LoadServiceItems(int serviceID, DataGridView inventory)
+        public void LoadServiceItems(int serviceID, DataGridView inventory)
         {
             try
             {
                 using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
                     con.Open();
-                 
+
                     using (SqlCommand cmd = new SqlCommand("LoadServiceItems", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
@@ -185,7 +173,28 @@ namespace AlexisConstruction.Classes
                         inventory.DataSource = dt;
                     }
                 }
-                return true;
+            }
+            catch { throw; }
+        }
+        public void LoadServices(ComboBox combobox)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
+
+                    using (SqlCommand cmd = new SqlCommand("LoadServices", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        DataTable dt = new DataTable();
+                        dt.Load(cmd.ExecuteReader());
+
+                        combobox.DataSource = dt;
+                        combobox.DisplayMember = "ServiceName";
+                        combobox.ValueMember = "ServiceID";
+                    }
+                }
             }
             catch { throw; }
         }

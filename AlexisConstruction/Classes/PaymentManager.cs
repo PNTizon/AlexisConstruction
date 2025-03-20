@@ -10,44 +10,58 @@ namespace AlexisConstruction.Classes
     {
         public bool ProcessPayment(Bookings payment)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand("UpdatePayment", con))
+                using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@bookingID", payment.BookingID);
-                    cmd.Parameters.AddWithValue("@billingdate", DateTime.Now);
-                    return cmd.ExecuteNonQuery() > 0;
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("UpdatePayment", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@bookingID", payment.BookingID);
+                        cmd.Parameters.AddWithValue("@billingdate", DateTime.Now);
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
                 }
+            }
+            catch
+            {
+                throw;
             }
         }
 
         public Bookings GetBillingInfo(int billingID)
         {
             Bookings billing = null;
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
-                using (SqlCommand cmd = new SqlCommand("GetBooking", con))
+                using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@bookingID", billingID);
-                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("GetBooking", con))
                     {
-                        if (reader.Read())
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@bookingID", billingID);
+                        using (SqlDataReader reader = cmd.ExecuteReader())
                         {
-                            billing = new Bookings
+                            if (reader.Read())
                             {
-                                BookingID = Convert.ToInt32(reader["BookingID"]),
-                                BillingDate = reader["BillingDate"] != DBNull.Value ? Convert.ToDateTime(reader["BillingDate"]) : DateTime.Now,
-                                TotalAmount = (decimal)reader["TotalAmount"],
-                                PaymentStatus = reader["PaymentStatus"].ToString(),
-                                PaymentMethod = reader["PaymentMethod"].ToString()
-                            };
+                                billing = new Bookings
+                                {
+                                    BookingID = Convert.ToInt32(reader["BookingID"]),
+                                    BillingDate = reader["BillingDate"] != DBNull.Value ? Convert.ToDateTime(reader["BillingDate"]) : DateTime.Now,
+                                    TotalAmount = (decimal)reader["TotalAmount"],
+                                    PaymentStatus = reader["PaymentStatus"].ToString(),
+                                    PaymentMethod = reader["PaymentMethod"].ToString()
+                                };
+                            }
                         }
                     }
                 }
+            }
+            catch
+            {
+                throw;
             }
             return billing;
         }

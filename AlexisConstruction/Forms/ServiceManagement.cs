@@ -1,12 +1,5 @@
 ﻿using AlexisConstruction.Classes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlexisConstruction.Forms
@@ -14,9 +7,7 @@ namespace AlexisConstruction.Forms
     public partial class ServiceManagement : Form
     {
         private ServiceManager services = new ServiceManager();
-        private Helper helper = new Helper();
-        private Display display = new Display();
-        private DataGridSelection select = new DataGridSelection(); 
+        private DataGridSelection select = new DataGridSelection();
         public ServiceManagement()
         {
             InitializeComponent();
@@ -24,58 +15,68 @@ namespace AlexisConstruction.Forms
 
         private void btnAdd_Click(object sender, EventArgs e)
         {
-
-            if (string.IsNullOrWhiteSpace(txtServiceName.Text) || !decimal.TryParse(txtHourlyRate.Text, out decimal hourlyRate))
+            try
             {
-                MessageBox.Show("Please enter valid service name and hourly rate.");
-                return;
-            }
-
-            Services newService = new Services
-            {
-                ServiceName = txtServiceName.Text,
-                HourlyRate = hourlyRate,
-            };
-
-            string result = ServiceManager.AddService(newService);
-
-            if (result == "Service added successfully")
-            {
-                MessageBox.Show("Service added successfully!");
-                this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
-                Clear();
-            }
-            else
-            {
-                MessageBox.Show(result);
-            }
-        }
-
-        private void btnEdit_Click(object sender, EventArgs e)
-        {
-            if (dgvServices.SelectedRows.Count > 0)
-            {
-                Services service = new Services
+                if (string.IsNullOrWhiteSpace(txtServiceName.Text) || !decimal.TryParse(txtHourlyRate.Text, out decimal hourlyRate))
                 {
-                    ServiceID = Convert.ToInt32(dgvServices.SelectedRows[0].Cells["ServiceID"].Value),
+                    MessageBox.Show("Please enter valid service name and hourly rate.");
+                    return;
+                }
+                Services newService = new Services
+                {
                     ServiceName = txtServiceName.Text,
-                    HourlyRate = decimal.Parse(txtHourlyRate.Text)
+                    HourlyRate = hourlyRate,
                 };
 
-                if (services.EditService(service))
+                if (services.AddService(newService))
                 {
-                    MessageBox.Show("Service updated successfully!");
+                    MessageBox.Show("Service added successfully!");
                     this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
                     Clear();
                 }
                 else
                 {
-                    MessageBox.Show("Failed to update service.");
+                    MessageBox.Show("Failed to add service.");
                 }
             }
-            else
+            catch(Exception ex)
             {
-                MessageBox.Show("Select a service to edit.");
+                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvServices.SelectedRows.Count > 0)
+                {
+                    Services service = new Services
+                    {
+                        ServiceID = Convert.ToInt32(dgvServices.SelectedRows[0].Cells["ServiceID"].Value),
+                        ServiceName = txtServiceName.Text,
+                        HourlyRate = decimal.Parse(txtHourlyRate.Text)
+                    };
+
+                    if (services.EditService(service))
+                    {
+                        MessageBox.Show("Service updated successfully!");
+                        this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
+                        Clear();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update service.");
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Select a service to edit.");
+                }
+            }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -114,7 +115,7 @@ namespace AlexisConstruction.Forms
         }
         private void dgvServices_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            select.PopulateService(e.RowIndex,dgvServices,txtHourlyRate,txtServiceName);
+            select.PopulateService(e.RowIndex, dgvServices, txtHourlyRate, txtServiceName);
         }
         private void ServicesManagement_Load(object sender, EventArgs e)
         {

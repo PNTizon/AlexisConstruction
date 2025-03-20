@@ -23,24 +23,40 @@ namespace AlexisConstruction.Forms
 
         private void btnPaid_Click(object sender, EventArgs e)
         {
-            if (dgvBilling.SelectedRows.Count > 0)
+            try
             {
-                int billingID = Convert.ToInt32(dgvBilling.SelectedRows[0].Cells["BookingID"].Value);
-
-                Bookings billingInfo = paymentProcessor.GetBillingInfo(billingID);
-                if (billingInfo != null)
+                if (dgvBilling.SelectedRows.Count > 0)
                 {
-                    if (paymentProcessor.ProcessPayment(billingInfo))
+                    int billingID = Convert.ToInt32(dgvBilling.SelectedRows[0].Cells["BookingID"].Value);
+
+                    Bookings billingInfo = paymentProcessor.GetBillingInfo(billingID);
+                    if (billingInfo != null)
                     {
-                        MessageBox.Show("Payment successful!");
-                        PrintBtn();
-                        this.sHOWPAYMENTSTableAdapter.Fill(this.dataSet2.SHOWPAYMENTS);
+                        if (paymentProcessor.ProcessPayment(billingInfo))
+                        {
+                            MessageBox.Show("Payment successful!");
+                            PrintBtn();
+                            this.sHOWPAYMENTSTableAdapter.Fill(this.dataSet2.SHOWPAYMENTS);
+                        }
+                        else
+                        {
+                            MessageBox.Show("Payment failed.");
+                        }
                     }
-                    else { MessageBox.Show("Payment failed."); }
+                    else
+                    {
+                        MessageBox.Show("Billing record not found.");
+                    }
                 }
-                else { MessageBox.Show("Billing record not found."); }
+                else
+                {
+                    MessageBox.Show("Please select a billing record.");
+                }
             }
-            else { MessageBox.Show("Please select a billing record."); }
+            catch(Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public void PrintBtn()

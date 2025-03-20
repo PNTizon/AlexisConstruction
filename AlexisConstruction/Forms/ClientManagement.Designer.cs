@@ -114,7 +114,6 @@
             this.txtemail.Name = "txtemail";
             this.txtemail.Size = new System.Drawing.Size(225, 24);
             this.txtemail.TabIndex = 270;
-            this.txtemail.TextChanged += new System.EventHandler(this.txtemail_TextChanged);
             // 
             // txtContactNumber
             // 

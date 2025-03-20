@@ -8,7 +8,11 @@ namespace AlexisConstruction.Classes
 {
     public class BookingManager
     {
-        public int ScheduleBooking(int clientID, DateTime bookedDate, DataGridView grid,int serviceID)
+        private static List<Client> customer = new List<Client>();
+        private static List<Services> service = new List<Services>();
+        private static List<Orders> orders = new List<Orders>();
+
+        public int ScheduleBooking(int clientID, DateTime bookedDate, DataGridView grid, int serviceID)
         {
             int bookingID = 0;
             decimal totalAmount = 0;
@@ -45,18 +49,17 @@ namespace AlexisConstruction.Classes
                         detailCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
                         detailCmd.ExecuteNonQuery();
                     }
-                   
+
                     SqlCommand invenotryUpdate = new SqlCommand("UpdateQuantity", con);
                     invenotryUpdate.CommandType = CommandType.StoredProcedure;
                     invenotryUpdate.Parameters.AddWithValue("@serviceID", serviceID);
                     int rowAffected = invenotryUpdate.ExecuteNonQuery();
-                 
+
                     SqlCommand updateCmd = new SqlCommand("UpdateAmount", con);
                     updateCmd.CommandType = CommandType.StoredProcedure;
                     updateCmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
                     updateCmd.Parameters.AddWithValue("@BookingID", bookingID);
                     updateCmd.ExecuteNonQuery();
-
 
                     if (bookingID > 0)
                     {
@@ -65,21 +68,22 @@ namespace AlexisConstruction.Classes
 
                     return bookingID;
                 }
-                catch (Exception ex)
+                catch
                 {
-                    Console.WriteLine($"Error: {ex.Message}");
                     return 0;
+                    throw;
                 }
             }
         }
 
         public void GenerateBilling(int bookingID, decimal totalAmount)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
-                try
+                using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
+                    con.Open();
+
                     SqlCommand cmd = new SqlCommand("UpdaetBilling", con);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@BillingDate", DateTime.Now);
@@ -87,37 +91,158 @@ namespace AlexisConstruction.Classes
                     cmd.Parameters.AddWithValue("@BookingID", bookingID);
                     cmd.ExecuteNonQuery();
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Error: {ex.Message}");
-                }
             }
+            catch { throw; }
         }
         public bool IsDateAlreadyBooked(DateTime bookedDate)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
 
-                SqlCommand cmd = new SqlCommand("CheckBookedDate", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@BookedDate", bookedDate.Date);
+                    SqlCommand cmd = new SqlCommand("CheckBookedDate", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookedDate", bookedDate.Date);
+                    cmd.Parameters.AddWithValue("@BookedTime", bookedDate.TimeOfDay);
 
-                int count = (int)cmd.ExecuteScalar();
-                return count > 0;
+                    int count = (int)cmd.ExecuteScalar();
+                    return count > 0;
+                }
             }
+            catch { throw; }
         }
         public void UpdatePaymentStatus(int bookingID)
         {
-            using (SqlConnection con = new SqlConnection(Connection.Database))
+            try
             {
-                con.Open();
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
 
-                SqlCommand cmd = new SqlCommand("UpdatePaymentStatus", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@bookingID", bookingID);
-                cmd.ExecuteNonQuery();
+                    SqlCommand cmd = new SqlCommand("UpdatePaymentStatus", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@bookingID", bookingID);
+                    cmd.ExecuteNonQuery();
+                }
             }
+            catch { throw; }
         }
+        public static List<Client> LoadClients()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("ConcatinateName", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            customer.Add(new Client
+                            {
+                                ClientID = Convert.ToInt32(reader["ClientID"].ToString()),
+                                Fullname = reader["Fullname"].ToString(),
+                            });
+                        }
+                    }
+                }
+            }
+            catch { throw; }
+            return customer;
+        }
+        public static List<Services> LoadServices()
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("SELECT ServiceID, ServiceName, HourlyRate FROM Services", con);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            service.Add(new Services
+                            {
+                                ServiceID = reader.GetInt32(reader.GetOrdinal("ServiceID")),
+                                ServiceName = reader["ServiceName"].ToString(),
+                                HourlyRate = Convert.ToDecimal(reader["HourlyRate"].ToString())
+                            });
+                        }
+                    }
+                }
+            }
+            catch { throw; }
+            return service;
+        }
+        public static List<Orders> GetServiceDetails(int bookingID)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
+
+                    SqlCommand cmd = new SqlCommand("GetServiceDetails", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@bookingID", bookingID);
+
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            orders.Add(new Orders
+                            {
+                                ServiceName = reader["ServiceName"].ToString(),
+                                HourlyRate = Convert.ToInt32(reader["HourlyRate"]),
+                                HoursRendered = Convert.ToInt32(reader["HoursRendered"]),
+                            });
+                        }
+                    }
+                }
+            }
+            catch { throw; }
+            return orders;
+        }
+        public bool IsTimeAllowedRange(DateTime bookingTime)
+        {
+            TimeSpan time = bookingTime.TimeOfDay;
+            TimeSpan starttime = new TimeSpan(8, 0, 0);
+            TimeSpan endTime = new TimeSpan(15, 0, 0);
+
+            return time >= starttime && time <= endTime;
+        }
+        //public bool IsWorkEndTime(DateTime bookingtime, int hourToAdd)
+        //{
+        //    TimeSpan workStart = new TimeSpan(8, 0, 0);
+        //    TimeSpan endWord = new TimeSpan(17, 0, 0);
+
+        //    TimeSpan remainingTimeofWork = bookingtime.TimeOfDay;
+
+        //    if (remainingTimeofWork < workStart || remainingTimeofWork > endWord)
+        //    {
+        //        return false; // Booking exceeds working hours
+        //    }
+
+        //    DateTime endtime = bookingtime.AddHours(hourToAdd);
+
+        //    if (endtime.TimeOfDay > endWord)
+        //    {
+        //        return false;
+        //    }
+
+        //    return true;
+
+        //     if (!bookingManager.IsWorkEndTime(BookingDetails.BookedDate, Convert.ToInt32(nudHoursRendered.Value)))
+        //            {
+        //                MessageBox.Show("Booking time must be between 7:00 AM and 5:00 PM.");
+        //                return;
+        //            }
+        ////}
     }
 }

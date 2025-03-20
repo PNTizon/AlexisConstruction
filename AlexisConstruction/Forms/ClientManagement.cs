@@ -1,12 +1,5 @@
 ﻿using AlexisConstruction.Classes;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace AlexisConstruction.Forms
@@ -16,51 +9,17 @@ namespace AlexisConstruction.Forms
         private ClientManager userManagement = new ClientManager();
         private Helper helper = new Helper();
         private DataGridSelection select = new DataGridSelection();
-        private Display display = new Display();
         public ClientManagement()
         {
             InitializeComponent();
-            //this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
         }
 
         private void btnAddClient_Click(object sender, EventArgs e)
         {
-            Client client = new Client
+            try
             {
-                FirstName = txtFirstName.Text,
-                Lastname = txtLastname.Text,
-                CountryCode = txtCountyCode.Text,
-                ContactNumber = txtContactNumber.Text,
-                Email = txtemail.Text,
-                Address = txtaddress.Text
-            };
-            if (string.IsNullOrWhiteSpace(client.FirstName) || string.IsNullOrWhiteSpace(client.Lastname) || string.IsNullOrWhiteSpace(client.ContactNumber) ||
-                  string.IsNullOrWhiteSpace(client.Email) || string.IsNullOrWhiteSpace(client.Address))
-            {
-                MessageBox.Show("Please fill in all fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return;
-            }
-            if (userManagement.AddClient(client))
-            {
-                MessageBox.Show("Client added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                //display.GetClients(dgvClients);
-                this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
-                Clear();
-            }
-            else
-            {
-                MessageBox.Show("Failed to add client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-        private void btnUpdateClient_Click(Object sender, EventArgs e)
-        {
-
-            if (dgvClients.SelectedRows.Count > 0)
-            {
-                int clientId = Convert.ToInt32(dgvClients.SelectedRows[0].Cells["ClientID"].Value);
                 Client client = new Client
                 {
-                    ClientID = clientId,
                     FirstName = txtFirstName.Text,
                     Lastname = txtLastname.Text,
                     CountryCode = txtCountyCode.Text,
@@ -68,24 +27,68 @@ namespace AlexisConstruction.Forms
                     Email = txtemail.Text,
                     Address = txtaddress.Text
                 };
-               
-                if (userManagement.UpdateClient(client))
+                if (string.IsNullOrWhiteSpace(client.FirstName) || string.IsNullOrWhiteSpace(client.Lastname) || string.IsNullOrWhiteSpace(client.ContactNumber) ||
+                      string.IsNullOrWhiteSpace(client.Email) || string.IsNullOrWhiteSpace(client.Address))
                 {
-                    MessageBox.Show("Client information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    MessageBox.Show("Please fill in all fields.", "Validation Error", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+                if (userManagement.AddClient(client))
+                {
+                    MessageBox.Show("Client added successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     //display.GetClients(dgvClients);
                     this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
                     Clear();
                 }
                 else
                 {
-                    MessageBox.Show("Failed to update client's information.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Failed to add client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
-            else
+            catch (Exception ex)
             {
-                MessageBox.Show("Please select a client to update.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void btnUpdateClient_Click(Object sender, EventArgs e)
+        {
+            try
+            {
+                if (dgvClients.SelectedRows.Count > 0)
+                {
+                    int clientId = Convert.ToInt32(dgvClients.SelectedRows[0].Cells["ClientID"].Value);
+                    Client client = new Client
+                    {
+                        ClientID = clientId,
+                        FirstName = txtFirstName.Text,
+                        Lastname = txtLastname.Text,
+                        CountryCode = txtCountyCode.Text,
+                        ContactNumber = txtContactNumber.Text,
+                        Email = txtemail.Text,
+                        Address = txtaddress.Text
+                    };
 
+                    if (userManagement.UpdateClient(client))
+                    {
+                        MessageBox.Show("Client information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        //display.GetClients(dgvClients);
+                        this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
+                        Clear();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to update client's information.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Please select a client to update.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void btnDeleteClient_Click(object sender, EventArgs e)
@@ -138,7 +141,6 @@ namespace AlexisConstruction.Forms
             {
                 select.PopulateClientData(e.RowIndex, dgvClients, txtFirstName, txtLastname, txtCountyCode, txtContactNumber, txtaddress, txtemail);
             }
-
         }
         public void Clear()
         {
@@ -147,10 +149,6 @@ namespace AlexisConstruction.Forms
             txtaddress.Text = string.Empty;
             txtCountyCode.Text = string.Empty;
             txtContactNumber.Text = string.Empty;
-        }
-        private void txtemail_TextChanged(object sender, EventArgs e)
-        {
-
         }
     }
 }

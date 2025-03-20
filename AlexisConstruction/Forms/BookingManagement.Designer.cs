@@ -95,7 +95,7 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(480, 76);
+            this.label2.Location = new System.Drawing.Point(545, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(113, 16);
             this.label2.TabIndex = 273;
@@ -119,11 +119,10 @@
             // nudHoursRendered
             // 
             this.nudHoursRendered.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudHoursRendered.Location = new System.Drawing.Point(596, 74);
+            this.nudHoursRendered.Location = new System.Drawing.Point(661, 74);
             this.nudHoursRendered.Name = "nudHoursRendered";
-            this.nudHoursRendered.Size = new System.Drawing.Size(199, 22);
+            this.nudHoursRendered.Size = new System.Drawing.Size(189, 22);
             this.nudHoursRendered.TabIndex = 271;
-            this.nudHoursRendered.ValueChanged += new System.EventHandler(this.nudHoursRendered_ValueChanged);
             // 
             // cmbServices
             // 
@@ -259,22 +258,23 @@
             // dtpBookingDate
             // 
             this.dtpBookingDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpBookingDate.Location = new System.Drawing.Point(596, 36);
+            this.dtpBookingDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpBookingDate.Location = new System.Drawing.Point(661, 36);
             this.dtpBookingDate.Name = "dtpBookingDate";
-            this.dtpBookingDate.Size = new System.Drawing.Size(199, 22);
+            this.dtpBookingDate.Size = new System.Drawing.Size(189, 22);
             this.dtpBookingDate.TabIndex = 266;
-            this.dtpBookingDate.ValueChanged += new System.EventHandler(this.dtpBookingDate_ValueChanged);
+            this.dtpBookingDate.Value = new System.DateTime(2025, 3, 20, 9, 27, 34, 0);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(482, 40);
+            this.label4.Location = new System.Drawing.Point(513, 40);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(110, 16);
+            this.label4.Size = new System.Drawing.Size(145, 16);
             this.label4.TabIndex = 265;
-            this.label4.Text = "Scheduled Date :";
+            this.label4.Text = "Scheduled Date/Time :";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button2
@@ -337,19 +337,18 @@
             // 
             // txtChange
             // 
-            this.txtChange.Location = new System.Drawing.Point(596, 107);
+            this.txtChange.Location = new System.Drawing.Point(661, 107);
             this.txtChange.Multiline = true;
             this.txtChange.Name = "txtChange";
-            this.txtChange.Size = new System.Drawing.Size(199, 24);
+            this.txtChange.Size = new System.Drawing.Size(189, 24);
             this.txtChange.TabIndex = 282;
-            this.txtChange.TextChanged += new System.EventHandler(this.txtChange_TextChanged);
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label7.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label7.Location = new System.Drawing.Point(533, 108);
+            this.label7.Location = new System.Drawing.Point(598, 108);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(60, 16);
             this.label7.TabIndex = 283;

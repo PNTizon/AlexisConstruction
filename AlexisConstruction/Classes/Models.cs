@@ -61,7 +61,6 @@ namespace AlexisConstruction.Classes
     public class Connection
     {
         public static string Database { get; } = "Data Source=(local);Initial Catalog=AlexisConstruction;Integrated Security=True;TrustServerCertificate=True";
-                                                  
     }
     public class Orders
     {
@@ -75,21 +74,6 @@ namespace AlexisConstruction.Classes
                 return HoursRendered * HourlyRate;
             }
         }
-    }
-    public class OrderDetails 
-    {
-        public OrderDetails ()
-        {
-            ReceiptOrder = new List<Orders>();
-        }
-        public List<Orders> ReceiptOrder { get; set; }
-        public int BookingsID { get; set; }
-       
-        public string CustomerName { get; set; }
-        public string Address { get; set; }
-        public string ContactNumber { get; set; }
-        public DateTime BillingDate { get; set; }
-        public string MOP { get; set; }
     }
     public class  BookingDetails
     {

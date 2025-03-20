@@ -39,19 +39,19 @@
             this.button1 = new System.Windows.Forms.Button();
             this.txtQuantity = new System.Windows.Forms.TextBox();
             this.txtItemName = new System.Windows.Forms.TextBox();
-            this.dgvInventory = new System.Windows.Forms.DataGridView();
-            this.InventoryID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ServiceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sHOWINVENTORYBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
             this.cmbServices = new System.Windows.Forms.ComboBox();
             this.label3 = new System.Windows.Forms.Label();
             this.sHOWINVENTORYTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWINVENTORYTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
+            this.Quantity = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ItemName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ServiceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.InventoryID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.dgvInventory = new System.Windows.Forms.DataGridView();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWINVENTORYBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).BeginInit();
             this.SuspendLayout();
             // 
             // label2
@@ -134,6 +134,70 @@
             this.txtItemName.Size = new System.Drawing.Size(199, 24);
             this.txtItemName.TabIndex = 10;
             // 
+            // sHOWINVENTORYBindingSource
+            // 
+            this.sHOWINVENTORYBindingSource.DataMember = "SHOWINVENTORY";
+            this.sHOWINVENTORYBindingSource.DataSource = this.dataSet2;
+            // 
+            // dataSet2
+            // 
+            this.dataSet2.DataSetName = "DataSet2";
+            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // cmbServices
+            // 
+            this.cmbServices.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.cmbServices.FormattingEnabled = true;
+            this.cmbServices.Location = new System.Drawing.Point(165, 56);
+            this.cmbServices.Name = "cmbServices";
+            this.cmbServices.Size = new System.Drawing.Size(199, 24);
+            this.cmbServices.TabIndex = 16;
+            this.cmbServices.SelectedIndexChanged += new System.EventHandler(this.cmbServices_SelectedIndexChanged);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.Location = new System.Drawing.Point(63, 59);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(99, 16);
+            this.label3.TabIndex = 17;
+            this.label3.Text = "Service Name :";
+            // 
+            // sHOWINVENTORYTableAdapter
+            // 
+            this.sHOWINVENTORYTableAdapter.ClearBeforeFill = true;
+            // 
+            // Quantity
+            // 
+            this.Quantity.DataPropertyName = "Quantity";
+            this.Quantity.HeaderText = "Quantity";
+            this.Quantity.Name = "Quantity";
+            this.Quantity.ReadOnly = true;
+            // 
+            // ItemName
+            // 
+            this.ItemName.DataPropertyName = "ItemName";
+            this.ItemName.HeaderText = "Item Name";
+            this.ItemName.Name = "ItemName";
+            this.ItemName.ReadOnly = true;
+            // 
+            // ServiceName
+            // 
+            this.ServiceName.DataPropertyName = "ServiceName";
+            this.ServiceName.HeaderText = "ServiceName";
+            this.ServiceName.Name = "ServiceName";
+            this.ServiceName.ReadOnly = true;
+            this.ServiceName.Visible = false;
+            // 
+            // InventoryID
+            // 
+            this.InventoryID.DataPropertyName = "InventoryID";
+            this.InventoryID.HeaderText = "Inventory ID";
+            this.InventoryID.Name = "InventoryID";
+            this.InventoryID.ReadOnly = true;
+            this.InventoryID.Visible = false;
+            // 
             // dgvInventory
             // 
             this.dgvInventory.AllowUserToAddRows = false;
@@ -177,70 +241,7 @@
             this.dgvInventory.Size = new System.Drawing.Size(900, 386);
             this.dgvInventory.TabIndex = 8;
             this.dgvInventory.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInventory_CellClick);
-            // 
-            // InventoryID
-            // 
-            this.InventoryID.DataPropertyName = "InventoryID";
-            this.InventoryID.HeaderText = "Inventory ID";
-            this.InventoryID.Name = "InventoryID";
-            this.InventoryID.ReadOnly = true;
-            this.InventoryID.Visible = false;
-            // 
-            // ServiceName
-            // 
-            this.ServiceName.DataPropertyName = "ServiceName";
-            this.ServiceName.HeaderText = "ServiceName";
-            this.ServiceName.Name = "ServiceName";
-            this.ServiceName.ReadOnly = true;
-            this.ServiceName.Visible = false;
-            // 
-            // ItemName
-            // 
-            this.ItemName.DataPropertyName = "ItemName";
-            this.ItemName.HeaderText = "Item Name";
-            this.ItemName.Name = "ItemName";
-            this.ItemName.ReadOnly = true;
-            // 
-            // Quantity
-            // 
-            this.Quantity.DataPropertyName = "Quantity";
-            this.Quantity.HeaderText = "Quantity";
-            this.Quantity.Name = "Quantity";
-            this.Quantity.ReadOnly = true;
-            // 
-            // sHOWINVENTORYBindingSource
-            // 
-            this.sHOWINVENTORYBindingSource.DataMember = "SHOWINVENTORY";
-            this.sHOWINVENTORYBindingSource.DataSource = this.dataSet2;
-            // 
-            // dataSet2
-            // 
-            this.dataSet2.DataSetName = "DataSet2";
-            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // cmbServices
-            // 
-            this.cmbServices.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmbServices.FormattingEnabled = true;
-            this.cmbServices.Location = new System.Drawing.Point(165, 56);
-            this.cmbServices.Name = "cmbServices";
-            this.cmbServices.Size = new System.Drawing.Size(199, 24);
-            this.cmbServices.TabIndex = 16;
-            this.cmbServices.SelectedIndexChanged += new System.EventHandler(this.cmbServices_SelectedIndexChanged);
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.Location = new System.Drawing.Point(63, 59);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(99, 16);
-            this.label3.TabIndex = 17;
-            this.label3.Text = "Service Name :";
-            // 
-            // sHOWINVENTORYTableAdapter
-            // 
-            this.sHOWINVENTORYTableAdapter.ClearBeforeFill = true;
+            this.dgvInventory.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvInventory_CellContentClick);
             // 
             // InventoryManagement
             // 
@@ -262,9 +263,9 @@
             this.Name = "InventoryManagement";
             this.Text = "InventoryManagement";
             this.Load += new System.EventHandler(this.InventoryManagement_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWINVENTORYBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dgvInventory)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -279,15 +280,15 @@
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.TextBox txtQuantity;
         private System.Windows.Forms.TextBox txtItemName;
-        private System.Windows.Forms.DataGridView dgvInventory;
         private System.Windows.Forms.ComboBox cmbServices;
         private System.Windows.Forms.Label label3;
         private DataSet.DataSet2 dataSet2;
         private System.Windows.Forms.BindingSource sHOWINVENTORYBindingSource;
         private DataSet.DataSet2TableAdapters.SHOWINVENTORYTableAdapter sHOWINVENTORYTableAdapter;
-        private System.Windows.Forms.DataGridViewTextBoxColumn InventoryID;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ServiceName;
-        private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
         private System.Windows.Forms.DataGridViewTextBoxColumn Quantity;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ItemName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn ServiceName;
+        private System.Windows.Forms.DataGridViewTextBoxColumn InventoryID;
+        private System.Windows.Forms.DataGridView dgvInventory;
     }
 }
