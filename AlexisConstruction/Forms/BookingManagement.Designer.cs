@@ -38,11 +38,6 @@
             this.nudHoursRendered = new System.Windows.Forms.NumericUpDown();
             this.cmbServices = new System.Windows.Forms.ComboBox();
             this.dgvServices = new System.Windows.Forms.DataGridView();
-            this.ServiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ServiceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HoursRendered = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HourlyRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
             this.bILLINGSTATEMENTBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -70,6 +65,11 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
+            this.ServiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ServiceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HoursRendered = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HourlyRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.nudHoursRendered)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvServices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).BeginInit();
@@ -108,7 +108,7 @@
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(344, 160);
+            this.button1.Location = new System.Drawing.Point(352, 158);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(80, 26);
             this.button1.TabIndex = 272;
@@ -171,7 +171,7 @@
             this.dgvServices.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvServices.EnableHeadersVisualStyles = false;
             this.dgvServices.GridColor = System.Drawing.Color.Black;
-            this.dgvServices.Location = new System.Drawing.Point(37, 214);
+            this.dgvServices.Location = new System.Drawing.Point(41, 208);
             this.dgvServices.Name = "dgvServices";
             this.dgvServices.ReadOnly = true;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
@@ -180,38 +180,8 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvServices.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvServices.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.dgvServices.Size = new System.Drawing.Size(923, 314);
+            this.dgvServices.Size = new System.Drawing.Size(923, 388);
             this.dgvServices.TabIndex = 269;
-            // 
-            // ServiceID
-            // 
-            this.ServiceID.HeaderText = "Service ID";
-            this.ServiceID.Name = "ServiceID";
-            this.ServiceID.ReadOnly = true;
-            // 
-            // ServiceName
-            // 
-            this.ServiceName.HeaderText = "Service Name";
-            this.ServiceName.Name = "ServiceName";
-            this.ServiceName.ReadOnly = true;
-            // 
-            // HoursRendered
-            // 
-            this.HoursRendered.HeaderText = "Hours Rendered";
-            this.HoursRendered.Name = "HoursRendered";
-            this.HoursRendered.ReadOnly = true;
-            // 
-            // HourlyRate
-            // 
-            this.HourlyRate.HeaderText = "Hourly Rate";
-            this.HourlyRate.Name = "HourlyRate";
-            this.HourlyRate.ReadOnly = true;
-            // 
-            // Amount
-            // 
-            this.Amount.HeaderText = "Amount";
-            this.Amount.Name = "Amount";
-            this.Amount.ReadOnly = true;
             // 
             // sHOWCLIENTSBindingSource
             // 
@@ -283,7 +253,7 @@
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(605, 160);
+            this.button2.Location = new System.Drawing.Point(613, 158);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(80, 26);
             this.button2.TabIndex = 275;
@@ -296,7 +266,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label5.Location = new System.Drawing.Point(755, 543);
+            this.label5.Location = new System.Drawing.Point(758, 613);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 16);
             this.label5.TabIndex = 278;
@@ -308,7 +278,7 @@
             this.lblTotalAmount.AutoSize = true;
             this.lblTotalAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalAmount.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblTotalAmount.Location = new System.Drawing.Point(853, 543);
+            this.lblTotalAmount.Location = new System.Drawing.Point(853, 611);
             this.lblTotalAmount.Name = "lblTotalAmount";
             this.lblTotalAmount.Size = new System.Drawing.Size(0, 18);
             this.lblTotalAmount.TabIndex = 277;
@@ -361,7 +331,7 @@
             this.btnPay.FlatAppearance.BorderSize = 0;
             this.btnPay.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPay.ForeColor = System.Drawing.Color.White;
-            this.btnPay.Location = new System.Drawing.Point(476, 160);
+            this.btnPay.Location = new System.Drawing.Point(484, 158);
             this.btnPay.Name = "btnPay";
             this.btnPay.Size = new System.Drawing.Size(80, 26);
             this.btnPay.TabIndex = 284;
@@ -477,12 +447,43 @@
             // 
             this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
             // 
+            // ServiceID
+            // 
+            this.ServiceID.HeaderText = "Service ID";
+            this.ServiceID.Name = "ServiceID";
+            this.ServiceID.ReadOnly = true;
+            this.ServiceID.Visible = false;
+            // 
+            // ServiceName
+            // 
+            this.ServiceName.HeaderText = "Service Name";
+            this.ServiceName.Name = "ServiceName";
+            this.ServiceName.ReadOnly = true;
+            // 
+            // HoursRendered
+            // 
+            this.HoursRendered.HeaderText = "Hours Rendered";
+            this.HoursRendered.Name = "HoursRendered";
+            this.HoursRendered.ReadOnly = true;
+            // 
+            // HourlyRate
+            // 
+            this.HourlyRate.HeaderText = "Hourly Rate";
+            this.HourlyRate.Name = "HourlyRate";
+            this.HourlyRate.ReadOnly = true;
+            // 
+            // Amount
+            // 
+            this.Amount.HeaderText = "Amount";
+            this.Amount.Name = "Amount";
+            this.Amount.ReadOnly = true;
+            // 
             // BookingManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 578);
+            this.ClientSize = new System.Drawing.Size(1000, 654);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);

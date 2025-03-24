@@ -8,7 +8,7 @@ namespace AlexisConstruction.Forms
     public partial class BookingManagement : Form
     {
         private BookingManager bookingManager = new BookingManager();
-
+        private bool _isPaymentComplete = false;
         public BookingManagement()
         {
             InitializeComponent();
@@ -26,13 +26,7 @@ namespace AlexisConstruction.Forms
                     MessageBox.Show("Booking time must be between 8:00 AM and 3:00 PM.");
                     return;
                 }
-
-                if (!button1.Enabled)
-                {
-                    MessageBox.Show("Please complete payment before booking.", "Payment Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return;
-                }
-
+                
                 if (BookingDetails.BookedDate == DateTime.MinValue)
                 {
                     MessageBox.Show("Please select a valid booking date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -42,6 +36,20 @@ namespace AlexisConstruction.Forms
                 if (bookingManager.IsDateAlreadyBooked(dtpBookingDate.Value))
                 {
                     MessageBox.Show("This date is already booked. Please select another date.", "Booking Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!IsServiceSelected())
+                {
+                    MessageBox.Show("Please select a service to book.", "Service Required",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                if (!_isPaymentComplete)
+                {
+                    MessageBox.Show("Please complete payment before booking.", "Payment Required",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
 
@@ -64,7 +72,14 @@ namespace AlexisConstruction.Forms
                 }
                 else
                 {
-                    MessageBox.Show("Failed to create booking. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if(!bookingManager.IsInventoryAvailable(Convert.ToInt32(txtServiceID.Text)))
+                    {
+                        MessageBox.Show("Booking failed: Insufficient inventory for the selected service.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to create booking. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
                 }
             }
             catch (Exception ex)
@@ -73,19 +88,7 @@ namespace AlexisConstruction.Forms
             }
         }
 
-        private void UpdateTotalAmount()
-        {
-            decimal totalAmount = 0;
-            foreach (DataGridViewRow row in dgvServices.Rows)
-            {
-                if (row.Cells["Amount"].Value != null)
-                {
-                    totalAmount += Convert.ToDecimal(row.Cells["Amount"].Value);
-                }
-            }
-            lblTotalAmount.Text = $"{totalAmount:C}";
-        }
-
+       
         private void BookingManagement_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'dataSet2.SHOWCLIENTS' table. You can move, or remove it, as needed.
@@ -178,38 +181,11 @@ namespace AlexisConstruction.Forms
             }
         }
 
-        private void CalculateChange()
-        {
-            decimal cash = 0;
-            decimal change = 0;
-
-            string totalText = lblTotalAmount.Text.Replace("₱", "").Trim();
-            if (decimal.TryParse(totalText, out decimal totalAmount))
-            {
-                if (decimal.TryParse(txtCash.Text, out cash))
-                {
-                    change = cash - totalAmount;
-                    txtChange.Text = change.ToString("0.00");
-                }
-                else
-                {
-                    txtChange.Text = "0.00";
-                }
-            }
-        }
-
-        public void ClearForm()
-        {
-            dgvServices.Rows.Clear();
-
-            txtCash.Text = string.Empty;
-            txtChange.Text = string.Empty;
-            lblTotalAmount.Text = "0.00";
-        }
         private void txtCash_TextChanged(object sender, EventArgs e)
         {
             CalculateChange();
         }
+
         private void btnPay_Click(object sender, EventArgs e)
         {
             try
@@ -233,7 +209,7 @@ namespace AlexisConstruction.Forms
                     MessageBox.Show("Insufficient cash entered.", "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
-                btnPay.Enabled = true;
+                _isPaymentComplete = true;
 
                 MessageBox.Show("Payment validated! You can now book the service.", "Payment Validated", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
@@ -242,5 +218,56 @@ namespace AlexisConstruction.Forms
                 MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
+        #region Function Helpers
+
+        public void ClearForm()
+        {
+            dgvServices.Rows.Clear();
+
+            txtCash.Text = string.Empty;
+            txtChange.Text = string.Empty;
+            lblTotalAmount.Text = "0.00";
+            _isPaymentComplete = false;
+        }
+
+        private void UpdateTotalAmount()
+        {
+            decimal totalAmount = 0;
+            foreach (DataGridViewRow row in dgvServices.Rows)
+            {
+                if (row.Cells["Amount"].Value != null)
+                {
+                    totalAmount += Convert.ToDecimal(row.Cells["Amount"].Value);
+                }
+            }
+            lblTotalAmount.Text = $"{totalAmount:C}";
+        }
+
+        private void CalculateChange()
+        {
+            decimal cash = 0;
+            decimal change = 0;
+
+            string totalText = lblTotalAmount.Text.Replace("₱", "").Trim();
+            if (decimal.TryParse(totalText, out decimal totalAmount))
+            {
+                if (decimal.TryParse(txtCash.Text, out cash))
+                {
+                    change = cash - totalAmount;
+                    txtChange.Text = change.ToString("0.00");
+                }
+                else
+                {
+                    txtChange.Text = "0.00";
+                }
+            }
+        }
+
+        private bool IsServiceSelected()
+        {
+            return dgvServices.Rows.Count > 0 && dgvServices.Rows[0].Cells["ServiceID"].Value != null;
+        }
+        #endregion
     }
 }

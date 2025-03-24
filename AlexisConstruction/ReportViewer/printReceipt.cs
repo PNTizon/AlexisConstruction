@@ -14,12 +14,12 @@ namespace AlexisConstruction.Forms
 {
     public partial class printReceipt: Form
     {
-        Bookings order;
+        BillingRecords order;
         List<Orders> _list;
-        public printReceipt(Bookings orders,List<Orders> list)
+        public printReceipt(BillingRecords records,List<Orders> list)
         {
             InitializeComponent();
-            order = orders;
+            order = records;
             _list = list;
         }
 
@@ -31,7 +31,7 @@ namespace AlexisConstruction.Forms
                 new Microsoft.Reporting.WinForms.ReportParameter("pBillingDate",order.BillingDate.ToString("MM/dd/yyyy")),
                 new Microsoft.Reporting.WinForms.ReportParameter("pBookedDate",order.BookedDate.ToString("MM/dd/yy")),
                 new Microsoft.Reporting.WinForms.ReportParameter("pTotal",order.TotalAmount.ToString("N2")),
-                new Microsoft.Reporting.WinForms.ReportParameter("pPaymentMethod",order.PaymentMethod)
+                new Microsoft.Reporting.WinForms.ReportParameter("pPaymentMethod",order.MOP)
             };
 
             this.reportViewer1.LocalReport.SetParameters(p);

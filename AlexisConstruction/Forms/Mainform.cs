@@ -29,17 +29,16 @@ namespace AlexisConstruction.Forms
         {
             if (sender is Button button)
             {
-                Dashboardbtn.Name = "Dash";
+                Schedulebtn.Name = "Sched";
                 BookingManagerbtn.Name = "Booking";
                 ClientManagerbtn.Name = "Client";
                 ServiceManagerbtn.Name = "Services";
                 InventoryManagerbtn.Name = "Inventory";
-                PaymentManagerbtn.Name = "Payment";
-                BillingStatement.Name = "Billings";
+                BillingStatement.Name = "Records";
 
                 switch (button.Name)
                 {
-                    case "Dash":
+                    case "Sched":
                         Dashboard dVDs_VCDs = new Dashboard();
                         form.OpenForm(dVDs_VCDs, paneldash);
                         break;
@@ -59,11 +58,7 @@ namespace AlexisConstruction.Forms
                         InventoryManagement inventory = new InventoryManagement();
                         form.OpenForm(inventory, paneldash);
                         break;
-                    case "Payment":
-                        PaymentManagement payment = new PaymentManagement();
-                        form.OpenForm(payment, paneldash);
-                        break;
-                    case "Billings":
+                    case "Records":
                         BillingStatementForm billing = new BillingStatementForm();
                         form.OpenForm(billing, paneldash);
                         break;

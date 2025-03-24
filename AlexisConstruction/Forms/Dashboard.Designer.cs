@@ -74,7 +74,7 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvSchedule.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvSchedule.Size = new System.Drawing.Size(918, 487);
+            this.dgvSchedule.Size = new System.Drawing.Size(918, 549);
             this.dgvSchedule.TabIndex = 1;
             // 
             // wEEKLYSCHEDULEBindingSource
@@ -106,7 +106,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 578);
+            this.ClientSize = new System.Drawing.Size(1000, 654);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.dgvSchedule);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;

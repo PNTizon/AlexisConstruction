@@ -8,10 +8,6 @@ namespace AlexisConstruction.Classes
 {
     public class BookingManager
     {
-        private static List<Client> customer = new List<Client>();
-        private static List<Services> service = new List<Services>();
-        private static List<Orders> orders = new List<Orders>();
-
         public int ScheduleBooking(int clientID, DateTime bookedDate, DataGridView grid, int serviceID)
         {
             int bookingID = 0;
@@ -23,14 +19,14 @@ namespace AlexisConstruction.Classes
 
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("InsertNewBooking", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@ClientID", clientID);
-                    cmd.Parameters.AddWithValue("@BookingDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@BookedDate", bookedDate);
-                    cmd.Parameters.AddWithValue("@Status", "Scheduled");
-                    cmd.Parameters.AddWithValue("@TotalAmount", 0);
-                    bookingID = (int)cmd.ExecuteScalar();
+                    SqlCommand InsertCmd = new SqlCommand("InsertNewBooking", con);
+                    InsertCmd.CommandType = CommandType.StoredProcedure;
+                    InsertCmd.Parameters.AddWithValue("@ClientID", clientID);
+                    InsertCmd.Parameters.AddWithValue("@BookingDate", DateTime.Now);
+                    InsertCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
+                    InsertCmd.Parameters.AddWithValue("@Status", "Scheduled");
+                    InsertCmd.Parameters.AddWithValue("@TotalAmount", 0);
+                    bookingID = (int)InsertCmd.ExecuteScalar();
 
                     foreach (DataGridViewRow row in grid.Rows)
                     {
@@ -50,10 +46,10 @@ namespace AlexisConstruction.Classes
                         detailCmd.ExecuteNonQuery();
                     }
 
-                    SqlCommand invenotryUpdate = new SqlCommand("UpdateQuantity", con);
-                    invenotryUpdate.CommandType = CommandType.StoredProcedure;
-                    invenotryUpdate.Parameters.AddWithValue("@serviceID", serviceID);
-                    int rowAffected = invenotryUpdate.ExecuteNonQuery();
+                    SqlCommand invenotryCmd = new SqlCommand("UpdateQuantity", con);
+                    invenotryCmd.CommandType = CommandType.StoredProcedure;
+                    invenotryCmd.Parameters.AddWithValue("@serviceID", serviceID);
+                    int rowAffected = invenotryCmd.ExecuteNonQuery();
 
                     SqlCommand updateCmd = new SqlCommand("UpdateAmount", con);
                     updateCmd.CommandType = CommandType.StoredProcedure;
@@ -75,7 +71,25 @@ namespace AlexisConstruction.Classes
                 }
             }
         }
+        public bool IsInventoryAvailable(int serviceID)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
 
+                    using (SqlCommand cmd = new SqlCommand("CheckAvailability", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@ServiceID", serviceID);
+                        int count = (int)cmd.ExecuteNonQuery();
+                        return count > 0;
+                    }
+                }
+            }
+            catch { throw; }
+        }
         public void GenerateBilling(int bookingID, decimal totalAmount)
         {
             try
@@ -131,6 +145,7 @@ namespace AlexisConstruction.Classes
         }
         public static List<Client> LoadClients()
         {
+            List<Client> customer = new List<Client>();
             try
             {
                 using (SqlConnection con = new SqlConnection(Connection.Database))
@@ -156,6 +171,7 @@ namespace AlexisConstruction.Classes
         }
         public static List<Services> LoadServices()
         {
+            List<Services> service = new List<Services>();
             try
             {
                 using (SqlConnection con = new SqlConnection(Connection.Database))
@@ -182,6 +198,8 @@ namespace AlexisConstruction.Classes
         }
         public static List<Orders> GetServiceDetails(int bookingID)
         {
+            List<Orders> orders = new List<Orders>();
+
             try
             {
                 using (SqlConnection con = new SqlConnection(Connection.Database))

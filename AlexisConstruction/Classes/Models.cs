@@ -89,5 +89,19 @@ namespace AlexisConstruction.Classes
         public static  DateTime BookedDate { get; set; }
         public string MOP { get; set; }
     }
+    public class BillingRecords
+    {
+        public BillingRecords()
+        {
+            BookingReceipt = new List<Orders>();
+        }
+        public List<Orders> BookingReceipt { get; set; }
+        public int BookingsID { get; set; }
+        public string CustomerName { get; set; }
+        public DateTime BillingDate { get; set; }
+        public  DateTime BookedDate { get; set; }
+        public string MOP { get; set; }
+        public decimal TotalAmount { get; set; }
+    }
 }
  

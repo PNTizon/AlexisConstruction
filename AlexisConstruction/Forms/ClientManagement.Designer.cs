@@ -48,6 +48,10 @@
             this.label2 = new System.Windows.Forms.Label();
             this.CountryCodecmb = new System.Windows.Forms.ComboBox();
             this.dgvClients = new System.Windows.Forms.DataGridView();
+            this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet2BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
+            this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
             this.ClientID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Firstname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -55,10 +59,6 @@
             this.ContactNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet2BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
-            this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2BindingSource)).BeginInit();
@@ -71,7 +71,7 @@
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(561, 159);
+            this.button3.Location = new System.Drawing.Point(561, 163);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(80, 26);
             this.button3.TabIndex = 273;
@@ -85,7 +85,7 @@
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(454, 159);
+            this.button2.Location = new System.Drawing.Point(454, 163);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(80, 26);
             this.button2.TabIndex = 272;
@@ -99,7 +99,7 @@
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(341, 159);
+            this.button1.Location = new System.Drawing.Point(341, 163);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(80, 26);
             this.button1.TabIndex = 271;
@@ -261,16 +261,35 @@
             this.dgvClients.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvClients.EnableHeadersVisualStyles = false;
             this.dgvClients.GridColor = System.Drawing.Color.Black;
-            this.dgvClients.Location = new System.Drawing.Point(38, 208);
+            this.dgvClients.Location = new System.Drawing.Point(38, 214);
             this.dgvClients.Name = "dgvClients";
             this.dgvClients.ReadOnly = true;
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvClients.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvClients.Size = new System.Drawing.Size(921, 339);
+            this.dgvClients.Size = new System.Drawing.Size(921, 402);
             this.dgvClients.TabIndex = 258;
             this.dgvClients.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClients_CellContentClick);
+            // 
+            // sHOWCLIENTSBindingSource
+            // 
+            this.sHOWCLIENTSBindingSource.DataMember = "SHOWCLIENTS";
+            this.sHOWCLIENTSBindingSource.DataSource = this.dataSet2BindingSource;
+            // 
+            // dataSet2BindingSource
+            // 
+            this.dataSet2BindingSource.DataSource = this.dataSet2;
+            this.dataSet2BindingSource.Position = 0;
+            // 
+            // dataSet2
+            // 
+            this.dataSet2.DataSetName = "DataSet2";
+            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // sHOWCLIENTSTableAdapter
+            // 
+            this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
             // 
             // ClientID
             // 
@@ -300,6 +319,7 @@
             this.CountryCode.HeaderText = "Country Code";
             this.CountryCode.Name = "CountryCode";
             this.CountryCode.ReadOnly = true;
+            this.CountryCode.Visible = false;
             // 
             // ContactNumber
             // 
@@ -322,31 +342,12 @@
             this.Address.Name = "Address";
             this.Address.ReadOnly = true;
             // 
-            // sHOWCLIENTSBindingSource
-            // 
-            this.sHOWCLIENTSBindingSource.DataMember = "SHOWCLIENTS";
-            this.sHOWCLIENTSBindingSource.DataSource = this.dataSet2BindingSource;
-            // 
-            // dataSet2BindingSource
-            // 
-            this.dataSet2BindingSource.DataSource = this.dataSet2;
-            this.dataSet2BindingSource.Position = 0;
-            // 
-            // dataSet2
-            // 
-            this.dataSet2.DataSetName = "DataSet2";
-            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // sHOWCLIENTSTableAdapter
-            // 
-            this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
-            // 
             // ClientManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 578);
+            this.ClientSize = new System.Drawing.Size(1000, 654);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);

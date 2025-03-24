@@ -1,7 +1,5 @@
 ﻿using AlexisConstruction.Classes;
-using Microsoft.Reporting.Map.WebForms.BingMaps;
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -10,17 +8,15 @@ namespace AlexisConstruction.Forms
 {
     public partial class BillingStatementForm : Form
     {
-        private Display display = new Display();
         public BillingStatementForm()
         {
             InitializeComponent();
-           
+
         }
 
         private void btnViewReport_Click(object sender, EventArgs e)
         {
             LoadBillingReport(txtSearchBox.Text);
-           
         }
         private void btnFilter_Click(object sender, EventArgs e)
         {
@@ -32,7 +28,7 @@ namespace AlexisConstruction.Forms
             using (SqlConnection conn = new SqlConnection(Connection.Database))
             {
                 conn.Open();
-                
+
                 SqlCommand cmd = new SqlCommand("LoadBillingByName", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@SearchName", "%" + clientName + "%");
@@ -51,7 +47,7 @@ namespace AlexisConstruction.Forms
             using (SqlConnection conn = new SqlConnection(Connection.Database))
             {
                 conn.Open();
-                
+
                 SqlCommand cmd = new SqlCommand("LoadBillingByDate", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@StartDate", startDate);
@@ -71,67 +67,66 @@ namespace AlexisConstruction.Forms
             // TODO: This line of code loads data into the 'dataSet2.BILLINGSTATEMENT1' table. You can move, or remove it, as needed.
             this.bILLINGSTATEMENT1TableAdapter1.Fill(this.dataSet2.BILLINGSTATEMENT1);
         }
-        #region Unused Receipt Function
-        //    private void btnPrint_Click(object sender, EventArgs e)
-        //    {
-        //        if (dataGridView1.SelectedRows.Count > 0)
-        //        {
-        //            OrderDetails orders = new OrderDetails();
 
-        //            DataGridViewRow row = dataGridView1.SelectedRows[0];
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string selectedItems = comboBox1.SelectedItem.ToString();
+            ((BindingSource)dataGridView1.DataSource).Filter = $"[PaymentStatus] = '{selectedItems}'";
+        }
 
-        //            orders.CustomerName = row.Cells["ClientName"].Value.ToString();
-        //            orders.BookingsID = Convert.ToInt32(row.Cells["BookingID"].Value);
-        //            orders.BillingDate = Convert.ToDateTime(row.Cells["BookedDate"].Value);
-        //            orders.ContactNumber = row.Cells["ContactNumber"].Value.ToString();
-        //            orders.Address = row.Cells["Address"].Value.ToString();
-        //            orders.MOP = "Cash";
+        private void btnPrint_Click(object sender, EventArgs e)
+        {
+            GenerateReceipt();
+        }
+        private void GenerateReceipt()
+        {
+            if (dataGridView1.SelectedRows.Count > 0 || dataGridView1.CurrentRow != null)
+            {
+                DataGridViewRow row = dataGridView1.SelectedRows.Count > 0
+                    ? dataGridView1.SelectedRows[0]
+                    : dataGridView1.CurrentRow;
 
-        //            orders.ReceiptOrder = GetServiceDetails(orders.BookingsID, orders.BillingDate);
+                try
+                {
+                    if (dataGridView1.SelectedRows.Count > 0)
+                    {
+                        BillingRecords bookings = new BillingRecords();
 
-        //            //using (printReceipt receipt = new printReceipt(orders, orders.ReceiptOrder))
-        //            //{
-        //            //    receipt.ShowDialog();
-        //            //}
-        //        }
-        //        else
-        //        {
-        //            MessageBox.Show("Please select a record to generate a receipt.");
-        //        }
-        //    }
-        //    private List<Orders> GetServiceDetails(int bookingID, DateTime bookedate)
-        //    {
-        //        List<Orders> services = new List<Orders>();
+                        bookings.CustomerName = row.Cells["ClientName"].Value.ToString();
+                        bookings.BookingsID = Convert.ToInt32(row.Cells["BookingID"].Value);
+                        bookings.BillingDate = Convert.ToDateTime(row.Cells["BookedDate"].Value);
+                        bookings.BookedDate = Convert.ToDateTime(row.Cells["BookedDate"].Value);
+                        bookings.MOP = "Cash";
 
-        //        using (SqlConnection con = new SqlConnection(Connection.Database))
-        //        {
-        //            con.Open();
+                        bookings.BookingReceipt = BookingManager.GetServiceDetails(bookings.BookingsID);
 
-        //            string query = @"SELECT s.ServiceName ,bd.HoursRendered,s.HourlyRate,(bd.HoursRendered * s.HourlyRate) AS TotalAmount
-        //                            FROM BookingDetails bd
-        //                            JOIN Services s ON bd.ServiceID = s.ServiceID
-        //                            WHERE bd.ClientID = @clientID AND CAST  (bd.BookedDate AS DATE) = @bookedDate";
+                        using (printReceipt receipt = new printReceipt(bookings, bookings.BookingReceipt))
+                        {
+                            receipt.ShowDialog();
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Please select a record to generate a receipt.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "An error occured while trying to print the receipt.",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a record to generate a receipt.");
+            }
+        }
 
-        //            SqlCommand cmd = new SqlCommand(query, con);
-        //            cmd.Parameters.AddWithValue("@clientID", bookingID);
-        //            cmd.Parameters.AddWithValue("@bookedDate", bookedate);
-        //            using (SqlDataReader reader = cmd.ExecuteReader())
-        //            {
-        //                while (reader.Read())
-        //                {
-        //                    services.Add(new Orders
-        //                    {
-        //                        ServiceName = reader["ServiceName"].ToString(),
-        //                        HourlyRate = Convert.ToInt32(reader["HourlyRate"]),
-        //                        HoursRendered = Convert.ToInt32(reader["HoursRendered"]),
-        //                    });
-        //                }
-        //            }
-        //        }
-        //        return services;
-        //    }
-        //}
-        #endregion
-
+        private void dataGridView1_CellContentDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                GenerateReceipt();
+            }
+        }
     }
 }

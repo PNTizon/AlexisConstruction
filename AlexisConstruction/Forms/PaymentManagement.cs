@@ -74,10 +74,10 @@ namespace AlexisConstruction.Forms
                 booking.TotalAmount = Convert.ToDecimal(row.Cells["TotalAmount"].Value);
                 booking.PaymentMethod = "Cash";
 
-                using (printReceipt receipt = new printReceipt(booking, booking.PaymentReceipt))
-                {
-                    receipt.ShowDialog();
-                }
+                //using (printReceipt receipt = new printReceipt(booking, booking.PaymentReceipt))
+                //{
+                //    receipt.ShowDialog();
+                //}
             }
             else
             {
