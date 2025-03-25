@@ -50,8 +50,7 @@ namespace AlexisConstruction.Forms
             {
                 if (dgvInventory.SelectedRows.Count > 0)
                 {
-                    int inventoryID;
-                    if (int.TryParse(dgvInventory.SelectedRows[0].Cells["InventoryID"].Value.ToString(), out inventoryID))
+                    if (int.TryParse(dgvInventory.SelectedRows[0].Cells["InventoryID"].Value.ToString(), out int inventoryID))
                     {
                         string itemName = txtItemName.Text.Trim();
 

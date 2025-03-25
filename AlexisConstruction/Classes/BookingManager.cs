@@ -19,14 +19,16 @@ namespace AlexisConstruction.Classes
 
                 try
                 {
-                    SqlCommand InsertCmd = new SqlCommand("InsertNewBooking", con);
-                    InsertCmd.CommandType = CommandType.StoredProcedure;
-                    InsertCmd.Parameters.AddWithValue("@ClientID", clientID);
-                    InsertCmd.Parameters.AddWithValue("@BookingDate", DateTime.Now);
-                    InsertCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
-                    InsertCmd.Parameters.AddWithValue("@Status", "Scheduled");
-                    InsertCmd.Parameters.AddWithValue("@TotalAmount", 0);
-                    bookingID = (int)InsertCmd.ExecuteScalar();
+                    using (SqlCommand InsertCmd = new SqlCommand("InsertNewBooking", con))
+                    {
+                        InsertCmd.CommandType = CommandType.StoredProcedure;
+                        InsertCmd.Parameters.AddWithValue("@ClientID", clientID);
+                        InsertCmd.Parameters.AddWithValue("@BookingDate", DateTime.Now);
+                        InsertCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
+                        InsertCmd.Parameters.AddWithValue("@Status", "Scheduled");
+                        InsertCmd.Parameters.AddWithValue("@TotalAmount", 0);
+                        bookingID = (int)InsertCmd.ExecuteScalar();
+                    }
 
                     foreach (DataGridViewRow row in grid.Rows)
                     {
@@ -36,26 +38,31 @@ namespace AlexisConstruction.Classes
                                           Convert.ToDecimal(row.Cells["HourlyRate"].Value);
                         totalAmount += serviceAmount;
 
-                        SqlCommand detailCmd = new SqlCommand("InsertBookingDetails", con);
-                        detailCmd.CommandType = CommandType.StoredProcedure;
-                        detailCmd.Parameters.AddWithValue("@BookingID", bookingID);
-                        detailCmd.Parameters.AddWithValue("@ClientID", clientID);
-                        detailCmd.Parameters.AddWithValue("@ServiceID", row.Cells["ServiceID"].Value);
-                        detailCmd.Parameters.AddWithValue("@HoursRendered", row.Cells["HoursRendered"].Value);
-                        detailCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
-                        detailCmd.ExecuteNonQuery();
+                        using (SqlCommand detailCmd = new SqlCommand("InsertBookingDetails", con))
+                        {
+                            detailCmd.CommandType = CommandType.StoredProcedure;
+                            detailCmd.Parameters.AddWithValue("@BookingID", bookingID);
+                            detailCmd.Parameters.AddWithValue("@ClientID", clientID);
+                            detailCmd.Parameters.AddWithValue("@ServiceID", row.Cells["ServiceID"].Value);
+                            detailCmd.Parameters.AddWithValue("@HoursRendered", row.Cells["HoursRendered"].Value);
+                            detailCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
+                            detailCmd.ExecuteNonQuery();
+                        }
                     }
 
-                    SqlCommand invenotryCmd = new SqlCommand("UpdateQuantity", con);
-                    invenotryCmd.CommandType = CommandType.StoredProcedure;
-                    invenotryCmd.Parameters.AddWithValue("@serviceID", serviceID);
-                    int rowAffected = invenotryCmd.ExecuteNonQuery();
-
-                    SqlCommand updateCmd = new SqlCommand("UpdateAmount", con);
-                    updateCmd.CommandType = CommandType.StoredProcedure;
-                    updateCmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
-                    updateCmd.Parameters.AddWithValue("@BookingID", bookingID);
-                    updateCmd.ExecuteNonQuery();
+                    using (SqlCommand invenotryCmd = new SqlCommand("UpdateQuantity", con))
+                    {
+                        invenotryCmd.CommandType = CommandType.StoredProcedure;
+                        invenotryCmd.Parameters.AddWithValue("@serviceID", serviceID);
+                        int rowAffected = invenotryCmd.ExecuteNonQuery();
+                    }
+                    using (SqlCommand updateCmd = new SqlCommand("UpdateAmount", con))
+                    {
+                        updateCmd.CommandType = CommandType.StoredProcedure;
+                        updateCmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
+                        updateCmd.Parameters.AddWithValue("@BookingID", bookingID);
+                        updateCmd.ExecuteNonQuery();
+                    }
 
                     if (bookingID > 0)
                     {
@@ -98,12 +105,14 @@ namespace AlexisConstruction.Classes
                 {
                     con.Open();
 
-                    SqlCommand cmd = new SqlCommand("UpdaetBilling", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@BillingDate", DateTime.Now);
-                    cmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
-                    cmd.Parameters.AddWithValue("@BookingID", bookingID);
-                    cmd.ExecuteNonQuery();
+                    using (SqlCommand cmd = new SqlCommand("UpdaetBilling", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@BillingDate", DateTime.Now);
+                        cmd.Parameters.AddWithValue("@TotalAmount", totalAmount);
+                        cmd.Parameters.AddWithValue("@BookingID", bookingID);
+                        cmd.ExecuteNonQuery();
+                    }
                 }
             }
             catch { throw; }

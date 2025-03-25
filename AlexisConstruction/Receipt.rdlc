@@ -210,10 +210,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Service Name</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox5</rd:DefaultName>
@@ -240,10 +244,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Hours Rendered</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox7</rd:DefaultName>
@@ -270,10 +278,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Hourly Rate</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox9</rd:DefaultName>
@@ -300,10 +312,14 @@
                               <TextRuns>
                                 <TextRun>
                                   <Value>Total Amount</Value>
-                                  <Style />
+                                  <Style>
+                                    <FontWeight>Bold</FontWeight>
+                                  </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>Textbox11</rd:DefaultName>
@@ -338,7 +354,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>ServiceName</rd:DefaultName>
@@ -368,7 +386,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>HoursRendered</rd:DefaultName>
@@ -398,7 +418,9 @@
                                   <Style />
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>HourlyRate</rd:DefaultName>
@@ -430,7 +452,9 @@
                                   </Style>
                                 </TextRun>
                               </TextRuns>
-                              <Style />
+                              <Style>
+                                <TextAlign>Center</TextAlign>
+                              </Style>
                             </Paragraph>
                           </Paragraphs>
                           <rd:DefaultName>TotalAmount</rd:DefaultName>
@@ -475,7 +499,7 @@
             </TablixRowHierarchy>
             <DataSetName>DataSet6</DataSetName>
             <Top>2.58354cm</Top>
-            <Left>0.45543cm</Left>
+            <Left>0.3175cm</Left>
             <Height>1.2cm</Height>
             <Width>12.0655cm</Width>
             <ZIndex>4</ZIndex>
@@ -493,15 +517,19 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Parameters!pFullname.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontSize>12pt</FontSize>
+                    </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>pFullname</rd:DefaultName>
             <Top>0.52035cm</Top>
-            <Left>2.99071cm</Left>
+            <Left>3.24647cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>5</ZIndex>
@@ -538,7 +566,7 @@
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
             <Top>0.52035cm</Top>
-            <Left>7.52093cm</Left>
+            <Left>7.20343cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>6</ZIndex>
@@ -560,15 +588,19 @@
                 <TextRuns>
                   <TextRun>
                     <Value>=Parameters!pBookedDate.Value</Value>
-                    <Style />
+                    <Style>
+                      <FontSize>12pt</FontSize>
+                    </Style>
                   </TextRun>
                 </TextRuns>
-                <Style />
+                <Style>
+                  <TextAlign>Left</TextAlign>
+                </Style>
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>pBookedDate</rd:DefaultName>
-            <Top>0.52035cm</Top>
-            <Left>9.70343cm</Left>
+            <Top>0.54681cm</Top>
+            <Left>9.65051cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>7</ZIndex>
@@ -583,7 +615,7 @@
             </Style>
           </Textbox>
         </ReportItems>
-        <Height>1.72954in</Height>
+        <Height>1.53162in</Height>
         <Style>
           <Border>
             <Style>None</Style>
@@ -608,8 +640,8 @@
                       <Style>
                         <FontStyle>Normal</FontStyle>
                         <FontFamily>Times New Roman</FontFamily>
-                        <FontSize>12pt</FontSize>
-                        <FontWeight>Normal</FontWeight>
+                        <FontSize>14pt</FontSize>
+                        <FontWeight>Bold</FontWeight>
                         <TextDecoration>None</TextDecoration>
                         <Color>#000000</Color>
                       </Style>
@@ -620,9 +652,9 @@
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
               <Top>0.635cm</Top>
-              <Left>4.30953cm</Left>
+              <Left>3.31703cm</Left>
               <Height>0.6cm</Height>
-              <Width>5.19875cm</Width>
+              <Width>6.35412cm</Width>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -668,7 +700,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>0.17639cm</Top>
-              <Left>8.98772cm</Left>
+              <Left>7.96467cm</Left>
               <Height>0.6cm</Height>
               <Width>2.05021cm</Width>
               <Style>
@@ -834,12 +866,14 @@
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>3.53771cm</Top>
-              <Left>3.30821cm</Left>
+              <Left>3.31703cm</Left>
               <Height>0.6cm</Height>
               <Width>2.60583cm</Width>
               <ZIndex>6</ZIndex>
@@ -862,16 +896,19 @@
                     <TextRun>
                       <Value>=Parameters!pTotal.Value</Value>
                       <Style>
+                        <FontSize>12pt</FontSize>
                         <Format>'₱'#,0.00;('₱'#,0.00)</Format>
                       </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>pTotal</rd:DefaultName>
-              <Top>0.17639cm</Top>
-              <Left>10.75571cm</Left>
+              <Top>0.20285cm</Top>
+              <Left>10.27946cm</Left>
               <Height>0.6cm</Height>
               <Width>1.76522cm</Width>
               <ZIndex>7</ZIndex>
@@ -894,15 +931,19 @@
                   <TextRuns>
                     <TextRun>
                       <Value>=Parameters!pPaymentMethod.Value</Value>
-                      <Style />
+                      <Style>
+                        <FontSize>12pt</FontSize>
+                      </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>pPaymentMethod</rd:DefaultName>
-              <Top>2.76132cm</Top>
-              <Left>3.68747cm</Left>
+              <Top>2.79632cm</Top>
+              <Left>3.93441cm</Left>
               <Height>0.6cm</Height>
               <Width>2.5cm</Width>
               <ZIndex>8</ZIndex>
@@ -961,15 +1002,19 @@
                   <TextRuns>
                     <TextRun>
                       <Value>=Parameters!pBillingDate.Value</Value>
-                      <Style />
+                      <Style>
+                        <FontSize>12pt</FontSize>
+                      </Style>
                     </TextRun>
                   </TextRuns>
-                  <Style />
+                  <Style>
+                    <TextAlign>Left</TextAlign>
+                  </Style>
                 </Paragraph>
               </Paragraphs>
               <rd:DefaultName>pBillingDate</rd:DefaultName>
-              <Top>2.05549cm</Top>
-              <Left>3.29213cm</Left>
+              <Top>2.09048cm</Top>
+              <Left>3.46852cm</Left>
               <Height>0.6cm</Height>
               <Width>2.5cm</Width>
               <ZIndex>10</ZIndex>

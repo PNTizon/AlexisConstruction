@@ -38,6 +38,11 @@
             this.nudHoursRendered = new System.Windows.Forms.NumericUpDown();
             this.cmbServices = new System.Windows.Forms.ComboBox();
             this.dgvServices = new System.Windows.Forms.DataGridView();
+            this.ServiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ServiceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HoursRendered = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HourlyRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
             this.bILLINGSTATEMENTBindingSource = new System.Windows.Forms.BindingSource(this.components);
@@ -65,11 +70,6 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
-            this.ServiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ServiceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HoursRendered = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HourlyRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Amount = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.nudHoursRendered)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvServices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).BeginInit();
@@ -174,6 +174,7 @@
             this.dgvServices.Location = new System.Drawing.Point(41, 208);
             this.dgvServices.Name = "dgvServices";
             this.dgvServices.ReadOnly = true;
+            this.dgvServices.RowHeadersVisible = false;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.White;
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
@@ -182,6 +183,37 @@
             this.dgvServices.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
             this.dgvServices.Size = new System.Drawing.Size(923, 388);
             this.dgvServices.TabIndex = 269;
+            // 
+            // ServiceID
+            // 
+            this.ServiceID.HeaderText = "Service ID";
+            this.ServiceID.Name = "ServiceID";
+            this.ServiceID.ReadOnly = true;
+            this.ServiceID.Visible = false;
+            // 
+            // ServiceName
+            // 
+            this.ServiceName.HeaderText = "Service Name";
+            this.ServiceName.Name = "ServiceName";
+            this.ServiceName.ReadOnly = true;
+            // 
+            // HoursRendered
+            // 
+            this.HoursRendered.HeaderText = "Hours Rendered";
+            this.HoursRendered.Name = "HoursRendered";
+            this.HoursRendered.ReadOnly = true;
+            // 
+            // HourlyRate
+            // 
+            this.HourlyRate.HeaderText = "Hourly Rate";
+            this.HourlyRate.Name = "HourlyRate";
+            this.HourlyRate.ReadOnly = true;
+            // 
+            // Amount
+            // 
+            this.Amount.HeaderText = "Amount";
+            this.Amount.Name = "Amount";
+            this.Amount.ReadOnly = true;
             // 
             // sHOWCLIENTSBindingSource
             // 
@@ -446,37 +478,6 @@
             // sHOWCLIENTSTableAdapter
             // 
             this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
-            // 
-            // ServiceID
-            // 
-            this.ServiceID.HeaderText = "Service ID";
-            this.ServiceID.Name = "ServiceID";
-            this.ServiceID.ReadOnly = true;
-            this.ServiceID.Visible = false;
-            // 
-            // ServiceName
-            // 
-            this.ServiceName.HeaderText = "Service Name";
-            this.ServiceName.Name = "ServiceName";
-            this.ServiceName.ReadOnly = true;
-            // 
-            // HoursRendered
-            // 
-            this.HoursRendered.HeaderText = "Hours Rendered";
-            this.HoursRendered.Name = "HoursRendered";
-            this.HoursRendered.ReadOnly = true;
-            // 
-            // HourlyRate
-            // 
-            this.HourlyRate.HeaderText = "Hourly Rate";
-            this.HourlyRate.Name = "HourlyRate";
-            this.HourlyRate.ReadOnly = true;
-            // 
-            // Amount
-            // 
-            this.Amount.HeaderText = "Amount";
-            this.Amount.Name = "Amount";
-            this.Amount.ReadOnly = true;
             // 
             // BookingManagement
             // 

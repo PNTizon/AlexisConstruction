@@ -3,15 +3,17 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
+using System.Xml;
 
 namespace AlexisConstruction.Forms
 {
     public partial class BillingStatementForm : Form
     {
+        private DataTable originalTable;
+
         public BillingStatementForm()
         {
             InitializeComponent();
-
         }
 
         private void btnViewReport_Click(object sender, EventArgs e)
@@ -56,9 +58,31 @@ namespace AlexisConstruction.Forms
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
+
+                originalTable = dt.Copy();
                 dataGridView1.DataSource = dt;
 
                 if (dataGridView1.Columns["ServicesAvailed"] != null)
+                    dataGridView1.Columns["ServicesAvailed"].Visible = false;
+            }
+        }
+        private void LoadPaymenTStatus(string paymentStatus)
+        {
+            using (SqlConnection conn = new SqlConnection(Connection.Database))
+            {
+                conn.Open();
+                SqlCommand cmd = new SqlCommand("LoadBillingData", conn);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@PaymentStatus",paymentStatus);
+
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+
+                originalTable = dt.Copy();
+                dataGridView1.DataSource = dt;
+
+                if(dataGridView1.Columns["ServicesAvailed"] != null)
                     dataGridView1.Columns["ServicesAvailed"].Visible = false;
             }
         }
@@ -71,7 +95,15 @@ namespace AlexisConstruction.Forms
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedItems = comboBox1.SelectedItem.ToString();
-            ((BindingSource)dataGridView1.DataSource).Filter = $"[PaymentStatus] = '{selectedItems}'";
+
+            if(selectedItems == "All")
+            {
+                dataGridView1.DataSource = this.dataSet2.BILLINGSTATEMENT1;
+            }
+            else
+            {
+                LoadPaymenTStatus(selectedItems);
+            }
         }
 
         private void btnPrint_Click(object sender, EventArgs e)
@@ -112,7 +144,7 @@ namespace AlexisConstruction.Forms
                 }
                 catch (Exception ex)
                 {
-                    MessageBox.Show(ex.Message, "An error occured while trying to print the receipt.",MessageBoxButtons.OK,MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "An error occured while trying to print the receipt.", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             else
@@ -127,6 +159,11 @@ namespace AlexisConstruction.Forms
             {
                 GenerateReceipt();
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
         }
     }
 }

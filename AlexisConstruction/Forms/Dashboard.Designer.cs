@@ -70,6 +70,7 @@
             this.dgvSchedule.Location = new System.Drawing.Point(39, 68);
             this.dgvSchedule.Name = "dgvSchedule";
             this.dgvSchedule.ReadOnly = true;
+            this.dgvSchedule.RowHeadersVisible = false;
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
