@@ -106,10 +106,10 @@ namespace AlexisConstruction.Forms
             }
         }
 
-        private void btnPrint_Click(object sender, EventArgs e)
-        {
-            GenerateReceipt();
-        }
+        //private void btnPrint_Click(object sender, EventArgs e)
+        //{
+        //    GenerateReceipt();
+        //}
         private void GenerateReceipt()
         {
             if (dataGridView1.SelectedRows.Count > 0 || dataGridView1.CurrentRow != null)
@@ -159,11 +159,6 @@ namespace AlexisConstruction.Forms
             {
                 GenerateReceipt();
             }
-        }
-
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-
         }
     }
 }

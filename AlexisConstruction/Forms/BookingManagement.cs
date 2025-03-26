@@ -18,7 +18,7 @@ namespace AlexisConstruction.Forms
         {
             try
             {
-                if(!ValidateBookingInputs())  return; 
+                //if(!ValidateBookingInputs())  return; 
 
                 BookingDetails.ClientID = Convert.ToInt32(txtName.Text);
                 BookingDetails.BookedDate = dtpBookingDate.Value;
@@ -28,7 +28,25 @@ namespace AlexisConstruction.Forms
                     MessageBox.Show("Booking time must be between 8:00 AM and 3:00 PM.");
                     return;
                 }
-               
+                if (BookingDetails.BookedDate == DateTime.MinValue)
+                {
+                    MessageBox.Show("Please select a valid booking date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return ;
+                }
+                if (!IsServiceSelected())
+                {
+                    MessageBox.Show("Please select a service to book.", "Service Required",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return ;
+                }
+
+                if (!_isPaymentComplete)
+                {
+                    MessageBox.Show("Please complete payment before booking.", "Payment Required",
+                        MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return ;
+                }
+
                 if (bookingManager.IsDateAlreadyBooked(dtpBookingDate.Value))
                 {
                     MessageBox.Show("This date is already booked. Please select another date.", "Booking Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
@@ -116,7 +134,7 @@ namespace AlexisConstruction.Forms
                         row.Cells["Amount"].Value = hoursRendered * services.HourlyRate;
                     }
                 }
-                UpdateTotalAmountAndChange();
+                UpdateTotalAmount();
             }
             catch (Exception ex)
             {
@@ -157,7 +175,7 @@ namespace AlexisConstruction.Forms
 
         private void txtCash_TextChanged(object sender, EventArgs e)
         {
-            UpdateTotalAmountAndChange();
+            CalculateChange();
         }
 
         private void btnPay_Click(object sender, EventArgs e)
@@ -226,8 +244,8 @@ namespace AlexisConstruction.Forms
             lblTotalAmount.Text = "₱0.00";
             _isPaymentComplete = false;
         }
-
-        private void UpdateTotalAmountAndChange()
+      
+        private void UpdateTotalAmount()
         {
             decimal totalAmount = 0;
             foreach (DataGridViewRow row in dgvServices.Rows)
@@ -238,11 +256,25 @@ namespace AlexisConstruction.Forms
                 }
             }
             lblTotalAmount.Text = $"{totalAmount:C}";
+        }
+        private void CalculateChange()
+        {
+            decimal cash = 0;
+            decimal change = 0;
 
-            if (decimal.TryParse(txtCash.Text, out decimal cash))
-                txtCash.Text = (cash - totalAmount).ToString("0.00");
-            else
-                txtChange.Text = "0.00";
+            string totalText = lblTotalAmount.Text.Replace("₱", "").Trim();
+            if (decimal.TryParse(totalText, out decimal totalAmount))
+            {
+                if (decimal.TryParse(txtCash.Text, out cash))
+                {
+                    change = cash - totalAmount;
+                    txtChange.Text = change.ToString("0.00");
+                }
+                else
+                {
+                    txtChange.Text = "0.00";
+                }
+            }
         }
 
         private bool IsServiceSelected() =>

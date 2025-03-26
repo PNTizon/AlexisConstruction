@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mainform));
             this.panel1 = new System.Windows.Forms.Panel();
             this.BillingStatement = new System.Windows.Forms.Button();
             this.InventoryManagerbtn = new System.Windows.Forms.Button();
@@ -36,12 +37,15 @@
             this.BookingManagerbtn = new System.Windows.Forms.Button();
             this.Schedulebtn = new System.Windows.Forms.Button();
             this.paneldash = new System.Windows.Forms.Panel();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.panel1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // panel1
             // 
             this.panel1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(67)))), ((int)(((byte)(100)))), ((int)(((byte)(54)))));
+            this.panel1.Controls.Add(this.pictureBox1);
             this.panel1.Controls.Add(this.BillingStatement);
             this.panel1.Controls.Add(this.InventoryManagerbtn);
             this.panel1.Controls.Add(this.ServiceManagerbtn);
@@ -60,11 +64,12 @@
             this.BillingStatement.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.BillingStatement.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.BillingStatement.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BillingStatement.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BillingStatement.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.BillingStatement.ForeColor = System.Drawing.Color.White;
-            this.BillingStatement.Location = new System.Drawing.Point(0, 323);
+            this.BillingStatement.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.BillingStatement.Location = new System.Drawing.Point(0, 366);
             this.BillingStatement.Name = "BillingStatement";
-            this.BillingStatement.Size = new System.Drawing.Size(194, 39);
+            this.BillingStatement.Size = new System.Drawing.Size(194, 36);
             this.BillingStatement.TabIndex = 12;
             this.BillingStatement.Text = "Billing Reports";
             this.BillingStatement.UseVisualStyleBackColor = true;
@@ -76,11 +81,12 @@
             this.InventoryManagerbtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.InventoryManagerbtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.InventoryManagerbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.InventoryManagerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.InventoryManagerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.InventoryManagerbtn.ForeColor = System.Drawing.Color.White;
-            this.InventoryManagerbtn.Location = new System.Drawing.Point(0, 279);
+            this.InventoryManagerbtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.InventoryManagerbtn.Location = new System.Drawing.Point(0, 321);
             this.InventoryManagerbtn.Name = "InventoryManagerbtn";
-            this.InventoryManagerbtn.Size = new System.Drawing.Size(194, 39);
+            this.InventoryManagerbtn.Size = new System.Drawing.Size(194, 36);
             this.InventoryManagerbtn.TabIndex = 10;
             this.InventoryManagerbtn.Text = "Inventory";
             this.InventoryManagerbtn.UseVisualStyleBackColor = true;
@@ -92,11 +98,12 @@
             this.ServiceManagerbtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.ServiceManagerbtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.ServiceManagerbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ServiceManagerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ServiceManagerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.ServiceManagerbtn.ForeColor = System.Drawing.Color.White;
-            this.ServiceManagerbtn.Location = new System.Drawing.Point(0, 241);
+            this.ServiceManagerbtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.ServiceManagerbtn.Location = new System.Drawing.Point(0, 283);
             this.ServiceManagerbtn.Name = "ServiceManagerbtn";
-            this.ServiceManagerbtn.Size = new System.Drawing.Size(194, 39);
+            this.ServiceManagerbtn.Size = new System.Drawing.Size(194, 36);
             this.ServiceManagerbtn.TabIndex = 9;
             this.ServiceManagerbtn.Text = "Services";
             this.ServiceManagerbtn.UseVisualStyleBackColor = true;
@@ -108,11 +115,12 @@
             this.ClientManagerbtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.ClientManagerbtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.ClientManagerbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.ClientManagerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.ClientManagerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.ClientManagerbtn.ForeColor = System.Drawing.Color.White;
-            this.ClientManagerbtn.Location = new System.Drawing.Point(0, 203);
+            this.ClientManagerbtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.ClientManagerbtn.Location = new System.Drawing.Point(0, 245);
             this.ClientManagerbtn.Name = "ClientManagerbtn";
-            this.ClientManagerbtn.Size = new System.Drawing.Size(194, 39);
+            this.ClientManagerbtn.Size = new System.Drawing.Size(194, 36);
             this.ClientManagerbtn.TabIndex = 8;
             this.ClientManagerbtn.Text = "Clients";
             this.ClientManagerbtn.UseVisualStyleBackColor = true;
@@ -124,11 +132,12 @@
             this.BookingManagerbtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.BookingManagerbtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.BookingManagerbtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.BookingManagerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.BookingManagerbtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.BookingManagerbtn.ForeColor = System.Drawing.Color.White;
-            this.BookingManagerbtn.Location = new System.Drawing.Point(0, 166);
+            this.BookingManagerbtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.BookingManagerbtn.Location = new System.Drawing.Point(0, 208);
             this.BookingManagerbtn.Name = "BookingManagerbtn";
-            this.BookingManagerbtn.Size = new System.Drawing.Size(194, 39);
+            this.BookingManagerbtn.Size = new System.Drawing.Size(194, 36);
             this.BookingManagerbtn.TabIndex = 7;
             this.BookingManagerbtn.Text = "Bookings";
             this.BookingManagerbtn.UseVisualStyleBackColor = true;
@@ -140,11 +149,12 @@
             this.Schedulebtn.FlatAppearance.MouseDownBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.Schedulebtn.FlatAppearance.MouseOverBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(141)))), ((int)(((byte)(173)))), ((int)(((byte)(104)))));
             this.Schedulebtn.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.Schedulebtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.Schedulebtn.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold);
             this.Schedulebtn.ForeColor = System.Drawing.Color.White;
-            this.Schedulebtn.Location = new System.Drawing.Point(0, 129);
+            this.Schedulebtn.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.Schedulebtn.Location = new System.Drawing.Point(0, 171);
             this.Schedulebtn.Name = "Schedulebtn";
-            this.Schedulebtn.Size = new System.Drawing.Size(194, 39);
+            this.Schedulebtn.Size = new System.Drawing.Size(194, 36);
             this.Schedulebtn.TabIndex = 6;
             this.Schedulebtn.Text = "Schedule";
             this.Schedulebtn.UseVisualStyleBackColor = true;
@@ -158,6 +168,14 @@
             this.paneldash.Size = new System.Drawing.Size(1000, 654);
             this.paneldash.TabIndex = 9;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(194, 162);
+            this.pictureBox1.TabIndex = 13;
+            this.pictureBox1.TabStop = false;
+            // 
             // Mainform
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -165,12 +183,16 @@
             this.ClientSize = new System.Drawing.Size(1194, 655);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.paneldash);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Mainform";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "Alexis Contruction";
             this.Load += new System.EventHandler(this.Mainform_Load);
             this.panel1.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -185,5 +207,6 @@
         private System.Windows.Forms.Button Schedulebtn;
         private System.Windows.Forms.Panel paneldash;
         private System.Windows.Forms.Button BillingStatement;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }
