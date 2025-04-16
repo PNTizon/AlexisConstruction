@@ -1,4 +1,5 @@
 ﻿using AlexisConstruction.Classes;
+using ServiceStack;
 using System;
 using System.Windows.Forms;
 
@@ -8,6 +9,7 @@ namespace AlexisConstruction.Forms
     {
         private ServiceManager inventorymanange = new ServiceManager();
         private DataGridSelection gridselection = new DataGridSelection();
+        private bool IsEditMode = false;
         public InventoryManagement()
         {
             InitializeComponent();
@@ -17,20 +19,32 @@ namespace AlexisConstruction.Forms
         {
             try
             {
+                int serviceID = Convert.ToInt32(cmbServices.SelectedValue);
+                string itemname = txtItemName.Text.Trim();
+                int quantity = Convert.ToInt32(txtQuantity.Text);
+                string servicename = cmbServices.Text;
+
+                if (IsEditMode)
+                {
+                    MessageBox.Show("Finish editing the current record before adding a new one.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (cmbServices.SelectedValue == null || string.IsNullOrEmpty(txtItemName.Text) || string.IsNullOrEmpty(txtQuantity.Text))
                 {
                     MessageBox.Show("Please fill in all the fields.");
                     return;
                 }
-                int serviceID = Convert.ToInt32(cmbServices.SelectedValue);
-                string itemname = txtItemName.Text.Trim();
-                int quantity = Convert.ToInt32(txtQuantity.Text);
-                string servicename = cmbServices.Text;
+                if(inventorymanange.CheckDuplication(itemname,dgvInventory))
+                {
+                    MessageBox.Show("Item already exists in the selected service.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (inventorymanange.AddItemToService(serviceID, itemname, quantity, servicename))
                 {
                     MessageBox.Show("Inventory item added successfully!", "Success");
                     inventorymanange.LoadServiceItems(serviceID, dgvInventory);
                     this.sHOWINVENTORYTableAdapter.Fill(this.dataSet2.SHOWINVENTORY);
+                    //inventorymanange.LoadServices(cmbServices);
                     Clear();
                 }
                 else
@@ -40,7 +54,7 @@ namespace AlexisConstruction.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -71,7 +85,9 @@ namespace AlexisConstruction.Forms
                         {
                             MessageBox.Show("Inventory item updated successfully!", "Success");
                             inventorymanange.LoadServiceItems(Convert.ToInt32(cmbServices.SelectedValue), dgvInventory);
-                            this.sHOWINVENTORYTableAdapter.Fill(this.dataSet2.SHOWINVENTORY);
+                            //this.sHOWINVENTORYTableAdapter.Fill(this.dataSet2.SHOWINVENTORY);
+                            inventorymanange.LoadServices(cmbServices);
+                            IsEditMode = false;
                             Clear();
                         }
                         else
@@ -91,27 +107,36 @@ namespace AlexisConstruction.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnDeleteInventory_Click(object sender, EventArgs e)
         {
+            if(IsEditMode)
+            {
+                MessageBox.Show("Finish editing the current record before deleting.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (dgvInventory.SelectedRows.Count > 0)
             {
                 int inventoryID = Convert.ToInt32(dgvInventory.SelectedRows[0].Cells["InventoryID"].Value);
-                int serviceID = Convert.ToInt32(cmbServices.SelectedValue);
 
-                if (inventorymanange.DeleteInventoryItem(inventoryID))
+                var result = MessageBox.Show("Are you sure you want to delete this inventory item?", "Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (result == DialogResult.Yes)
                 {
-                    MessageBox.Show("Inventory item deleted successfully!");
-                    inventorymanange.LoadServiceItems(serviceID, dgvInventory);
-                    this.sHOWINVENTORYTableAdapter.Fill(this.dataSet2.SHOWINVENTORY);
-                    Clear();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to delete inventory item.");
+                    if (inventorymanange.DeleteInventoryItem(inventoryID))
+                    {
+                        MessageBox.Show("Inventory item deleted successfully!");
+                        //inventorymanange.LoadServiceItems(serviceID, dgvInventory);
+
+                        inventorymanange.LoadServices(cmbServices);
+                        Clear();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to delete inventory item.");
+                    }
                 }
             }
             else
@@ -125,17 +150,12 @@ namespace AlexisConstruction.Forms
             txtQuantity.Text = string.Empty;
             cmbServices.SelectedValue = -1;
         }
-        private void dgvInventory_CellClick(object sender, DataGridViewCellEventArgs e)
-        {
-            gridselection.PopulateInventoryDate(e.RowIndex, dgvInventory, txtItemName, txtQuantity, cmbServices);
-        }
+        
         private void InventoryManagement_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'dataSet2.SHOWINVENTORY' table. You can move, or remove it, as needed.
             this.sHOWINVENTORYTableAdapter.Fill(this.dataSet2.SHOWINVENTORY);
             inventorymanange.LoadServices(cmbServices);
-
-            cmbServices.SelectedIndexChanged += cmbServices_SelectedIndexChanged;
         }
 
         private void cmbServices_SelectedIndexChanged(object sender, EventArgs e)
@@ -146,9 +166,21 @@ namespace AlexisConstruction.Forms
             }
         }
 
-        private void dgvInventory_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void button4_Click(object sender, EventArgs e)
         {
+            IsEditMode = false;
+            Clear();
+        }
 
+        private void dgvInventory_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            IsEditMode = false;
+            Clear();
+        }
+
+        private void dgvInventory_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            gridselection.PopulateInventoryDate(e.RowIndex, dgvInventory, txtItemName, txtQuantity, cmbServices);
         }
     }
 }

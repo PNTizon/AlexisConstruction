@@ -40,12 +40,13 @@
             this.label6 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.dgvServices = new System.Windows.Forms.DataGridView();
-            this.ServiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.ServiceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.HourlyRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.sHOWSERVICESBindingSource = new System.Windows.Forms.BindingSource(this.components);
             this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
             this.sHOWSERVICESTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWSERVICESTableAdapter();
+            this.btnCancelEdit = new System.Windows.Forms.Button();
+            this.ServiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.ServiceName = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.HourlyRate = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvServices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWSERVICESBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2)).BeginInit();
@@ -57,7 +58,7 @@
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(625, 90);
+            this.button3.Location = new System.Drawing.Point(620, 104);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(80, 26);
             this.button3.TabIndex = 267;
@@ -71,11 +72,11 @@
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(487, 90);
+            this.button2.Location = new System.Drawing.Point(390, 104);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(80, 26);
             this.button2.TabIndex = 266;
-            this.button2.Text = "Edit";
+            this.button2.Text = "Update";
             this.button2.UseVisualStyleBackColor = false;
             this.button2.Click += new System.EventHandler(this.btnEdit_Click);
             // 
@@ -85,7 +86,7 @@
             this.btnAdd.FlatAppearance.BorderSize = 0;
             this.btnAdd.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnAdd.ForeColor = System.Drawing.Color.White;
-            this.btnAdd.Location = new System.Drawing.Point(340, 90);
+            this.btnAdd.Location = new System.Drawing.Point(278, 104);
             this.btnAdd.Name = "btnAdd";
             this.btnAdd.Size = new System.Drawing.Size(80, 26);
             this.btnAdd.TabIndex = 265;
@@ -163,16 +164,45 @@
             this.dgvServices.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvServices.EnableHeadersVisualStyles = false;
             this.dgvServices.GridColor = System.Drawing.Color.Black;
-            this.dgvServices.Location = new System.Drawing.Point(51, 143);
+            this.dgvServices.Location = new System.Drawing.Point(51, 151);
             this.dgvServices.Name = "dgvServices";
             this.dgvServices.ReadOnly = true;
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvServices.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvServices.Size = new System.Drawing.Size(902, 468);
+            this.dgvServices.Size = new System.Drawing.Size(902, 501);
             this.dgvServices.TabIndex = 260;
-            this.dgvServices.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvServices_CellContentClick);
+            this.dgvServices.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvServices_RowHeaderMouseClick);
+            this.dgvServices.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvServices_RowHeaderMouseDoubleClick);
+            // 
+            // sHOWSERVICESBindingSource
+            // 
+            this.sHOWSERVICESBindingSource.DataMember = "SHOWSERVICES";
+            this.sHOWSERVICESBindingSource.DataSource = this.dataSet2;
+            // 
+            // dataSet2
+            // 
+            this.dataSet2.DataSetName = "DataSet2";
+            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // sHOWSERVICESTableAdapter
+            // 
+            this.sHOWSERVICESTableAdapter.ClearBeforeFill = true;
+            // 
+            // btnCancelEdit
+            // 
+            this.btnCancelEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(153)))), ((int)(((byte)(78)))));
+            this.btnCancelEdit.FlatAppearance.BorderSize = 0;
+            this.btnCancelEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelEdit.ForeColor = System.Drawing.Color.White;
+            this.btnCancelEdit.Location = new System.Drawing.Point(501, 104);
+            this.btnCancelEdit.Name = "btnCancelEdit";
+            this.btnCancelEdit.Size = new System.Drawing.Size(80, 26);
+            this.btnCancelEdit.TabIndex = 268;
+            this.btnCancelEdit.Text = "Cancel Edit";
+            this.btnCancelEdit.UseVisualStyleBackColor = false;
+            this.btnCancelEdit.Click += new System.EventHandler(this.btnCancelEdit_Click);
             // 
             // ServiceID
             // 
@@ -196,26 +226,13 @@
             this.HourlyRate.Name = "HourlyRate";
             this.HourlyRate.ReadOnly = true;
             // 
-            // sHOWSERVICESBindingSource
-            // 
-            this.sHOWSERVICESBindingSource.DataMember = "SHOWSERVICES";
-            this.sHOWSERVICESBindingSource.DataSource = this.dataSet2;
-            // 
-            // dataSet2
-            // 
-            this.dataSet2.DataSetName = "DataSet2";
-            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // sHOWSERVICESTableAdapter
-            // 
-            this.sHOWSERVICESTableAdapter.ClearBeforeFill = true;
-            // 
             // ServiceManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 654);
+            this.ClientSize = new System.Drawing.Size(1000, 693);
+            this.Controls.Add(this.btnCancelEdit);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.btnAdd);
@@ -249,6 +266,7 @@
         private DataSet.DataSet2 dataSet2;
         private System.Windows.Forms.BindingSource sHOWSERVICESBindingSource;
         private DataSet.DataSet2TableAdapters.SHOWSERVICESTableAdapter sHOWSERVICESTableAdapter;
+        private System.Windows.Forms.Button btnCancelEdit;
         private System.Windows.Forms.DataGridViewTextBoxColumn ServiceID;
         private System.Windows.Forms.DataGridViewTextBoxColumn ServiceName;
         private System.Windows.Forms.DataGridViewTextBoxColumn HourlyRate;

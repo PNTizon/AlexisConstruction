@@ -23,7 +23,7 @@ namespace AlexisConstruction.Classes
         public string Email { get; set; }
         public string Address { get; set; }
         public string CountryCode { get; set; }
-    }
+}
    
     public class Bookings
     {
@@ -83,7 +83,7 @@ namespace AlexisConstruction.Classes
         }
         public List<Orders> BookingReceipt { get; set; }
         public static int ClientID { get; set; }
-        public int BookingsID { get; set; }
+        public  int BookingsID { get; set; }
         public string CustomerName { get; set; }
         public DateTime BillingDate { get; set; }
         public static  DateTime BookedDate { get; set; }
@@ -102,6 +102,17 @@ namespace AlexisConstruction.Classes
         public  DateTime BookedDate { get; set; }
         public string MOP { get; set; }
         public decimal TotalAmount { get; set; }
+    }
+    public class CalendarRecords
+    {
+        public static int ClientID { get; set; }
+        public static int BookingsID { get; set; }
+        public static  string ServiceName { get; set; }
+        public static DateTime BookedDate { get; set; }
+        public static decimal TotalAmount { get; set; }
+        public static string Status { get; set; }
+        public static string PaymentStatus { get; set; }
+        public static string BookingDetails { get; set; }
     }
 }
  

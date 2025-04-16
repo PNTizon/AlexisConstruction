@@ -22,7 +22,7 @@ namespace AlexisConstruction.Classes
                         cmd.Parameters.AddWithValue("@service", service.ServiceName);
                         cmd.Parameters.AddWithValue("@rate", service.HourlyRate);
 
-                       return cmd.ExecuteNonQuery() > 0;
+                        return cmd.ExecuteNonQuery() > 0;
                     }
                 }
             }
@@ -60,12 +60,44 @@ namespace AlexisConstruction.Classes
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@id", service);
-                        return cmd.ExecuteNonQuery() > 0;
+
+                        var returnValue = new SqlParameter("@Result", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(returnValue);
+
+                        cmd.ExecuteNonQuery();
+
+                        int result = Convert.ToInt32(cmd.Parameters["@Result"].Value);
+                        return result == 0;
                     }
                 }
             }
             catch { throw; }
+        }
 
+        public bool CheckServiceDuplication(string serviceName,DataGridView grid)
+        {
+            try
+            {
+                using(SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
+
+                    string query = @"SELECT * FROM Services WHERE ServiceName = @Servicename";
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@Servicename", serviceName);
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+
+                        grid.DataSource = dt;
+                    }
+                }
+                return true;
+            }
+            catch { throw; }
         }
         #endregion
 
@@ -194,6 +226,30 @@ namespace AlexisConstruction.Classes
                         combobox.DisplayMember = "ServiceName";
                         combobox.ValueMember = "ServiceID";
                     }
+                }
+            }
+            catch { throw; }
+        }
+        public bool CheckDuplication(string itemname, DataGridView grid)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
+                    string query = @"SELECT * FROM Inventory WHERE ItemName = @ItemName";
+
+                    using (SqlCommand cmd = new SqlCommand(query, con))
+                    {
+                        cmd.Parameters.AddWithValue("@ItemName", itemname);
+                        SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                        DataTable dt = new DataTable();
+                        adapter.Fill(dt);
+
+                        grid.DataSource = dt;
+
+                    }
+                    return true;
                 }
             }
             catch { throw; }

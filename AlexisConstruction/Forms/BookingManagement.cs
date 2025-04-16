@@ -1,5 +1,6 @@
 ﻿using AlexisConstruction.Classes;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Windows.Forms;
 
@@ -13,49 +14,83 @@ namespace AlexisConstruction.Forms
         {
             InitializeComponent();
             dtpBookingDate.MinDate = DateTime.Now;
+
+            numHoursRendered.Value = 1;
+        }
+
+        public BookingManagement(DateTime selectedDate)
+        {
+            InitializeComponent();
+            dtpBookingDate.MinDate = DateTime.Now;
+
+            if (selectedDate >= DateTime.Now)
+            {
+                dtpBookingDate.Value = selectedDate;
+            }
+
         }
         private void btnBook_Click(object sender, EventArgs e)
         {
+            DateTime date = dtpBookingDate.Value.Date;
+
+            if(cmbTime.SelectedItem == null)
+            {
+                MessageBox.Show("Please select a time.", "Time Required", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            if(!DateTime.TryParse(cmbTime.SelectedItem.ToString(), out DateTime selectedTime))
+            {
+                MessageBox.Show("Invalid time selected.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            BookingDetails.BookedDate = date.Add(selectedTime.TimeOfDay);
             try
             {
-                //if(!ValidateBookingInputs())  return; 
-
                 BookingDetails.ClientID = Convert.ToInt32(txtName.Text);
-                BookingDetails.BookedDate = dtpBookingDate.Value;
 
-                if (!bookingManager.IsTimeAllowedRange(BookingDetails.BookedDate))
+                int hoursRendered = (int)numHoursRendered.Value;
+
+                if (!bookingManager.IsWorkEndTime(BookingDetails.BookedDate,hoursRendered))
                 {
-                    MessageBox.Show("Booking time must be between 8:00 AM and 3:00 PM.");
+                    MessageBox.Show("Service would extend outside working hours or overlap lunch break.");
                     return;
                 }
                 if (BookingDetails.BookedDate == DateTime.MinValue)
                 {
                     MessageBox.Show("Please select a valid booking date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return ;
+                    return;
                 }
                 if (!IsServiceSelected())
                 {
                     MessageBox.Show("Please select a service to book.", "Service Required",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return ;
+                    return;
                 }
 
                 if (!_isPaymentComplete)
                 {
                     MessageBox.Show("Please complete payment before booking.", "Payment Required",
                         MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                    return ;
-                }
-
-                if (bookingManager.IsDateAlreadyBooked(dtpBookingDate.Value))
-                {
-                    MessageBox.Show("This date is already booked. Please select another date.", "Booking Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
-              
+
+                if(!bookingManager.IsTimeSlotAvailable(BookingDetails.BookedDate, hoursRendered))
+                {
+                    MessageBox.Show("This time slot is already booked. Please select another time.", "Time Slot Unavailable", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    UpdateAvailableTimeSlot();
+                    return;
+                }
+                //if (bookingManager.IsDateAlreadyBooked(BookingDetails.BookedDate))
+                //{
+                //    MessageBox.Show("This date is already booked. Please select another date.", "Booking Conflict", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                //    return;
+                //}
+
                 if (!decimal.TryParse(lblTotalAmount.Text.Replace("₱", "").Trim(), out decimal totalAmount))
                 {
-                    MessageBox.Show("Total amount is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Total amount is invalid.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error); 
                     return;
                 }
 
@@ -66,14 +101,16 @@ namespace AlexisConstruction.Forms
                     bookingManager.UpdatePaymentStatus(bookingID);
 
                     MessageBox.Show("Booking and payment successfully processed!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    Print();
+                    Print(bookingID);
                     ClearForm();
+
+                    UpdateAvailableTimeSlot();
                 }
                 else
                 {
                     MessageBox.Show(!bookingManager.IsInventoryAvailable(Convert.ToInt32(txtServiceID.Text)) ? "Booking failed: Insufficient inventory for the selected service."
                         : "Failed to create booking. Please try again.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                } 
+                }
             }
             catch (Exception ex)
             {
@@ -101,7 +138,7 @@ namespace AlexisConstruction.Forms
         {
             try
             {
-                int hoursRendered = (int)nudHoursRendered.Value;
+                int hoursRendered = (int)numHoursRendered.Value;
                 Services services = cmbServices.SelectedItem as Services;
 
                 if (services != null)
@@ -157,12 +194,11 @@ namespace AlexisConstruction.Forms
                 txtServiceID.Text = customer.ServiceID.ToString();
             }
         }
-        private void Print()
+        private void Print(int bookingID)
         {
             BookingDetails bookings = new BookingDetails();
-            int bookingID = Convert.ToInt32(cmbClients.SelectedValue);
             bookings.CustomerName = cmbClients.Text;
-            bookings.BookingsID = Convert.ToInt32(txtName.Text);
+            bookings.BookingsID = bookingID;
             bookings.BillingDate = DateTime.Now;
             bookings.MOP = "Cash";
             bookings.BookingReceipt = BookingManager.GetServiceDetails(bookings.BookingsID);
@@ -201,6 +237,7 @@ namespace AlexisConstruction.Forms
                     MessageBox.Show("Insufficient cash entered.", "Payment Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return;
                 }
+
                 _isPaymentComplete = true;
 
                 MessageBox.Show("Payment validated! You can now book the service.", "Payment Validated", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -211,30 +248,17 @@ namespace AlexisConstruction.Forms
             }
         }
 
-        #region Function Helpers
-
-        private bool ValidateBookingInputs()
+        private void numHoursRendered_ValueChanged(object sender, EventArgs e)
         {
-            if (BookingDetails.BookedDate == DateTime.MinValue)
-            {
-                MessageBox.Show("Please select a valid booking date.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
-            if (!IsServiceSelected())
-            {
-                MessageBox.Show("Please select a service to book.", "Service Required",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-
-            if (!_isPaymentComplete)
-            {
-                MessageBox.Show("Please complete payment before booking.", "Payment Required",
-                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
-                return false;
-            }
-            return true;
+            UpdateAvailableTimeSlot();
         }
+
+        private void dtpBookingDate_ValueChanged(object sender, EventArgs e)
+        {
+            UpdateAvailableTimeSlot();
+        }
+
+        #region Function Helpers
         public void ClearForm()
         {
             dgvServices.Rows.Clear();
@@ -243,8 +267,10 @@ namespace AlexisConstruction.Forms
             txtChange.Text = string.Empty;
             lblTotalAmount.Text = "₱0.00";
             _isPaymentComplete = false;
+
+            UpdateAvailableTimeSlot();
         }
-      
+
         private void UpdateTotalAmount()
         {
             decimal totalAmount = 0;
@@ -279,6 +305,41 @@ namespace AlexisConstruction.Forms
 
         private bool IsServiceSelected() =>
             dgvServices.Rows.Count > 0 && dgvServices.Rows[0].Cells["ServiceID"].Value != null;
+
+
+        private void UpdateAvailableTimeSlot()
+        {
+            try
+            {
+                cmbTime.Items.Clear();
+
+                int serviceID = 0;
+
+                if (cmbServices.SelectedItem != null)
+                {
+                    Services service = cmbServices.SelectedItem as Services;
+                    serviceID = service.ServiceID;
+
+                    int hoursNeeded = (int)numHoursRendered.Value;
+
+                    List<DateTime> availableSlots = bookingManager.GetAvailableTimeSlot(dtpBookingDate.Value, hoursNeeded);
+
+                    foreach (DateTime slot in availableSlots)
+                    {
+                        cmbTime.Items.Add(slot.ToString("hh:mm tt"));
+                    }
+
+                    if (cmbTime.Items.Count > 0)
+                    {
+                        cmbTime.SelectedIndex = 0;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
         #endregion
     }
 }

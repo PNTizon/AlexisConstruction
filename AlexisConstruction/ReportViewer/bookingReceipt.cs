@@ -27,8 +27,7 @@ namespace AlexisConstruction.Forms
                 using (SqlCommand cmd = new SqlCommand("RECEIPT", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@bookedDate", BookingDetails.BookedDate);
-                    cmd.Parameters.AddWithValue("@clientID", _booking.BookingsID);
+                    cmd.Parameters.AddWithValue("@bookingID", _booking.BookingsID);
 
                     DataTable dt = new DataTable();
                     SqlDataAdapter da = new SqlDataAdapter(cmd);

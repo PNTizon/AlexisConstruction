@@ -8,6 +8,7 @@ namespace AlexisConstruction.Forms
     {
         private ServiceManager services = new ServiceManager();
         private DataGridSelection select = new DataGridSelection();
+        private bool isEditMode = false;
         public ServiceManagement()
         {
             InitializeComponent();
@@ -17,9 +18,19 @@ namespace AlexisConstruction.Forms
         {
             try
             {
+                if(isEditMode)
+                {
+                    MessageBox.Show("Finish editing the current record before adding a new one.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 if (string.IsNullOrWhiteSpace(txtServiceName.Text) || !decimal.TryParse(txtHourlyRate.Text, out decimal hourlyRate))
                 {
                     MessageBox.Show("Please enter valid service name and hourly rate.");
+                    return;
+                }
+                if(services.CheckServiceDuplication(txtServiceName.Text,dgvServices))
+                {
+                    MessageBox.Show("Service already exists.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                     return;
                 }
                 Services newService = new Services
@@ -41,7 +52,7 @@ namespace AlexisConstruction.Forms
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -62,6 +73,7 @@ namespace AlexisConstruction.Forms
                     {
                         MessageBox.Show("Service updated successfully!");
                         this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
+                        isEditMode = false;
                         Clear();
                     }
                     else
@@ -76,30 +88,41 @@ namespace AlexisConstruction.Forms
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnDetele_Click(object sender, EventArgs e)
         {
+            if (isEditMode)
+            {
+                MessageBox.Show("Cannot delete while editing a record. Please finish editing first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (dgvServices.SelectedRows.Count > 0)
             {
                 int serviceID = Convert.ToInt32(dgvServices.SelectedRows[0].Cells["ServiceID"].Value);
 
-                DialogResult confirmDelete = MessageBox.Show("Are you sure you want to delete this service?",
-                    "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                var confirmDelete = MessageBox.Show("Are you sure you want to delete this service?", "Confirm Deletion", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 
                 if (confirmDelete == DialogResult.Yes)
                 {
-                    if (services.DeleteService(serviceID))
+                    try
                     {
-                        MessageBox.Show("Service deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
-                        Clear();
+                        if (services.DeleteService(serviceID))
+                        {
+                            MessageBox.Show("Service deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                            this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
+                            Clear();
+                        }
+                        else
+                        {
+                            MessageBox.Show("Cannot delete this service because it is assosciated with one or more booking.", "Operation Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("Failed to delete service.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        MessageBox.Show(ex.Message, "An error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     }
                 }
             }
@@ -113,14 +136,29 @@ namespace AlexisConstruction.Forms
             txtServiceName.Text = string.Empty;
             txtHourlyRate.Text = string.Empty;
         }
-        private void dgvServices_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            select.PopulateService(e.RowIndex, dgvServices, txtHourlyRate, txtServiceName);
-        }
+        
         private void ServicesManagement_Load(object sender, EventArgs e)
         {
             // TODO: This line of code loads data into the 'dataSet2.SHOWSERVICES' table. You can move, or remove it, as needed.
             this.sHOWSERVICESTableAdapter.Fill(this.dataSet2.SHOWSERVICES);
+        }
+
+        private void btnCancelEdit_Click(object sender, EventArgs e)
+        {
+            isEditMode = false;
+            Clear();
+        }
+
+        private void dgvServices_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            isEditMode = false;
+            Clear();
+        }
+
+        private void dgvServices_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            select.PopulateService(e.RowIndex, dgvServices, txtHourlyRate, txtServiceName);
+            isEditMode = true;
         }
     }
 }

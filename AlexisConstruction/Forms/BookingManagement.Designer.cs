@@ -35,7 +35,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.button1 = new System.Windows.Forms.Button();
-            this.nudHoursRendered = new System.Windows.Forms.NumericUpDown();
+            this.numHoursRendered = new System.Windows.Forms.NumericUpDown();
             this.cmbServices = new System.Windows.Forms.ComboBox();
             this.dgvServices = new System.Windows.Forms.DataGridView();
             this.ServiceID = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -70,7 +70,9 @@
             this.panel2 = new System.Windows.Forms.Panel();
             this.panel4 = new System.Windows.Forms.Panel();
             this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
-            ((System.ComponentModel.ISupportInitialize)(this.nudHoursRendered)).BeginInit();
+            this.label8 = new System.Windows.Forms.Label();
+            this.cmbTime = new System.Windows.Forms.ComboBox();
+            ((System.ComponentModel.ISupportInitialize)(this.numHoursRendered)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvServices)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2)).BeginInit();
@@ -116,13 +118,14 @@
             this.button1.UseVisualStyleBackColor = false;
             this.button1.Click += new System.EventHandler(this.btnBook_Click);
             // 
-            // nudHoursRendered
+            // numHoursRendered
             // 
-            this.nudHoursRendered.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.nudHoursRendered.Location = new System.Drawing.Point(661, 74);
-            this.nudHoursRendered.Name = "nudHoursRendered";
-            this.nudHoursRendered.Size = new System.Drawing.Size(189, 22);
-            this.nudHoursRendered.TabIndex = 271;
+            this.numHoursRendered.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.numHoursRendered.Location = new System.Drawing.Point(661, 74);
+            this.numHoursRendered.Name = "numHoursRendered";
+            this.numHoursRendered.Size = new System.Drawing.Size(189, 22);
+            this.numHoursRendered.TabIndex = 271;
+            this.numHoursRendered.ValueChanged += new System.EventHandler(this.numHoursRendered_ValueChanged);
             // 
             // cmbServices
             // 
@@ -181,7 +184,7 @@
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvServices.RowsDefaultCellStyle = dataGridViewCellStyle3;
             this.dgvServices.RowTemplate.DefaultCellStyle.ForeColor = System.Drawing.Color.Black;
-            this.dgvServices.Size = new System.Drawing.Size(923, 388);
+            this.dgvServices.Size = new System.Drawing.Size(923, 423);
             this.dgvServices.TabIndex = 269;
             // 
             // ServiceID
@@ -260,23 +263,24 @@
             // dtpBookingDate
             // 
             this.dtpBookingDate.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.dtpBookingDate.Format = System.Windows.Forms.DateTimePickerFormat.Time;
+            this.dtpBookingDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
             this.dtpBookingDate.Location = new System.Drawing.Point(661, 36);
             this.dtpBookingDate.Name = "dtpBookingDate";
-            this.dtpBookingDate.Size = new System.Drawing.Size(189, 22);
+            this.dtpBookingDate.Size = new System.Drawing.Size(102, 22);
             this.dtpBookingDate.TabIndex = 266;
             this.dtpBookingDate.Value = new System.DateTime(2025, 3, 20, 9, 27, 34, 0);
+            this.dtpBookingDate.ValueChanged += new System.EventHandler(this.dtpBookingDate_ValueChanged);
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label4.Location = new System.Drawing.Point(513, 40);
+            this.label4.Location = new System.Drawing.Point(551, 40);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(145, 16);
+            this.label4.Size = new System.Drawing.Size(107, 16);
             this.label4.TabIndex = 265;
-            this.label4.Text = "Scheduled Date/Time :";
+            this.label4.Text = "Scheduled Date:";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // button2
@@ -298,7 +302,7 @@
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label5.Location = new System.Drawing.Point(758, 613);
+            this.label5.Location = new System.Drawing.Point(744, 652);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(95, 16);
             this.label5.TabIndex = 278;
@@ -310,7 +314,7 @@
             this.lblTotalAmount.AutoSize = true;
             this.lblTotalAmount.Font = new System.Drawing.Font("Microsoft Sans Serif", 11.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTotalAmount.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.lblTotalAmount.Location = new System.Drawing.Point(853, 611);
+            this.lblTotalAmount.Location = new System.Drawing.Point(839, 650);
             this.lblTotalAmount.Name = "lblTotalAmount";
             this.lblTotalAmount.Size = new System.Drawing.Size(0, 18);
             this.lblTotalAmount.TabIndex = 277;
@@ -479,12 +483,34 @@
             // 
             this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
             // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label8.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
+            this.label8.Location = new System.Drawing.Point(769, 40);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(74, 16);
+            this.label8.TabIndex = 299;
+            this.label8.Text = "Start Time :";
+            this.label8.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // cmbTime
+            // 
+            this.cmbTime.FormattingEnabled = true;
+            this.cmbTime.Location = new System.Drawing.Point(849, 37);
+            this.cmbTime.Name = "cmbTime";
+            this.cmbTime.Size = new System.Drawing.Size(107, 21);
+            this.cmbTime.TabIndex = 300;
+            // 
             // BookingManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 654);
+            this.ClientSize = new System.Drawing.Size(1000, 693);
+            this.Controls.Add(this.cmbTime);
+            this.Controls.Add(this.label8);
             this.Controls.Add(this.panel4);
             this.Controls.Add(this.panel2);
             this.Controls.Add(this.panel1);
@@ -506,7 +532,7 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.button1);
-            this.Controls.Add(this.nudHoursRendered);
+            this.Controls.Add(this.numHoursRendered);
             this.Controls.Add(this.cmbServices);
             this.Controls.Add(this.dgvServices);
             this.Controls.Add(this.label1);
@@ -515,9 +541,10 @@
             this.Controls.Add(this.label4);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "BookingManagement";
+            this.ShowInTaskbar = false;
             this.Text = "BookingManagement";
             this.Load += new System.EventHandler(this.BookingManagement_Load);
-            ((System.ComponentModel.ISupportInitialize)(this.nudHoursRendered)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.numHoursRendered)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvServices)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2)).EndInit();
@@ -532,7 +559,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.NumericUpDown nudHoursRendered;
+        private System.Windows.Forms.NumericUpDown numHoursRendered;
         private System.Windows.Forms.ComboBox cmbServices;
         private System.Windows.Forms.DataGridView dgvServices;
         private System.Windows.Forms.Label label1;
@@ -567,5 +594,7 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn HoursRendered;
         private System.Windows.Forms.DataGridViewTextBoxColumn HourlyRate;
         private System.Windows.Forms.DataGridViewTextBoxColumn Amount;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ComboBox cmbTime;
     }
 }

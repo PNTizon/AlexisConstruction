@@ -38,14 +38,15 @@
             this.reportViewer1.Location = new System.Drawing.Point(0, 0);
             this.reportViewer1.Name = "reportViewer1";
             this.reportViewer1.ServerReport.BearerToken = null;
-            this.reportViewer1.Size = new System.Drawing.Size(496, 474);
+            this.reportViewer1.Size = new System.Drawing.Size(771, 430);
             this.reportViewer1.TabIndex = 0;
+            this.reportViewer1.Load += new System.EventHandler(this.reportViewer1_Load);
             // 
             // printReceipt
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(496, 474);
+            this.ClientSize = new System.Drawing.Size(771, 430);
             this.Controls.Add(this.reportViewer1);
             this.Name = "printReceipt";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;

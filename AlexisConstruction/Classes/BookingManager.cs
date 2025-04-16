@@ -19,6 +19,18 @@ namespace AlexisConstruction.Classes
 
                 try
                 {
+                    using (SqlCommand checkCmd = new SqlCommand("CheckAvailability", con))
+                    {
+                        checkCmd.CommandType = CommandType.StoredProcedure;
+                        checkCmd.Parameters.AddWithValue("@ServiceID", serviceID);
+
+                        int isAvailable = Convert.ToInt32(checkCmd.ExecuteScalar());
+
+                        if (isAvailable == 0)
+                        {
+                            return 0;
+                        }
+                    }
                     using (SqlCommand InsertCmd = new SqlCommand("InsertNewBooking", con))
                     {
                         InsertCmd.CommandType = CommandType.StoredProcedure;
@@ -38,6 +50,8 @@ namespace AlexisConstruction.Classes
                                           Convert.ToDecimal(row.Cells["HourlyRate"].Value);
                         totalAmount += serviceAmount;
 
+                        int serviceIDfromRow = Convert.ToInt32(row.Cells["ServiceID"].Value);
+
                         using (SqlCommand detailCmd = new SqlCommand("InsertBookingDetails", con))
                         {
                             detailCmd.CommandType = CommandType.StoredProcedure;
@@ -48,14 +62,15 @@ namespace AlexisConstruction.Classes
                             detailCmd.Parameters.AddWithValue("@BookedDate", bookedDate);
                             detailCmd.ExecuteNonQuery();
                         }
-                    }
 
-                    using (SqlCommand invenotryCmd = new SqlCommand("UpdateQuantity", con))
-                    {
-                        invenotryCmd.CommandType = CommandType.StoredProcedure;
-                        invenotryCmd.Parameters.AddWithValue("@serviceID", serviceID);
-                        int rowAffected = invenotryCmd.ExecuteNonQuery();
+                        using (SqlCommand invenotryCmd = new SqlCommand("UpdateQuantity", con))
+                        {
+                            invenotryCmd.CommandType = CommandType.StoredProcedure;
+                            invenotryCmd.Parameters.AddWithValue("@serviceID", serviceIDfromRow);
+                            invenotryCmd.ExecuteNonQuery();
+                        }
                     }
+                   
                     using (SqlCommand updateCmd = new SqlCommand("UpdateAmount", con))
                     {
                         updateCmd.CommandType = CommandType.StoredProcedure;
@@ -73,7 +88,6 @@ namespace AlexisConstruction.Classes
                 }
                 catch
                 {
-                    return 0;
                     throw;
                 }
             }
@@ -90,7 +104,7 @@ namespace AlexisConstruction.Classes
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@ServiceID", serviceID);
-                        int count = (int)cmd.ExecuteNonQuery();
+                        int count = Convert.ToInt32(cmd.ExecuteScalar());
                         return count > 0;
                     }
                 }
@@ -117,6 +131,7 @@ namespace AlexisConstruction.Classes
             }
             catch { throw; }
         }
+
         public bool IsDateAlreadyBooked(DateTime bookedDate)
         {
             try
@@ -130,7 +145,7 @@ namespace AlexisConstruction.Classes
                     cmd.Parameters.AddWithValue("@BookedDate", bookedDate.Date);
                     cmd.Parameters.AddWithValue("@BookedTime", bookedDate.TimeOfDay);
 
-                    int count = (int)cmd.ExecuteScalar();
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
                     return count > 0;
                 }
             }
@@ -236,6 +251,27 @@ namespace AlexisConstruction.Classes
             catch { throw; }
             return orders;
         }
+
+        public bool IsTimeSlotAvailable(DateTime bookedDate, int hoursRendered)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
+                    SqlCommand cmd = new SqlCommand("CheckTimeSlotAvailability", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@BookedDate", bookedDate.Date);
+                    cmd.Parameters.AddWithValue("@StartTime", bookedDate.TimeOfDay);
+                    cmd.Parameters.AddWithValue("@EndTime", bookedDate.AddHours(hoursRendered).TimeOfDay);
+
+                    int count = Convert.ToInt32(cmd.ExecuteScalar());
+                    return count == 0;
+                }
+            }
+            catch { throw; }
+        }
+
         public bool IsTimeAllowedRange(DateTime bookingTime)
         {
             TimeSpan time = bookingTime.TimeOfDay;
@@ -244,32 +280,65 @@ namespace AlexisConstruction.Classes
 
             return time >= starttime && time <= endTime;
         }
-        //public bool IsWorkEndTime(DateTime bookingtime, int hourToAdd)
-        //{
-        //    TimeSpan workStart = new TimeSpan(8, 0, 0);
-        //    TimeSpan endWord = new TimeSpan(17, 0, 0);
+        public bool IsWorkEndTime(DateTime bookingTime, int hourToAdd)
+        {
+            TimeSpan workStart = new TimeSpan(8, 0, 0);
+            TimeSpan lunchStart = new TimeSpan(12, 0, 0);
+            TimeSpan lunchEnd = new TimeSpan(13, 0, 0);
+            TimeSpan workEnd = new TimeSpan(17, 0, 0);
 
-        //    TimeSpan remainingTimeofWork = bookingtime.TimeOfDay;
+            TimeSpan bookingTimeOfDay = bookingTime.TimeOfDay;
 
-        //    if (remainingTimeofWork < workStart || remainingTimeofWork > endWord)
-        //    {
-        //        return false; // Booking exceeds working hours
-        //    }
+            if (bookingTimeOfDay < workStart || bookingTimeOfDay > workEnd ||
+                (bookingTimeOfDay >= lunchStart && bookingTimeOfDay < lunchEnd))
+            {
+                return false;
+            }
 
-        //    DateTime endtime = bookingtime.AddHours(hourToAdd);
+            DateTime endTime = bookingTime.AddHours(hourToAdd);
+            TimeSpan endTimeOfDay = endTime.TimeOfDay;
 
-        //    if (endtime.TimeOfDay > endWord)
-        //    {
-        //        return false;
-        //    }
+            if (endTimeOfDay > workEnd || (bookingTimeOfDay < lunchStart && endTimeOfDay > lunchStart))
+            {
+                return false;
+            }
 
-        //    return true;
+            return true;
+        }
 
-        //     if (!bookingManager.IsWorkEndTime(BookingDetails.BookedDate, Convert.ToInt32(nudHoursRendered.Value)))
-        //            {
-        //                MessageBox.Show("Booking time must be between 7:00 AM and 5:00 PM.");
-        //                return;
-        //            }
-        ////}
+        public List<DateTime> GetAvailableTimeSlot(DateTime date, int serviceHours)
+        {
+            List<DateTime> availableSlots = new List<DateTime>();
+
+            TimeSpan[] startTimes = new[]
+            {
+                new TimeSpan (8,0,0),
+                new TimeSpan (9,0,0),
+                new TimeSpan (10,0,0),
+                new TimeSpan (11,0,0),
+                new TimeSpan (13,0,0),
+                new TimeSpan (14,0,0),
+                new TimeSpan (15,0,0),
+                new TimeSpan (16,0,0),
+            };
+
+            foreach (TimeSpan startTime in startTimes)
+            {
+                DateTime potentialSlot = date.Date.Add(startTime);
+
+                if (potentialSlot < DateTime.Now)
+                {
+                    continue;
+                }
+
+                if (IsWorkEndTime(potentialSlot, serviceHours) &&
+                    IsTimeSlotAvailable(potentialSlot, serviceHours))
+                {
+                    availableSlots.Add(potentialSlot);
+                }
+            }
+
+            return availableSlots;
+        }
     }
 }

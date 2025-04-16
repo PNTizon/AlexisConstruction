@@ -47,6 +47,7 @@
             this.searchbtn = new System.Windows.Forms.Button();
             this.sHOWPAYMENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWPAYMENTSTableAdapter();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
+            this.btnCancel = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvBilling)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWPAYMENTSBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2)).BeginInit();
@@ -58,7 +59,7 @@
             this.btnPaid.FlatAppearance.BorderSize = 0;
             this.btnPaid.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPaid.ForeColor = System.Drawing.Color.White;
-            this.btnPaid.Location = new System.Drawing.Point(857, 540);
+            this.btnPaid.Location = new System.Drawing.Point(738, 655);
             this.btnPaid.Name = "btnPaid";
             this.btnPaid.Size = new System.Drawing.Size(80, 26);
             this.btnPaid.TabIndex = 5;
@@ -109,7 +110,7 @@
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvBilling.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvBilling.Size = new System.Drawing.Size(905, 454);
+            this.dgvBilling.Size = new System.Drawing.Size(905, 565);
             this.dgvBilling.TabIndex = 4;
             this.dgvBilling.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvBilling_CellClick);
             // 
@@ -206,19 +207,36 @@
             this.comboBox1.FormattingEnabled = true;
             this.comboBox1.Items.AddRange(new object[] {
             "Paid",
-            "Pending"});
+            "Unpaid",
+            "Refunded",
+            "All"});
             this.comboBox1.Location = new System.Drawing.Point(52, 27);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(121, 24);
             this.comboBox1.TabIndex = 8;
             this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
             // 
+            // btnCancel
+            // 
+            this.btnCancel.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(153)))), ((int)(((byte)(78)))));
+            this.btnCancel.FlatAppearance.BorderSize = 0;
+            this.btnCancel.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancel.ForeColor = System.Drawing.Color.White;
+            this.btnCancel.Location = new System.Drawing.Point(849, 655);
+            this.btnCancel.Name = "btnCancel";
+            this.btnCancel.Size = new System.Drawing.Size(91, 26);
+            this.btnCancel.TabIndex = 9;
+            this.btnCancel.Text = "Cancel Booking";
+            this.btnCancel.UseVisualStyleBackColor = false;
+            this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
+            // 
             // PaymentManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 578);
+            this.ClientSize = new System.Drawing.Size(1000, 693);
+            this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.searchbtn);
             this.Controls.Add(this.txtSearch);
@@ -252,5 +270,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn PaymentStatus;
         private System.Windows.Forms.DataGridViewTextBoxColumn PaymentMethod;
         private System.Windows.Forms.ComboBox comboBox1;
+        private System.Windows.Forms.Button btnCancel;
     }
 }

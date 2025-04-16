@@ -48,10 +48,6 @@
             this.label2 = new System.Windows.Forms.Label();
             this.CountryCodecmb = new System.Windows.Forms.ComboBox();
             this.dgvClients = new System.Windows.Forms.DataGridView();
-            this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet2BindingSource = new System.Windows.Forms.BindingSource(this.components);
-            this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
-            this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
             this.ClientID = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Firstname = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Lastname = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -59,6 +55,11 @@
             this.ContactNumber = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Email = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Address = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.sHOWCLIENTSBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet2BindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.dataSet2 = new AlexisConstruction.DataSet.DataSet2();
+            this.sHOWCLIENTSTableAdapter = new AlexisConstruction.DataSet.DataSet2TableAdapters.SHOWCLIENTSTableAdapter();
+            this.btnCancelEdit = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvClients)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.sHOWCLIENTSBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataSet2BindingSource)).BeginInit();
@@ -71,7 +72,7 @@
             this.button3.FlatAppearance.BorderSize = 0;
             this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button3.ForeColor = System.Drawing.Color.White;
-            this.button3.Location = new System.Drawing.Point(561, 163);
+            this.button3.Location = new System.Drawing.Point(628, 173);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(80, 26);
             this.button3.TabIndex = 273;
@@ -85,7 +86,7 @@
             this.button2.FlatAppearance.BorderSize = 0;
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.ForeColor = System.Drawing.Color.White;
-            this.button2.Location = new System.Drawing.Point(454, 163);
+            this.button2.Location = new System.Drawing.Point(402, 173);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(80, 26);
             this.button2.TabIndex = 272;
@@ -99,7 +100,7 @@
             this.button1.FlatAppearance.BorderSize = 0;
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.ForeColor = System.Drawing.Color.White;
-            this.button1.Location = new System.Drawing.Point(341, 163);
+            this.button1.Location = new System.Drawing.Point(287, 173);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(80, 26);
             this.button1.TabIndex = 271;
@@ -208,11 +209,11 @@
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label2.ForeColor = System.Drawing.SystemColors.ActiveCaptionText;
-            this.label2.Location = new System.Drawing.Point(188, 47);
+            this.label2.Location = new System.Drawing.Point(159, 47);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(50, 16);
+            this.label2.Size = new System.Drawing.Size(78, 16);
             this.label2.TabIndex = 259;
-            this.label2.Text = "Name :";
+            this.label2.Text = "First Name :";
             // 
             // CountryCodecmb
             // 
@@ -261,35 +262,17 @@
             this.dgvClients.DefaultCellStyle = dataGridViewCellStyle2;
             this.dgvClients.EnableHeadersVisualStyles = false;
             this.dgvClients.GridColor = System.Drawing.Color.Black;
-            this.dgvClients.Location = new System.Drawing.Point(38, 214);
+            this.dgvClients.Location = new System.Drawing.Point(38, 230);
             this.dgvClients.Name = "dgvClients";
             this.dgvClients.ReadOnly = true;
             dataGridViewCellStyle3.ForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.SystemColors.Info;
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.Color.Black;
             this.dgvClients.RowsDefaultCellStyle = dataGridViewCellStyle3;
-            this.dgvClients.Size = new System.Drawing.Size(921, 402);
+            this.dgvClients.Size = new System.Drawing.Size(921, 418);
             this.dgvClients.TabIndex = 258;
-            this.dgvClients.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvClients_CellContentClick);
-            // 
-            // sHOWCLIENTSBindingSource
-            // 
-            this.sHOWCLIENTSBindingSource.DataMember = "SHOWCLIENTS";
-            this.sHOWCLIENTSBindingSource.DataSource = this.dataSet2BindingSource;
-            // 
-            // dataSet2BindingSource
-            // 
-            this.dataSet2BindingSource.DataSource = this.dataSet2;
-            this.dataSet2BindingSource.Position = 0;
-            // 
-            // dataSet2
-            // 
-            this.dataSet2.DataSetName = "DataSet2";
-            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
-            // 
-            // sHOWCLIENTSTableAdapter
-            // 
-            this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
+            this.dgvClients.RowHeaderMouseClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvClients_RowHeaderMouseClick);
+            this.dgvClients.RowHeaderMouseDoubleClick += new System.Windows.Forms.DataGridViewCellMouseEventHandler(this.dgvClients_RowHeaderMouseDoubleClick);
             // 
             // ClientID
             // 
@@ -342,12 +325,46 @@
             this.Address.Name = "Address";
             this.Address.ReadOnly = true;
             // 
+            // sHOWCLIENTSBindingSource
+            // 
+            this.sHOWCLIENTSBindingSource.DataMember = "SHOWCLIENTS";
+            this.sHOWCLIENTSBindingSource.DataSource = this.dataSet2BindingSource;
+            // 
+            // dataSet2BindingSource
+            // 
+            this.dataSet2BindingSource.DataSource = this.dataSet2;
+            this.dataSet2BindingSource.Position = 0;
+            // 
+            // dataSet2
+            // 
+            this.dataSet2.DataSetName = "DataSet2";
+            this.dataSet2.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
+            // 
+            // sHOWCLIENTSTableAdapter
+            // 
+            this.sHOWCLIENTSTableAdapter.ClearBeforeFill = true;
+            // 
+            // btnCancelEdit
+            // 
+            this.btnCancelEdit.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(106)))), ((int)(((byte)(153)))), ((int)(((byte)(78)))));
+            this.btnCancelEdit.FlatAppearance.BorderSize = 0;
+            this.btnCancelEdit.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.btnCancelEdit.ForeColor = System.Drawing.Color.White;
+            this.btnCancelEdit.Location = new System.Drawing.Point(520, 173);
+            this.btnCancelEdit.Name = "btnCancelEdit";
+            this.btnCancelEdit.Size = new System.Drawing.Size(80, 26);
+            this.btnCancelEdit.TabIndex = 274;
+            this.btnCancelEdit.Text = "Cancel Edit";
+            this.btnCancelEdit.UseVisualStyleBackColor = false;
+            this.btnCancelEdit.Click += new System.EventHandler(this.btnCancelEdit_Click);
+            // 
             // ClientManagement
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(1000, 654);
+            this.ClientSize = new System.Drawing.Size(1000, 693);
+            this.Controls.Add(this.btnCancelEdit);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
@@ -406,5 +423,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn ContactNumber;
         private System.Windows.Forms.DataGridViewTextBoxColumn Email;
         private System.Windows.Forms.DataGridViewTextBoxColumn Address;
+        private System.Windows.Forms.Button btnCancelEdit;
     }
 }

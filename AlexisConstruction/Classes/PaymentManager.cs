@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
@@ -65,15 +64,15 @@ namespace AlexisConstruction.Classes
             }
             return billing;
         }
-        public void SeacrhRecords (string search,DataGridView grid)
+        public void SeacrhRecords(string search, DataGridView grid)
         {
             try
             {
-                using(SqlConnection con = new SqlConnection(Connection.Database))
+                using (SqlConnection con = new SqlConnection(Connection.Database))
                 {
                     con.Open();
 
-                    using(SqlCommand cmd = new SqlCommand("SearchRecords",con))
+                    using (SqlCommand cmd = new SqlCommand("SearchRecords", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
                         cmd.Parameters.AddWithValue("@SearchInput", search?.Trim() ?? (object)DBNull.Value);
@@ -82,7 +81,7 @@ namespace AlexisConstruction.Classes
                         DataTable table = new DataTable();
                         adapter.Fill(table);
 
-                        if(table.Rows.Count > 0 )
+                        if (table.Rows.Count > 0)
                         {
                             grid.DataSource = table;
                         }
@@ -90,6 +89,41 @@ namespace AlexisConstruction.Classes
                 }
             }
             catch { throw; }
+        }
+        public bool CancelBooking(int bookingID)
+        {
+            try
+            {
+                using (SqlConnection con = new SqlConnection(Connection.Database))
+                {
+                    con.Open();
+                    using (SqlCommand cmd = new SqlCommand("CancelBooking", con))
+                    {
+                        cmd.CommandType = CommandType.StoredProcedure;
+                        cmd.Parameters.AddWithValue("@bookingID", bookingID);
+                        return cmd.ExecuteNonQuery() > 0;
+                    }
+                }
+            }
+            catch
+            {
+                throw;
+            }
+        }
+        public void UpdateCancelledTools(DataGridView grid)
+        {
+            using(SqlConnection con = new SqlConnection(Connection.Database))
+            {
+                con.Open();
+                using (SqlCommand cmd = new SqlCommand("UpdateTools", con))
+                {
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    DataTable table = new DataTable();
+                    adapter.Fill(table);
+                    grid.DataSource = table;
+                }
+            }
         }
     }
 }

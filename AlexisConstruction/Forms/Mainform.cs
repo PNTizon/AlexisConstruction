@@ -14,6 +14,8 @@ namespace AlexisConstruction.Forms
     public partial class Mainform : Form
     {
         private FormManager form = new FormManager();
+        public Panel pnldash;
+        private Button activebtn = null;
 
         public Mainform()
         {
@@ -24,6 +26,7 @@ namespace AlexisConstruction.Forms
         {
             Dashboard bookInfoForm = new Dashboard();
             form.OpenForm(bookInfoForm, paneldash);
+            HighlightButton(Dashboardbtn);
         }
         private void Form1_Click(object sender, EventArgs e)
         {
@@ -35,37 +38,107 @@ namespace AlexisConstruction.Forms
                 ServiceManagerbtn.Name = "Services";
                 InventoryManagerbtn.Name = "Inventory";
                 BillingStatement.Name = "Records";
+                Paymentbtn.Name = "Payment";
+                Calendarbtn.Name = "Calendar";
+                Dashboardbtn.Name = "Dashboard";
+
+
+                ResetButtonColor();
+                HighlightButton(button);
 
                 switch (button.Name)
                 {
+                    case "Dashboard":
+                        form.OpenForm(new Dashboard(), paneldash);
+                        break;
                     case "Sched":
-                        Dashboard dVDs_VCDs = new Dashboard();
-                        form.OpenForm(dVDs_VCDs, paneldash);
+                        form.OpenForm(new TodaySchedule(), paneldash);
                         break;
                     case "Booking":
-                        BookingManagement customer = new BookingManagement();
-                        form.OpenForm(customer, paneldash);
+                        form.OpenForm(new BookingManagement(), paneldash);
                         break;
                     case "Client":
-                        ClientManagement trans = new ClientManagement();
-                        form.OpenForm(trans, paneldash);
+                        form.OpenForm(new ClientManagement(), paneldash);
                         break;
                     case "Services":
-                        ServiceManagement reports = new ServiceManagement();
-                        form.OpenForm(reports, paneldash);
+                        form.OpenForm(new ServiceManagement(), paneldash);
                         break;
                     case "Inventory":
-                        InventoryManagement inventory = new InventoryManagement();
-                        form.OpenForm(inventory, paneldash);
+                        form.OpenForm(new InventoryManagement(), paneldash);
                         break;
                     case "Records":
-                        BillingStatementForm billing = new BillingStatementForm();
-                        form.OpenForm(billing, paneldash);
+                        form.OpenForm(new BillingStatementForm(), paneldash);
+                        break;
+                    case "Payment":
+                        form.OpenForm( new PaymentManagement(), paneldash);
+                        break;
+                    case "Calendar":
+                        form.OpenForm(new Calendar(), paneldash);
                         break;
                     default:
                         break;
                 }
             }
+        }
+      
+        public void HighlightButton(Button button)
+        {
+            activebtn = button;
+            activebtn.BackColor = Color.FromArgb(141, 173, 104);
+            activebtn.ForeColor = Color.White;
+            activebtn.Font = new Font(activebtn.Font, FontStyle.Bold);
+        }
+        public void ResetButtonColor()
+        {
+            if(activebtn != null)
+            {
+                activebtn.BackColor = Color.FromArgb(67, 100, 54);
+                activebtn.ForeColor = Color.White;
+                activebtn.Font = new Font(activebtn.Font, FontStyle.Regular);
+            }
+        }
+
+        public void OpenFormInPanel(Form formToOpen)
+        {
+            paneldash.Controls.Clear();
+
+            // Set form properties
+            formToOpen.TopLevel = false;
+            formToOpen.FormBorderStyle = FormBorderStyle.None;
+            formToOpen.Dock = DockStyle.Fill;
+
+            paneldash.Controls.Add(formToOpen);
+            formToOpen.Show();
+        }
+        public Button GetButton(string buttonName)
+        {
+            switch(buttonName)
+            {
+                case "Sched":
+                    return Schedulebtn;
+                case "Booking":
+                    return BookingManagerbtn;
+                case "Client":
+                    return ClientManagerbtn;
+                case "Services":
+                    return ServiceManagerbtn;
+                case "Inventory":
+                    return InventoryManagerbtn;
+                case "Records":
+                    return BillingStatement;
+                case "Payment":
+                    return Paymentbtn;
+                case "Calendar":
+                    return Calendarbtn;
+                case "Dashboard":
+                    return Dashboardbtn;
+                default:
+                    return null;
+            }
+        }
+        private void pictureBox2_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

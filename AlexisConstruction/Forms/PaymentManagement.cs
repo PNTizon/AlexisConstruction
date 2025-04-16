@@ -8,8 +8,7 @@ namespace AlexisConstruction.Forms
     public partial class PaymentManagement : Form
     {
         private PaymentManager paymentProcessor = new PaymentManager();
-        private Display Display = new Display();
-
+        public static bool ShowUnpaidRecords { get; set; } = false;
         public PaymentManagement()
         {
             InitializeComponent();
@@ -17,8 +16,22 @@ namespace AlexisConstruction.Forms
        
         private void PaymentManagement_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'dataSet2.SHOWPAYMENTS' table. You can move, or remove it, as needed.
-            this.sHOWPAYMENTSTableAdapter.Fill(this.dataSet2.SHOWPAYMENTS);
+            try
+            {
+                // TODO: This line of code loads data into the 'dataSet2.SHOWPAYMENTS' table. You can move, or remove it, as needed.
+                this.sHOWPAYMENTSTableAdapter.Fill(this.dataSet2.SHOWPAYMENTS);
+
+                if(ShowUnpaidRecords)
+                {
+                    comboBox1.SelectedItem = "Unpaid";
+                    ((BindingSource)dgvBilling.DataSource).Filter = "[PaymentStatus] = 'Unpaid'";
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "An error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+         
         }
 
         private void btnPaid_Click(object sender, EventArgs e)
@@ -35,7 +48,6 @@ namespace AlexisConstruction.Forms
                         if (paymentProcessor.ProcessPayment(billingInfo))
                         {
                             MessageBox.Show("Payment successful!");
-                            PrintBtn();
                             this.sHOWPAYMENTSTableAdapter.Fill(this.dataSet2.SHOWPAYMENTS);
                         }
                         else
@@ -55,7 +67,7 @@ namespace AlexisConstruction.Forms
             }
             catch(Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -107,6 +119,38 @@ namespace AlexisConstruction.Forms
         {
             string selectedItems = comboBox1.SelectedItem.ToString();
             ((BindingSource)dgvBilling.DataSource).Filter = $"[PaymentStatus] = '{selectedItems}'";
+
+            if(selectedItems == "All")
+            {
+                ((BindingSource)dgvBilling.DataSource).RemoveFilter();
+            }
+        }
+
+        private void btnCancel_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if(dgvBilling.SelectedRows.Count  > 0 )
+                {
+                    int bokingID = Convert.ToInt32(dgvBilling.SelectedRows[0].Cells["BookingID"].Value);
+
+                    bool records = paymentProcessor.CancelBooking(bokingID);
+                    if (records)
+                    {
+                        MessageBox.Show("Booking cancelled successfully.");
+                        paymentProcessor.UpdateCancelledTools(dgvBilling);
+                        this.sHOWPAYMENTSTableAdapter.Fill(this.dataSet2.SHOWPAYMENTS);
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to cancel booking.");
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message, "An error occurred", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

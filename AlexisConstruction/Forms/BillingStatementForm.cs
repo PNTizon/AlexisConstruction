@@ -3,26 +3,16 @@ using System;
 using System.Data;
 using System.Data.SqlClient;
 using System.Windows.Forms;
-using System.Xml;
 
 namespace AlexisConstruction.Forms
 {
     public partial class BillingStatementForm : Form
     {
         private DataTable originalTable;
-
+        public static bool ShowCancelledRecords { get; set; } = false;
         public BillingStatementForm()
         {
             InitializeComponent();
-        }
-
-        private void btnViewReport_Click(object sender, EventArgs e)
-        {
-            LoadBillingReport(txtSearchBox.Text);
-        }
-        private void btnFilter_Click(object sender, EventArgs e)
-        {
-            LoadBillingByDate(dtpFrom.Value, dtpTo.Value);
         }
 
         public void LoadBillingReport(string clientName)
@@ -38,10 +28,10 @@ namespace AlexisConstruction.Forms
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
-                dataGridView1.DataSource = dt;
+                dgvReports.DataSource = dt;
 
-                if (dataGridView1.Columns["ServicesAvailed"] != null)
-                    dataGridView1.Columns["ServicesAvailed"].Visible = false;
+                if (dgvReports.Columns["ServicesAvailed"] != null)
+                    dgvReports.Columns["ServicesAvailed"].Visible = false;
             }
         }
         private void LoadBillingByDate(DateTime startDate, DateTime endDate)
@@ -60,10 +50,10 @@ namespace AlexisConstruction.Forms
                 da.Fill(dt);
 
                 originalTable = dt.Copy();
-                dataGridView1.DataSource = dt;
+                dgvReports.DataSource = dt;
 
-                if (dataGridView1.Columns["ServicesAvailed"] != null)
-                    dataGridView1.Columns["ServicesAvailed"].Visible = false;
+                if (dgvReports.Columns["ServicesAvailed"] != null)
+                    dgvReports.Columns["ServicesAvailed"].Visible = false;
             }
         }
         private void LoadPaymenTStatus(string paymentStatus)
@@ -73,32 +63,50 @@ namespace AlexisConstruction.Forms
                 conn.Open();
                 SqlCommand cmd = new SqlCommand("LoadBillingData", conn);
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@PaymentStatus",paymentStatus);
+                cmd.Parameters.AddWithValue("@Status", paymentStatus);
 
                 SqlDataAdapter da = new SqlDataAdapter(cmd);
                 DataTable dt = new DataTable();
                 da.Fill(dt);
 
                 originalTable = dt.Copy();
-                dataGridView1.DataSource = dt;
+                dgvReports.DataSource = dt;
 
-                if(dataGridView1.Columns["ServicesAvailed"] != null)
-                    dataGridView1.Columns["ServicesAvailed"].Visible = false;
+                if (dgvReports.Columns["ServicesAvailed"] != null)
+                    dgvReports.Columns["ServicesAvailed"].Visible = false;
             }
         }
         private void BillingStatementForm_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'dataSet2.BILLINGSTATEMENT1' table. You can move, or remove it, as needed.
-            this.bILLINGSTATEMENT1TableAdapter1.Fill(this.dataSet2.BILLINGSTATEMENT1);
+            try
+            {
+                // TODO: This line of code loads data into the 'dataSet2.BILLINGSTATEMENT1' table. You can move, or remove it, as needed.
+                this.bILLINGSTATEMENT1TableAdapter1.Fill(this.dataSet2.BILLINGSTATEMENT1);
+
+                if (ShowCancelledRecords)
+                {
+                    comboBox1.SelectedItem = "Cancelled";
+
+                    DataView dataView = new DataView(this.dataSet2.BILLINGSTATEMENT1);
+                    dataView.RowFilter = "[Status] = 'Cancelled'";
+
+                    dgvReports.DataSource = dataView;
+                }
+            }
+            catch
+            {
+                MessageBox.Show("An error occurred while loading the form.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             string selectedItems = comboBox1.SelectedItem.ToString();
 
-            if(selectedItems == "All")
+            if (selectedItems == "All")
             {
-                dataGridView1.DataSource = this.dataSet2.BILLINGSTATEMENT1;
+                dgvReports.DataSource = this.dataSet2.BILLINGSTATEMENT1;
             }
             else
             {
@@ -112,15 +120,15 @@ namespace AlexisConstruction.Forms
         //}
         private void GenerateReceipt()
         {
-            if (dataGridView1.SelectedRows.Count > 0 || dataGridView1.CurrentRow != null)
+            if (dgvReports.SelectedRows.Count > 0 || dgvReports.CurrentRow != null)
             {
-                DataGridViewRow row = dataGridView1.SelectedRows.Count > 0
-                    ? dataGridView1.SelectedRows[0]
-                    : dataGridView1.CurrentRow;
+                DataGridViewRow row = dgvReports.SelectedRows.Count > 0
+                    ? dgvReports.SelectedRows[0]
+                    : dgvReports.CurrentRow;
 
                 try
                 {
-                    if (dataGridView1.SelectedRows.Count > 0)
+                    if (dgvReports.SelectedRows.Count > 0)
                     {
                         BillingRecords bookings = new BillingRecords();
 
@@ -159,6 +167,16 @@ namespace AlexisConstruction.Forms
             {
                 GenerateReceipt();
             }
+        }
+
+        private void txtSearchBox_TextChanged(object sender, EventArgs e)
+        {
+            LoadBillingReport(txtSearchBox.Text);
+        }
+
+        private void dtpFrom_ValueChanged(object sender, EventArgs e)
+        {
+            LoadBillingByDate(dtpFrom.Value, dtpTo.Value);
         }
     }
 }

@@ -60,9 +60,10 @@ namespace AlexisConstruction.Classes
                 }
             }
             catch { throw; }
-           
+            //int rowsAffected = cmd.ExecuteNonQuery();
+            //return rowsAffected > 0;
         }
-        public bool DeleteClient(int serviceID)
+        public bool DeleteClient(int clientID)
         {
             try
             {
@@ -72,10 +73,20 @@ namespace AlexisConstruction.Classes
                     using (SqlCommand cmd = new SqlCommand("DeleteClient", con))
                     {
                         cmd.CommandType = CommandType.StoredProcedure;
-                        cmd.Parameters.AddWithValue("@id", serviceID);
+                        cmd.Parameters.AddWithValue("@id", clientID);
 
-                        int rowsAffected = cmd.ExecuteNonQuery();
-                        return rowsAffected > 0;
+                        var returnValue = new SqlParameter("@result", SqlDbType.Int)
+                        {
+                            Direction = ParameterDirection.Output
+                        };
+                        cmd.Parameters.Add(returnValue);
+
+                        cmd.ExecuteNonQuery();
+
+                        int result = Convert.ToInt32(cmd.Parameters["@result"].Value);
+                        return result == 0;
+
+                      
                     }
                 }
             }

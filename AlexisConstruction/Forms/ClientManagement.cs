@@ -9,6 +9,8 @@ namespace AlexisConstruction.Forms
         private ClientManager userManagement = new ClientManager();
         private Helper helper = new Helper();
         private DataGridSelection select = new DataGridSelection();
+        private bool isEditMode = false;
+        private Dashboard dashboard = new Dashboard();
         public ClientManagement()
         {
             InitializeComponent();
@@ -18,6 +20,11 @@ namespace AlexisConstruction.Forms
         {
             try
             {
+                if(isEditMode)
+                {
+                    MessageBox.Show("Finish editing the current record before adding a new one.", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
                 Client client = new Client
                 {
                     FirstName = txtFirstName.Text,
@@ -39,6 +46,8 @@ namespace AlexisConstruction.Forms
                     //display.GetClients(dgvClients);
                     this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
                     Clear();
+
+                    dashboard.LoadClients();
                 }
                 else
                 {
@@ -47,7 +56,7 @@ namespace AlexisConstruction.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
         private void btnUpdateClient_Click(Object sender, EventArgs e)
@@ -57,6 +66,7 @@ namespace AlexisConstruction.Forms
                 if (dgvClients.SelectedRows.Count > 0)
                 {
                     int clientId = Convert.ToInt32(dgvClients.SelectedRows[0].Cells["ClientID"].Value);
+
                     Client client = new Client
                     {
                         ClientID = clientId,
@@ -73,8 +83,12 @@ namespace AlexisConstruction.Forms
                         MessageBox.Show("Client information updated successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
                         //display.GetClients(dgvClients);
                         this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
+                        isEditMode = false;
                         Clear();
+
+                        dashboard.LoadClients();
                     }
+                   
                     else
                     {
                         MessageBox.Show("Failed to update client's information.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -87,28 +101,37 @@ namespace AlexisConstruction.Forms
             }
             catch (Exception ex)
             {
-                MessageBox.Show(ex.Message, "Ann error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show(ex.Message, "An error occured", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
         private void btnDeleteClient_Click(object sender, EventArgs e)
         {
+            if(isEditMode)
+            {
+                MessageBox.Show("Cannot delete while editing a record. Please finish editing first", "Warning", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (dgvClients.SelectedRows.Count > 0)
             {
                 DataGridViewRow selectedRow = dgvClients.SelectedRows[0];
-
                 int clientID = Convert.ToInt32(selectedRow.Cells["ClientID"].Value);
 
-                if (userManagement.DeleteClient(clientID))
+                var confirm = MessageBox.Show("Are you sure you want to delete this client?", "Confirm Delete", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+                if (confirm == DialogResult.Yes)
                 {
-                    MessageBox.Show("Client deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                    //display.GetClients(dgvClients);
-                    this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
-                    Clear();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to delete client.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    if (userManagement.DeleteClient(clientID))
+                    {
+                        MessageBox.Show("Client deleted successfully!", "Success", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        this.sHOWCLIENTSTableAdapter.Fill(this.dataSet2.SHOWCLIENTS);
+                        Clear();
+
+                        dashboard.LoadClients();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Cannot delete this client because it is assosciated with one or more booking.", "Operation Denied", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    }
                 }
             }
             else
@@ -135,13 +158,6 @@ namespace AlexisConstruction.Forms
             helper.isValidPhoneNumber(txtCountyCode, txtContactNumber);
         }
 
-        private void dgvClients_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            if (e.RowIndex >= 0)
-            {
-                select.PopulateClientData(e.RowIndex, dgvClients, txtFirstName, txtLastname, txtCountyCode, txtContactNumber, txtaddress, txtemail);
-            }
-        }
         public void Clear()
         {
             txtFirstName.Text = string.Empty;
@@ -149,6 +165,28 @@ namespace AlexisConstruction.Forms
             txtaddress.Text = string.Empty;
             txtCountyCode.Text = string.Empty;
             txtContactNumber.Text = string.Empty;
+            txtemail.Text = string.Empty;
+        }
+
+        private void btnCancelEdit_Click(object sender, EventArgs e)
+        {
+            isEditMode = false;
+            Clear();
+        }
+
+        private void dgvClients_RowHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            isEditMode = false;
+            Clear();
+        }
+
+        private void dgvClients_RowHeaderMouseDoubleClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            if (e.RowIndex >= 0)
+            {
+                select.PopulateClientData(e.RowIndex, dgvClients, txtFirstName, txtLastname, txtCountyCode, txtContactNumber, txtaddress, txtemail);
+                isEditMode = true;
+            }
         }
     }
 }

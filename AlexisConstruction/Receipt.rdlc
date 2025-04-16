@@ -160,7 +160,7 @@
             <Top>1.59259cm</Top>
             <Left>0.23812cm</Left>
             <Height>0cm</Height>
-            <Width>12.28281cm</Width>
+            <Width>19.82343cm</Width>
             <ZIndex>2</ZIndex>
             <Style>
               <Border>
@@ -172,7 +172,7 @@
             <Top>2.44243cm</Top>
             <Left>0.29104cm</Left>
             <Height>0cm</Height>
-            <Width>12.22989cm</Width>
+            <Width>19.77051cm</Width>
             <ZIndex>3</ZIndex>
             <Style>
               <Border>
@@ -184,16 +184,16 @@
             <TablixBody>
               <TablixColumns>
                 <TablixColumn>
-                  <Width>4.06585cm</Width>
+                  <Width>6.18923cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.88546cm</Width>
+                  <Width>3.85165cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.37189cm</Width>
+                  <Width>4.07127cm</Width>
                 </TablixColumn>
                 <TablixColumn>
-                  <Width>2.7423cm</Width>
+                  <Width>5.12919cm</Width>
                 </TablixColumn>
               </TablixColumns>
               <TablixRows>
@@ -499,9 +499,9 @@
             </TablixRowHierarchy>
             <DataSetName>DataSet6</DataSetName>
             <Top>2.58354cm</Top>
-            <Left>0.3175cm</Left>
+            <Left>0.635cm</Left>
             <Height>1.2cm</Height>
-            <Width>12.0655cm</Width>
+            <Width>19.24134cm</Width>
             <ZIndex>4</ZIndex>
             <Style>
               <Border>
@@ -565,8 +565,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>Textbox2</rd:DefaultName>
-            <Top>0.52035cm</Top>
-            <Left>7.20343cm</Left>
+            <Top>0.54681cm</Top>
+            <Left>14.61176cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>6</ZIndex>
@@ -599,8 +599,8 @@
               </Paragraph>
             </Paragraphs>
             <rd:DefaultName>pBookedDate</rd:DefaultName>
-            <Top>0.54681cm</Top>
-            <Left>9.65051cm</Left>
+            <Top>0.57327cm</Top>
+            <Left>17.05884cm</Left>
             <Height>0.6cm</Height>
             <Width>2.5cm</Width>
             <ZIndex>7</ZIndex>
@@ -622,7 +622,7 @@
           </Border>
         </Style>
       </Body>
-      <Width>4.9792in</Width>
+      <Width>8.01425in</Width>
       <Page>
         <PageHeader>
           <Height>1.74624cm</Height>
@@ -652,7 +652,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox1</rd:DefaultName>
               <Top>0.635cm</Top>
-              <Left>3.31703cm</Left>
+              <Left>7.44453cm</Left>
               <Height>0.6cm</Height>
               <Width>6.35412cm</Width>
               <Style>
@@ -700,7 +700,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>0.17639cm</Top>
-              <Left>7.96467cm</Left>
+              <Left>15.06155cm</Left>
               <Height>0.6cm</Height>
               <Width>2.05021cm</Width>
               <Style>
@@ -736,7 +736,7 @@
               </Paragraphs>
               <rd:DefaultName>Textbox2</rd:DefaultName>
               <Top>1.20826cm</Top>
-              <Left>4.465cm</Left>
+              <Left>8.275cm</Left>
               <Height>0.6cm</Height>
               <Width>3.77cm</Width>
               <ZIndex>1</ZIndex>
@@ -828,7 +828,7 @@
               <Top>1.13784cm</Top>
               <Left>0.29104cm</Left>
               <Height>0cm</Height>
-              <Width>12.22989cm</Width>
+              <Width>19.77051cm</Width>
               <ZIndex>4</ZIndex>
               <Style>
                 <Border>
@@ -840,7 +840,7 @@
               <Top>1.98465cm</Top>
               <Left>0.26458cm</Left>
               <Height>0cm</Height>
-              <Width>12.25635cm</Width>
+              <Width>19.79697cm</Width>
               <ZIndex>5</ZIndex>
               <Style>
                 <Border>
@@ -887,42 +887,6 @@
                 <PaddingBottom>2pt</PaddingBottom>
               </Style>
             </Textbox>
-            <Textbox Name="pTotal">
-              <CanGrow>true</CanGrow>
-              <KeepTogether>true</KeepTogether>
-              <Paragraphs>
-                <Paragraph>
-                  <TextRuns>
-                    <TextRun>
-                      <Value>=Parameters!pTotal.Value</Value>
-                      <Style>
-                        <FontSize>12pt</FontSize>
-                        <Format>'₱'#,0.00;('₱'#,0.00)</Format>
-                      </Style>
-                    </TextRun>
-                  </TextRuns>
-                  <Style>
-                    <TextAlign>Left</TextAlign>
-                  </Style>
-                </Paragraph>
-              </Paragraphs>
-              <rd:DefaultName>pTotal</rd:DefaultName>
-              <Top>0.20285cm</Top>
-              <Left>10.27946cm</Left>
-              <Height>0.6cm</Height>
-              <Width>1.76522cm</Width>
-              <ZIndex>7</ZIndex>
-              <Style>
-                <Border>
-                  <Style>None</Style>
-                </Border>
-                <PaddingLeft>2pt</PaddingLeft>
-                <PaddingRight>2pt</PaddingRight>
-                <PaddingTop>2pt</PaddingTop>
-                <PaddingBottom>2pt</PaddingBottom>
-                <rd:FormatSymbolCulture>en-PH</rd:FormatSymbolCulture>
-              </Style>
-            </Textbox>
             <Textbox Name="pPaymentMethod">
               <CanGrow>true</CanGrow>
               <KeepTogether>true</KeepTogether>
@@ -946,7 +910,7 @@
               <Left>3.93441cm</Left>
               <Height>0.6cm</Height>
               <Width>2.5cm</Width>
-              <ZIndex>8</ZIndex>
+              <ZIndex>7</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -983,7 +947,7 @@
               <Left>0.66712cm</Left>
               <Height>0.6cm</Height>
               <Width>2.76612cm</Width>
-              <ZIndex>9</ZIndex>
+              <ZIndex>8</ZIndex>
               <Style>
                 <Border>
                   <Style>None</Style>
@@ -1017,6 +981,39 @@
               <Left>3.46852cm</Left>
               <Height>0.6cm</Height>
               <Width>2.5cm</Width>
+              <ZIndex>9</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="TotalAmount1">
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Sum(Fields!TotalAmount.Value, "DataSet6")</Value>
+                      <Style>
+                        <FontSize>12pt</FontSize>
+                        <Format>'₱'#,0.00;('₱'#,0.00)</Format>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <rd:DefaultName>TotalAmount1</rd:DefaultName>
+              <Top>0.17639cm</Top>
+              <Left>16.90009cm</Left>
+              <Height>0.6cm</Height>
+              <Width>2.3473cm</Width>
               <ZIndex>10</ZIndex>
               <Style>
                 <Border>
@@ -1026,6 +1023,7 @@
                 <PaddingRight>2pt</PaddingRight>
                 <PaddingTop>2pt</PaddingTop>
                 <PaddingBottom>2pt</PaddingBottom>
+                <rd:FormatSymbolCulture>en-PH</rd:FormatSymbolCulture>
               </Style>
             </Textbox>
           </ReportItems>
